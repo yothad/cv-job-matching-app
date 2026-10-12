@@ -1,7 +1,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P7 |
-| **Status** | `not-started` |
+| **Status** | `in-progress` |
 | **Effort** | S |
 | **Epic** | - |
 | **Depends on** | - (supersedes nothing; builds on wrapped WEBAPP_FIRST_RUN_COMPREHENSION and WEBAPP_GETTING_STARTED_CHECKLIST) |
