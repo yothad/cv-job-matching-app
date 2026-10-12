@@ -1,12 +1,21 @@
 | Field | Value |
 |---|---|
 | **Phase** | P5 |
-| **Status** | `not-started` |
+| **Status** | `in-progress` (schema + sync done; endpoint + panel pending) |
 | **Effort** | S |
 | **Epic** | — |
 | **Depends on** | WEBAPP_POSITIONS_CATALOG_SYNC |
 | **Blocks** | — |
 | **Touches** | `webapp/supabase/migrations/005_positions_catalog.sql` (or a new `00X_positions_description.sql`), `scripts/sync_positions.py`, `webapp/backend/routers/jobs.py`, `webapp/frontend/app/(app)/positions/page.tsx` |
+
+## Progress (2026-10-12)
+
+Done as part of the BUG_RENDER_JOBS_PATH fix (website scoring now reads jobs from
+`positions` and needs descriptions): migration
+`webapp/supabase/migrations/008_positions_description.sql` adds the column and
+`scripts/sync_positions.py` populates it (retrying without it if the migration
+isn't applied yet). The Digest detail view already falls back to it. Still open:
+behaviours 3 + 4 below (Positions detail endpoint + panel rendering).
 
 ## Overview
 

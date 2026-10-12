@@ -44,9 +44,18 @@ collect_jobs.py  (daily)
 
 score.py  (daily, after collect_jobs.py)
   └─ reads new_jobs.json + profile.md + cv.md
+  └─ cv_default / cv_lead in score_config.json may point at local-only files; if a
+     path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
   └─ sends each job to Gemini 2.5 Flash
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)
+  └─ exits non-zero if GEMINI_API_KEY is missing for any profile (so CI goes red)
 ```
+
+In CI (`.github/workflows/collect-and-score.yml`) `scripts/sync_positions.py` runs
+between collect and score with `continue-on-error: true` - it mirrors new_jobs.json
+(incl. descriptions) into the webapp's shared Supabase `positions` table, which is
+also what the webapp's "Score now" endpoint reads. A Supabase outage must never
+block scoring.
 
 ## Two sources of companies
 

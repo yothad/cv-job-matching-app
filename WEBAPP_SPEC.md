@@ -126,7 +126,7 @@ slide-over panel with the full un-clamped reasoning, score + tier band, all
 flags with their glossary definitions, Apply / Mark-applied actions, and the
 full job description. The description is persisted onto `scored_jobs` at score
 time (migration `006_scored_jobs_description.sql`); rows scored before the
-migration fall back to a request-time `new_jobs.json` match by `apply_url`,
+migration fall back to the shared `positions.description` (migration 008) by `apply_url`,
 and a missing description degrades to a "Full description unavailable" note
 with the Apply link. Served by `GET /jobs/{id}`; the digest list endpoint
 selects explicit columns so descriptions never bloat the list payload.
@@ -157,7 +157,13 @@ brand-new user with no profile or scoring still sees all open roles.
   Closed positions stay dimmed and non-interactive.
 - Sorted by company, then title. Client-side search + pagination (50/page).
 - Populated by `scripts/sync_positions.py` from `new_jobs.json` on each collect
-  run (upsert live set + prune stale) — see Scheduling below.
+  run (upsert live set + prune stale, incl. `description` from migration 008) — see
+  Scheduling below.
+- The backend never reads `new_jobs.json` (gitignored, absent on Render). `POST /score/`,
+  filter preview, company counts and `/jobs/stats` all read the `positions` table
+  (paginated, 1000 rows/request). `/jobs/stats` also returns `last_collected_at`
+  (max `positions.synced_at`) and `last_scored_at`, shown in the Digest header as
+  "Last collected <local date, time> · next run <Mon|Thu>".
 
 ---
 
