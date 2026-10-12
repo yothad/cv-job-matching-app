@@ -6,9 +6,10 @@
 | **Status** | `not-started` |
 | **Effort** | S |
 | **Epic** | — (standalone) |
-| **Depends on** | none (the scorer already runs in production) |
+| **Depends on** | SCORER_EVAL_HARNESS_CODE (the runner, metrics and labelling tool; this task is now the human part: label the golden set, record the baseline, turn on the CI gate) |
 | **Blocks** | any future change to `matcher/gemini_scorer.py` prompt, rubric, batch size, or model |
 | **Touches** | `evals/` (new), `matcher/gemini_scorer.py` (read-only), `docs/scoring_calibration.md`, `README.md`, `.github/workflows/` |
+| **Night-ready** | no - labelling the golden set is Omer's (human grader); baseline needs live Gemini |
 | **Owner** | — |
 
 ## Overview

@@ -4,9 +4,10 @@
 | **Status** | `not-started` |
 | **Effort** | S |
 | **Epic** | — |
-| **Depends on** | — |
+| **Depends on** | WEBAPP_FIRST_LOGIN_JOURNEY (both edit onboarding copy - polish the new flow, not the old one) |
 | **Blocks** | — |
-| **Touches** | `webapp/frontend/app/onboarding/page.tsx`, `webapp/frontend/app/landing/page.tsx`, `webapp/frontend/app/(app)/help/page.tsx`, `webapp/frontend/app/components/*`, `profile.md` |
+| **Touches** | `webapp/frontend/app/onboarding/page.tsx`, `webapp/frontend/app/landing/page.tsx`, `webapp/frontend/app/(app)/help/page.tsx`, `webapp/frontend/app/components/*` (NOT `profile.md` - it is Omer's personal scoring rubric; rubric changes are eval-gated per CLAUDE.md) |
+| **Night-ready** | 🌙 yes - Omer reviews the new wording in the morning |
 | **Model** | Fable (`claude-fable-5`) |
 
 ## Overview

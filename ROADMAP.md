@@ -259,7 +259,8 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [SCORER_EVAL_HARNESS](future_devs/SCORER_EVAL_HARNESS_SPEC.md) | Human-labelled golden set + band accuracy / hard-filter recall + CI gate on `gemini_scorer.py` | `not-started` | S | — |
+| [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `not-started` | S | — |
+| [SCORER_EVAL_HARNESS](future_devs/SCORER_EVAL_HARNESS_SPEC.md) | Human-labelled golden set + band accuracy / hard-filter recall + CI gate on `gemini_scorer.py` | `not-started` | S | SCORER_EVAL_HARNESS_CODE |
 
 ---
 
@@ -280,6 +281,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 | `future_devs/archive/ATS_SUCCESSFACTORS_SPEC.md` | P3 — SuccessFactors puller (SAP) (wrapped) |
 | `future_devs/archive/ATS_TEAMME_SPEC.md` | P3 — TeamMe puller (Claroty, QM) (wrapped) |
 | `future_devs/archive/ATS_BREEZY_SPEC.md` | P3 — Breezy HR puller (Descope) (wrapped) |
+| `future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md` | P13 — Eval harness code (night-ready half of P13) |
 | `future_devs/SCORER_EVAL_HARNESS_SPEC.md` | P13 — Scorer eval harness (golden set + CI gate) |
 | `future_devs/NEW_VC_ADAPTERS_SPEC.md` | P3 — Add VC adapters: State of Mind / Sequoia IL / Aleph / Lightspeed IL / Greylock / Insight IL |
 | `future_devs/archive/TLV_PORTFOLIO_FIX_SPEC.md` | P3 — Fix TLV Partners scraper + clean stale entries (wrapped) |
