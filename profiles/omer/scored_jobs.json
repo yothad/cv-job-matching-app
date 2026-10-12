@@ -12,7 +12,8 @@
       "title-laundering"
     ],
     "scored_at": "2026-05-05",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Native",
@@ -40,7 +41,8 @@
       "wrong-discipline"
     ],
     "scored_at": "2026-05-05",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Orca Security",
@@ -196,7 +198,8 @@
       "engineering-domain-mismatch"
     ],
     "scored_at": "2026-05-10",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cato Networks",
@@ -211,7 +214,8 @@
       "not-core-ds"
     ],
     "scored_at": "2026-05-12",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cato Networks",
@@ -224,8 +228,7 @@
     "flags": [],
     "scored_at": "2026-05-12",
     "applied": true,
-    "status": "closed",
-    "closed_at": "2026-07-06"
+    "status": "open"
   },
   {
     "company": "Cato Networks",
@@ -241,7 +244,8 @@
       "management-gap"
     ],
     "scored_at": "2026-05-12",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cato Networks",
@@ -286,7 +290,8 @@
       "security-engineering-focus"
     ],
     "scored_at": "2026-05-12",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cato Networks",
@@ -302,8 +307,7 @@
       "llm-as-tool"
     ],
     "scored_at": "2026-05-12",
-    "status": "closed",
-    "closed_at": "2026-07-06"
+    "status": "open"
   },
   {
     "company": "Cato Networks",
@@ -316,7 +320,8 @@
     "flags": [],
     "scored_at": "2026-05-12",
     "applied": true,
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Aqua Security",
@@ -517,7 +522,8 @@
     ],
     "scored_at": "2026-05-12",
     "applied": true,
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Thetaray",
@@ -576,7 +582,8 @@
     ],
     "scored_at": "2026-05-12",
     "applied": true,
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Reco",
@@ -866,7 +873,8 @@
     "flags": [],
     "scored_at": "2026-05-14",
     "applied": true,
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Nebius",
@@ -916,7 +924,8 @@
       "lead-path-implied"
     ],
     "scored_at": "2026-05-14",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cardinalops",
@@ -1170,7 +1179,8 @@
       "domain-neutral"
     ],
     "scored_at": "2026-06-01",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Zeroport",
@@ -1261,7 +1271,8 @@
     "reasoning": "This is a strong senior data scientist role in a preferred cybersecurity domain with clear end-to-end production ML ownership and lead-level influence.",
     "flags": [],
     "scored_at": "2026-06-07",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Linx",
@@ -1309,7 +1320,8 @@
       "skill-mismatch"
     ],
     "scored_at": "2026-06-07",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Kiva Systems (Amazon Robotics since 2012)",
@@ -1325,7 +1337,8 @@
       "no-clear-lead-path"
     ],
     "scored_at": "2026-06-07",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Kiva Systems (Amazon Robotics since 2012)",
@@ -1403,7 +1416,8 @@
       "location-match"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Voyantis",
@@ -1419,7 +1433,8 @@
       "location-match"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cycode",
@@ -1431,7 +1446,8 @@
     "reasoning": "Strong domain match in cloud security and adversarial ML, with a focus on building and evaluating production AI agents for security, aligning with applied ML expertise.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "SentinelOne",
@@ -1445,7 +1461,8 @@
       "management-gap"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Melio",
@@ -1459,7 +1476,8 @@
       "lead-path-implied"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Tipalti",
@@ -1471,7 +1489,8 @@
     "reasoning": "Excellent fit for an Applied AI Scientist role, emphasizing hands-on development and deployment of production AI agents in a fintech environment, directly aligning with the candidate's skills and experience.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Microsoft Israel",
@@ -1486,7 +1505,8 @@
       "not-core-ml"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Surf Ai",
@@ -1498,7 +1518,8 @@
     "reasoning": "Excellent fit for an AI Engineer role in security, focusing on building and deploying production-grade LLM-powered AI agents as tools for the product, directly aligning with the candidate's applied ML expertise.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Surf Ai",
@@ -1512,7 +1533,8 @@
       "lead-path-implied"
     ],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Vega",
@@ -1524,7 +1546,8 @@
     "reasoning": "Excellent fit for candidate's adversarial ML expertise, production-first approach, and desire for technical leadership within the cybersecurity domain, using AI as a tool.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Kiva Systems (Amazon Robotics since 2012)",
@@ -1548,7 +1571,8 @@
     "reasoning": "Good fit for a Senior Applied Scientist at a large company with a focus on production ML and E2E ownership, although without explicit lead responsibilities.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "A Security",
@@ -1560,7 +1584,8 @@
     "reasoning": "Excellent fit given the candidate's specialization in adversarial ML and cybersecurity, with a strong focus on applying AI to build production-grade attack simulation platforms.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Ironscales",
@@ -1572,7 +1597,8 @@
     "reasoning": "Excellent match for the candidate's deep specialization in adversarial ML and fraud detection, with a clear focus on owning and driving production-impacting detection research in cybersecurity.",
     "flags": [],
     "scored_at": "2026-06-17",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Microsoft Israel",
@@ -1585,7 +1611,8 @@
     "flags": [],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cyera",
@@ -1611,7 +1638,8 @@
     "flags": [],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Buildots",
@@ -1660,7 +1688,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "SentinelOne",
@@ -1676,7 +1705,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Cato Networks",
@@ -1726,7 +1756,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Onyx Security",
@@ -1744,7 +1775,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Oligo Security",
@@ -1761,7 +1793,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Oligo Security",
@@ -1795,7 +1828,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "Tenzai",
@@ -1829,7 +1863,8 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-12"
   },
   {
     "company": "SafeBreach",
@@ -1847,6 +1882,249 @@
     ],
     "scored_at": "2026-07-06",
     "first_seen": "2026-07-04",
+    "status": "closed",
+    "closed_at": "2026-10-12"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Security Researcher- Detection AI Research",
+    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=7996120003",
+    "source_vc": null,
+    "score": 10,
+    "reasoning": "This role perfectly matches the candidate's deep expertise in end-to-end production ML for adversarial threat detection, including LLM utilization as a tool, within a top-tier cyber security company.",
+    "flags": [
+      "title-laundering",
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Security Researcher- Detection AI Research",
+    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=8003129003",
+    "source_vc": null,
+    "score": 10,
+    "reasoning": "This role perfectly matches the candidate's deep expertise in end-to-end production ML for adversarial threat detection, including LLM utilization as a tool, within a top-tier cyber security company.",
+    "flags": [
+      "title-laundering",
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "JFrog",
+    "title": "Data Scientist",
+    "location": "Tel Aviv/ Netanya, Israel",
+    "apply_url": "https://join.jfrog.com/job/?job=8131741&gh_jid=8131741",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "While the role involves production ML and general data science, its strong emphasis on developing custom RAG systems and agentic AI as the core craft, rather than LLMs as a tool for other products, aligns with the candidate's 'weak fit' signal for pure LLM product roles.",
+    "flags": [
+      "llm-not-security",
+      "heavy-llm-craft"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Varonis",
+    "title": "Senior Data Scientist",
+    "location": "Israel",
+    "apply_url": "https://jobs.jobvite.com/varonis/job/ooDQAfwb",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "The title and company domain are a strong initial match, but the complete absence of a job description prevents any meaningful assessment of production ML ownership or lead opportunities.",
+    "flags": [
+      "description-missing",
+      "location-unclear"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Cato Networks",
+    "title": " Agentic AI Engineer - Product Support",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://www.catonetworks.com/careers/careers-post/4951235101?gh_jid=4951235101",
+    "source_vc": "Lightspeed Israel",
+    "score": 6,
+    "reasoning": "This is a production-focused Applied AI Engineer role in a relevant domain and location, but the deep specialization required in Agentic AI and specific LLM orchestration frameworks like LangGraph makes it a weaker fit for the candidate's general production ML expertise.",
+    "flags": [
+      "llm-not-security",
+      "heavy-llm-craft"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Intuit Israel",
+    "title": "Staff AI scientist, Foresight",
+    "location": "Petach Tikva, Israel",
+    "apply_url": "https://jobs.intuit.com/job/petah-tikva/staff-ai-scientist-foresight/27595/101021658944",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "A \"Staff AI Scientist\" role at a large fintech company offers a senior IC path with presumed technical leadership, strong domain fit, and ideal location.",
+    "flags": [
+      "no-description",
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Intuit Israel",
+    "title": "Senior Machine Learning Engineer, Foundational Models and Agentic systems",
+    "location": "Petach Tikva, Israel",
+    "apply_url": "https://jobs.intuit.com/job/petah-tikva/senior-machine-learning-engineer-foundational-models-and-agentic-systems/27595/99338970560",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "A Senior ML Engineer role at a large fintech company offers a strong production ML opportunity with ideal location, though the focus on \"Foundational Models and Agentic Systems\" might lean heavily into LLM craft.",
+    "flags": [
+      "no-description",
+      "llm-focus-strong"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Google Israel",
+    "title": "Research Data Scientist II, Waze",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.google.com/about/careers/applications/jobs/results/120188596949787334",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "This is a strong Senior Data Scientist role at Google with clear end-to-end production ML ownership and an ideal location, aligning with the candidate's target for large companies.",
+    "flags": [],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Anecdotes",
+    "title": "R&D TL - Agents Platform",
+    "location": "Tel Aviv office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/anecdotes/F9.00B/rd-tl---agents-platform/3C.379",
+    "source_vc": "Red Dot Capital",
+    "score": 8,
+    "reasoning": "This is a Team Lead role with clear people leadership and technical ownership, aligning perfectly with the candidate's primary target, despite a strong focus on building \"Agents Platform\" which might be LLM-centric.",
+    "flags": [
+      "llm-focus-strong",
+      "domain-unclear"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "AI Research Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/ai-research-team-lead/75.277",
+    "source_vc": "Cyberstarts",
+    "score": 10,
+    "reasoning": "This is an ideal Team Lead role in a leading cyber security company, directly aligning with the candidate's preference for leadership, end-to-end production ML, and adversarial domains, with a clear application of AI as a product tool.",
+    "flags": [],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "AI Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/ai-researcher/2B.D67",
+    "source_vc": "Cyberstarts",
+    "score": 9,
+    "reasoning": "This is a strong Senior IC role at a leading cyber security company, offering end-to-end ownership, technical leadership, and a clear path to productionizing applied AI in a desired domain.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Onyx Security",
+    "title": "AI Researcher & Developer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/onyxsecurity/BA.005/ai-researcher--developer/8C.56A",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "The role is a strong domain fit in AI security with a research and production component, but the pure 'AI Researcher' title and heavy focus on LLM behavior might be a weaker fit for the candidate's core production ML background.",
+    "flags": [
+      "llm-focus",
+      "research-heavy"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Surf Ai",
+    "title": "Senior Data Scientist - AI Agents Team",
+    "location": "Tel Aviv",
+    "apply_url": "https://job-boards.eu.greenhouse.io/surfai/jobs/4969391101",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "This Senior DS role is a strong domain fit for security and involves shipping production AI, but the explicit focus on LLMs, NLP, and agentic systems is a weaker fit for the candidate's general production ML expertise where LLMs are a tool.",
+    "flags": [
+      "llm-primary-focus"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/ai-engineer/5C.375",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "The role is a strong domain fit for cloud security and involves building LLM agents, but the title and deep focus on LLM agent design and tuning makes it a 'pure NLP/LLM product role' which is a weak fit for the candidate.",
+    "flags": [
+      "llm-primary-focus",
+      "title-not-lead"
+    ],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "AI Engineering Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/ai-engineering-lead/4C.C69",
+    "source_vc": "Cyberstarts",
+    "score": 8,
+    "reasoning": "This AI Engineering Lead role in cloud security is an excellent match, combining a lead title with deep involvement in AI evaluation, agentic workflows, and production systems, leveraging the candidate's experience with LLMs as a tool.",
+    "flags": [],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
+    "status": "open"
+  },
+  {
+    "company": "Vega",
+    "title": "Data Scientist",
+    "location": "On -Site, Israel",
+    "apply_url": "https://www.comeet.com/jobs/vega/C9.009/data-scientist/0C.27B",
+    "source_vc": "Cyberstarts",
+    "score": 7,
+    "reasoning": "This Data Scientist role in cybersecurity aligns well with the candidate's production ML experience, end-to-end ownership, and use of LLMs as a tool, with a good location and company tier.",
+    "flags": [],
+    "scored_at": "2026-10-12",
+    "first_seen": "2026-10-12",
     "status": "open"
   }
 ]
