@@ -8,27 +8,27 @@ import { ThemeToggle } from '@/app/components/ThemeToggle'
 const FAQ_ITEMS = [
   {
     q: 'How often are jobs updated?',
-    a: 'Jobs are pulled from each company\'s ATS once per day. New roles appear in your next digest run.',
+    a: 'New postings are pulled straight from each company\'s ATS twice a week, on Monday and Thursday mornings (UTC). Each fresh batch is scored on your next scoring run, which you can start from your digest up to twice a week.',
   },
   {
     q: 'Which companies are tracked?',
-    a: 'Over 100 Israeli cyber, fraud and fintech companies - spanning VC portfolio companies from YL Ventures, Team8, Glilot, Cyberstarts and others, plus large established players like Palo Alto Networks, CrowdStrike, and Wiz. Coverage is Israel-focused; global roles at these companies may appear but are not the primary target.',
+    a: 'Over 100 Israeli cyber, fraud and fintech companies: the portfolios of VCs like YL Ventures, Team8, Glilot and Cyberstarts, plus established players such as Palo Alto Networks, CrowdStrike and Wiz. Coverage is Israel-first. Global roles at these companies may show up, but they are not the target.',
   },
   {
     q: 'Is it really free?',
-    a: 'Yes. CareerWatch itself is free and open source. You bring your own Google Gemini API key, which has a generous free tier - most users will never hit the quota limit.',
+    a: 'Yes. CareerWatch is free and open source. You bring your own Google Gemini API key, and its free tier is enough to run scoring.',
   },
   {
     q: 'Do you store my CV or API key?',
-    a: 'Your CV and API key are stored only in your account on the database (encrypted at rest). They are never logged, never used to train any model, and are not shared with third parties.',
+    a: 'Both live in your account and nowhere else. The API key is encrypted before it is saved. Your CV goes to Gemini only when your jobs are scored. CareerWatch never logs them, never trains anything on them, and never hands them to anyone else. You can export or delete everything from Settings > Account.',
   },
   {
     q: 'Can I use it if I\'m not a data scientist?',
-    a: 'The scoring rubric and company list are tuned for ML engineers, data scientists, and security engineers in Israel. If you are in a different role or geography, the scores will be less accurate - but you can still use it and read the raw digest.',
+    a: 'The company list and scoring rubric are tuned for data scientists, ML engineers and security engineers in Israel. In another role or another country you can still use it, but expect thinner coverage and rougher scores.',
   },
   {
     q: 'What\'s the catch?',
-    a: 'None, really. It is an open-source side project built for personal use and shared publicly. You bring your own Gemini key, so you bear the compute cost proportionally. There is no business model, no ads, no upsell.',
+    a: 'There is none. It is an open-source side project, built for one person\'s job search and shared as is. You bring your own Gemini key, so the only compute cost is yours, and it is free-tier. No business model, no ads, no upsell.',
   },
 ]
 
@@ -189,10 +189,10 @@ export default function LandingPage() {
           Career<em className="italic text-accent">Watch</em>
         </h1>
         <p className="cw-rise relative text-xl sm:text-2xl text-foreground/85 mb-3 max-w-xl leading-snug" style={{ animationDelay: '80ms' }}>
-          Find the right job without the noise. AI-powered job matching for tech professionals in Israel.
+          The right roles, found for you. AI-scored job matching for tech professionals in Israel.
         </p>
         <p className="cw-rise relative text-base text-muted mb-10 max-w-xl" style={{ animationDelay: '160ms' }}>
-          Tracks 100+ Israeli cyber, fraud and fintech companies and scores every open role against your profile.
+          Tracks 100+ Israeli cyber, fraud and fintech companies and scores every open role against your profile, so you read only what fits.
         </p>
         <div className="cw-rise relative flex gap-4 flex-wrap justify-center" style={{ animationDelay: '240ms' }}>
           <Link
@@ -225,17 +225,17 @@ export default function LandingPage() {
               {
                 n: '01',
                 title: 'Set up your profile',
-                body: 'Describe your background, target roles, and deal-breakers with AI assistance.',
+                body: 'Tell CareerWatch what you want and what you will not accept. An AI assistant helps you write it in minutes.',
               },
               {
                 n: '02',
-                title: 'We scrape the market',
-                body: 'CareerWatch pulls open positions from 100+ Israeli cyber and fintech companies daily.',
+                title: 'We watch the market',
+                body: 'Twice a week, CareerWatch pulls every open position straight from the ATS of 100+ Israeli cyber, fraud and fintech companies.',
               },
               {
                 n: '03',
                 title: 'You get a ranked digest',
-                body: 'Every job scored 0-10 against your profile. You only read what matters.',
+                body: 'Every job is scored 0-10 against your profile, with a one-line reason. You read only what fits.',
               },
             ].map((step, i) => (
               <Reveal key={step.n} delay={i * 120}>
@@ -259,11 +259,11 @@ export default function LandingPage() {
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
             <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">Bring your own free AI key</h2>
             <p className="text-muted text-sm leading-relaxed mb-3">
-              Scoring runs on Google Gemini - a model with a free tier generous enough that most users never hit the limit.
-              During onboarding you will paste your own API key. That key is stored in your account and used only to run scoring on your behalf.
+              Scoring runs on Google Gemini, whose free tier covers everything CareerWatch does.
+              During onboarding you paste your own API key. It is encrypted, kept in your account, and used for one thing: scoring jobs for you.
             </p>
             <p className="text-muted text-sm leading-relaxed">
-              Your CV, your key, your quota. Your data never trains a model.
+              Your CV, your key, your quota. CareerWatch never trains anything on your data.
             </p>
             <div className="mt-6">
               <a
@@ -285,7 +285,7 @@ export default function LandingPage() {
         <div className="max-w-2xl mx-auto">
           <Reveal>
             <h2 className="font-display text-4xl sm:text-5xl text-center tracking-tight mb-4">What your digest looks like</h2>
-            <p className="text-muted text-center text-sm mb-10">Example scored job card - your real digest is personalised to your profile.</p>
+            <p className="text-muted text-center text-sm mb-10">The real digest card, with sample data. Yours is built around your profile.</p>
           </Reveal>
           <Reveal delay={120}>
             <div className="rounded-2xl border border-border bg-background shadow-2xl shadow-black/25 overflow-hidden">
@@ -308,12 +308,12 @@ export default function LandingPage() {
         <Reveal className="max-w-2xl mx-auto text-center">
           <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-6">Who it is for</h2>
           <p className="text-muted text-sm leading-relaxed mb-4">
-            CareerWatch is built for senior technical job seekers in Israel - data scientists, ML engineers, applied researchers, and security/fraud engineers who want signal without noise.
+            CareerWatch is for senior technical job seekers in Israel: data scientists, ML engineers, applied researchers, and security or fraud engineers who want signal, not volume.
           </p>
           <p className="text-muted text-sm leading-relaxed">
             The company list and scoring rubric are tuned for the Israeli cyber, fraud and fintech ecosystem.
-            If you are based outside Israel or looking for roles in unrelated domains, you can still use it - but coverage and score accuracy will be lower.
-            Non-Israel company coverage is out of scope for now.
+            If you are outside Israel or hunting in other domains you can still use it, but coverage and score accuracy will be lower.
+            Companies outside Israel are out of scope for now.
           </p>
         </Reveal>
       </section>

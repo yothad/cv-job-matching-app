@@ -84,7 +84,7 @@ export function JobCard({ job, onToggleApplied, currentProfileVersion, onOpen, i
         <div className="flex items-center gap-2 flex-wrap">
           <span className="font-semibold text-foreground text-base leading-snug">{job.title}</span>
           {isNew && <span className="px-2 py-0.5 bg-accent/10 text-accent text-xs rounded-full border border-accent/25">New</span>}
-          {staleProfile && <span className="px-2 py-0.5 bg-surface-raised text-subtle text-xs rounded-full border border-border-subtle">scored with old profile</span>}
+          {staleProfile && <span className="px-2 py-0.5 bg-surface-raised text-subtle text-xs rounded-full border border-border-subtle">scored with an older profile</span>}
         </div>
         <div className="text-sm mt-1 flex items-center gap-x-1.5 gap-y-0.5 flex-wrap">
           <span className="font-medium text-muted">{job.company}</span>
