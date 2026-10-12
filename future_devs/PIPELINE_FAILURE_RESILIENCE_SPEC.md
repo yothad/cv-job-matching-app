@@ -1,7 +1,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P11 |
-| **Status** | `in-progress` |
+| **Status** | `completed` |
 | **Effort** | M |
 | **Epic** | — |
 | **Depends on** | — |
@@ -169,3 +169,11 @@ Tests: `test_collect_crash_mid_write_leaves_companies_json_intact`,
 `test_refresh_save_crash_leaves_companies_json_intact`.
 `profiles/*/scored_jobs.json` (`score._save_scored_jobs`) has the same pattern and
 was left alone (outside this spec's state files).
+
+## Night run 2026-10-12
+Shipped unattended (gate: pytest 85 passed + 1 strict xfail, score.py --dry-run green; review pass; scorer prompt/model/batch size byte-identical).
+Morning QA:
+1. Next weekly refresh: check "re-discovery found no ATS, keeping cached" lines - the kept entries still pull jobs.
+2. Watch the daily Gemini quota - failed jobs now retry every run with no cap.
+3. Run `score.py --dry-run` on `main` after the merge.
+Follow-ups (Needs Omer): pullers raise on fetch failure (fixes modes 1 + 3, flip 4 tests in test_ats_schema.py + remove the xfail); restore the 503 stranded companies; delete 147 error rows from all_scores.jsonl; atomic write for scored_jobs.json; try/except around discover() in the refresh VC loop.
