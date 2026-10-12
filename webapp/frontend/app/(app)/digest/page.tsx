@@ -107,6 +107,55 @@ function ScoreLegend() {
   )
 }
 
+type SortBy = 'score' | 'date' | 'company'
+const SORT_OPTIONS: { value: SortBy, label: string }[] = [
+  { value: 'score', label: 'Score (high to low)' },
+  { value: 'date', label: 'Date scored (newest)' },
+  { value: 'company', label: 'Company (A-Z)' },
+]
+
+// Digest view state (filters, sort, min score) persisted per browser so a
+// returning user keeps their view. Storage may be unavailable (private mode,
+// blocked site data) or hold a malformed value - both fall back to defaults.
+const VIEW_KEY = 'cw.digest.view.v1'
+const DEFAULT_VIEW = { minScore: 5, titleFilter: '', companyFilter: '', locationFilter: '', sortBy: 'score' as SortBy }
+type DigestView = typeof DEFAULT_VIEW
+
+function loadView(): DigestView {
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(VIEW_KEY) ?? 'null')
+    if (!raw || typeof raw !== 'object') return DEFAULT_VIEW
+    const str = (v: unknown, d: string) => typeof v === 'string' ? v : d
+    return {
+      minScore: Number.isInteger(raw.minScore) && raw.minScore >= 0 && raw.minScore <= 10 ? raw.minScore : DEFAULT_VIEW.minScore,
+      titleFilter: str(raw.titleFilter, ''),
+      companyFilter: str(raw.companyFilter, ''),
+      locationFilter: str(raw.locationFilter, ''),
+      sortBy: SORT_OPTIONS.some(o => o.value === raw.sortBy) ? raw.sortBy : DEFAULT_VIEW.sortBy,
+    }
+  } catch {
+    return DEFAULT_VIEW
+  }
+}
+
+function saveView(view: DigestView) {
+  try {
+    window.localStorage.setItem(VIEW_KEY, JSON.stringify(view))
+  } catch {
+    /* storage unavailable - the view just won't persist */
+  }
+}
+
+const scoredTime = (j: Job) => { const t = Date.parse(j.scored_at); return isNaN(t) ? 0 : t }
+
+function compareJobs(sortBy: SortBy) {
+  return (a: Job, b: Job) => {
+    if (sortBy === 'date') return scoredTime(b) - scoredTime(a) || b.score - a.score
+    if (sortBy === 'company') return a.company.localeCompare(b.company) || b.score - a.score
+    return b.score - a.score || scoredTime(b) - scoredTime(a)
+  }
+}
+
 function JobCardSkeleton() {
   return (
     <div className="bg-surface border border-border rounded-xl p-5 flex gap-4 motion-safe:animate-pulse">
@@ -297,10 +346,15 @@ export default function DigestPage() {
   const [hasProfile, setHasProfile] = useState(false)
   const [hasCv, setHasCv] = useState(false)
   const [hasApiKey, setHasApiKey] = useState(false)
-  const [minScore, setMinScore] = useState(5)
-  const [titleFilter, setTitleFilter] = useState('')
-  const [companyFilter, setCompanyFilter] = useState('')
-  const [locationFilter, setLocationFilter] = useState('')
+  const [minScore, setMinScore] = useState(DEFAULT_VIEW.minScore)
+  const [titleFilter, setTitleFilter] = useState(DEFAULT_VIEW.titleFilter)
+  const [companyFilter, setCompanyFilter] = useState(DEFAULT_VIEW.companyFilter)
+  const [locationFilter, setLocationFilter] = useState(DEFAULT_VIEW.locationFilter)
+  const [sortBy, setSortBy] = useState<SortBy>(DEFAULT_VIEW.sortBy)
+  // Saved view is read after mount (not in the initial state) to avoid an SSR
+  // hydration mismatch; saving waits until it has been read so defaults never
+  // overwrite it.
+  const [viewLoaded, setViewLoaded] = useState(false)
   const [showApplied, setShowApplied] = useState(false)
   const [detailJobId, setDetailJobId] = useState<string | null>(null)
   const [detailDescription, setDetailDescription] = useState<string | null>(null)
@@ -363,6 +417,20 @@ export default function DigestPage() {
   }
 
   useEffect(() => { loadJobs(); loadUser(); loadStats() }, [])
+
+  useEffect(() => {
+    const v = loadView()
+    setMinScore(v.minScore)
+    setTitleFilter(v.titleFilter)
+    setCompanyFilter(v.companyFilter)
+    setLocationFilter(v.locationFilter)
+    setSortBy(v.sortBy)
+    setViewLoaded(true)
+  }, [])
+
+  useEffect(() => {
+    if (viewLoaded) saveView({ minScore, titleFilter, companyFilter, locationFilter, sortBy })
+  }, [viewLoaded, minScore, titleFilter, companyFilter, locationFilter, sortBy])
 
   async function triggerScoring() {
     setScoring(true)
@@ -435,6 +503,13 @@ export default function DigestPage() {
     .filter(j => matchesMultiFilter(j.title, titleFilter))
     .filter(j => matchesMultiFilter(j.company, companyFilter))
     .filter(j => matchesMultiFilter(j.location, locationFilter))
+    .sort(compareJobs(sortBy))
+
+  // Below-5 scores fall outside every band (bandFor would lump them into 5-6).
+  const tierCounts = SCORE_BANDS.map(b => ({
+    band: b,
+    count: filtered.filter(j => j.score >= 5 && bandFor(j.score) === b).length,
+  }))
 
   const openJobs = filtered.filter(j => (j.status ?? 'open') !== 'closed')
   const closedJobs = filtered.filter(j => j.status === 'closed')
@@ -446,6 +521,7 @@ export default function DigestPage() {
     setTitleFilter('')
     setCompanyFilter('')
     setLocationFilter('')
+    setSortBy(DEFAULT_VIEW.sortBy)
   }
 
   const lastScoredIso = stats?.last_scored_at
@@ -527,10 +603,19 @@ export default function DigestPage() {
 
         {/* Filters */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <label className="text-sm text-muted">Min score:</label>
-            <input type="range" min={0} max={10} value={minScore} onChange={e => setMinScore(+e.target.value)} className="w-24 accent-accent" />
-            <span className="text-sm w-4 text-foreground font-medium tabular-nums">{minScore}</span>
+          <div className="flex items-center gap-x-4 gap-y-2 flex-wrap">
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-muted">Min score:</label>
+              <input type="range" min={0} max={10} value={minScore} onChange={e => setMinScore(+e.target.value)} className="w-24 accent-accent" />
+              <span className="text-sm w-4 text-foreground font-medium tabular-nums">{minScore}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <label htmlFor="digest-sort" className="text-sm text-muted">Sort:</label>
+              <select id="digest-sort" value={sortBy} onChange={e => setSortBy(e.target.value as SortBy)}
+                className="px-2 py-1 bg-surface-raised rounded-lg border border-border-subtle text-sm focus:outline-none focus:border-accent transition-colors">
+                {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
           </div>
           <div className="flex gap-2 flex-wrap">
             <input value={titleFilter} onChange={e => setTitleFilter(e.target.value)}
@@ -544,6 +629,19 @@ export default function DigestPage() {
               className="flex-1 min-w-[160px] px-3 py-1.5 bg-surface-raised rounded-lg border border-border-subtle text-sm placeholder:text-subtle focus:outline-none focus:border-accent transition-colors" />
           </div>
         </div>
+
+        {/* Result count + per-tier summary */}
+        {!loading && jobs.length > 0 && (
+          <div className="flex items-center gap-3 flex-wrap text-xs text-subtle font-mono" aria-live="polite">
+            <span>Showing {filtered.length.toLocaleString()} of {jobs.length.toLocaleString()}</span>
+            {tierCounts.map(({ band, count }) => (
+              <span key={band.range} className="inline-flex items-center gap-1.5">
+                <span className={`${band.color} w-2 h-2 rounded-full inline-block`} aria-hidden="true" />
+                {band.range}: {count}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Job list */}
         {loading && (
