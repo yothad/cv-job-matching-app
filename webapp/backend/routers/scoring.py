@@ -38,7 +38,7 @@ def trigger_score(authorization: str = Header(...)):
         raise HTTPException(status_code=401, detail="Unauthorized")
     user_id = auth_resp.user.id
 
-    user_row = supabase.table("users").select("*").eq("id", user_id).maybe_single().execute().data
+    user_row = getattr(supabase.table("users").select("*").eq("id", user_id).maybe_single().execute(), "data", None)
     if not user_row:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -55,7 +55,7 @@ def trigger_score(authorization: str = Header(...)):
     profile_md = user_row["profile_md"]
     cv_text = user_row.get("cv_text") or ""
 
-    config_row = supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute().data or {}
+    config_row = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute(), "data", None) or {}
 
     # Determine jobs path - allow override via env for deploy
     jobs_path_env = os.environ.get("JOBS_PATH")

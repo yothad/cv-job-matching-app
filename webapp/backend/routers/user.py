@@ -55,9 +55,9 @@ def get_me(authorization: str = Header(...)):
     resp = supabase.auth.get_user(token)
     if not resp.user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    row = supabase.table("users").select(
+    row = getattr(supabase.table("users").select(
         "scoring_runs_this_week,last_week_reset,profile_md,cv_text,profile_version,profile_updated_at,cv_updated_at,gemini_api_key_encrypted"
-    ).eq("id", resp.user.id).maybe_single().execute().data
+    ).eq("id", resp.user.id).maybe_single().execute(), "data", None)
     if not row:
         return {}
     has_api_key = bool(row.get("gemini_api_key_encrypted"))
@@ -105,7 +105,7 @@ def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
     resp = supabase.auth.get_user(token)
     if not resp.user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    current = supabase.table("users").select("profile_version").eq("id", resp.user.id).maybe_single().execute().data
+    current = getattr(supabase.table("users").select("profile_version").eq("id", resp.user.id).maybe_single().execute(), "data", None)
     new_version = ((current or {}).get("profile_version") or 1) + 1
     now = datetime.now(timezone.utc).isoformat()
     supabase.table("users").update({"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).eq("id", resp.user.id).execute()
@@ -129,7 +129,7 @@ def get_filters(authorization: str = Header(...)):
     resp = supabase.auth.get_user(token)
     if not resp.user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    row = supabase.table("score_configs").select("*").eq("user_id", resp.user.id).maybe_single().execute().data
+    row = getattr(supabase.table("score_configs").select("*").eq("user_id", resp.user.id).maybe_single().execute(), "data", None)
     return row or {}
 
 
@@ -183,7 +183,7 @@ def test_apikey(authorization: str = Header(...)):
     resp = supabase.auth.get_user(token)
     if not resp.user:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    row = supabase.table("users").select("gemini_api_key_encrypted").eq("id", resp.user.id).maybe_single().execute().data
+    row = getattr(supabase.table("users").select("gemini_api_key_encrypted").eq("id", resp.user.id).maybe_single().execute(), "data", None)
     if not row or not row.get("gemini_api_key_encrypted"):
         raise HTTPException(status_code=400, detail="No API key stored")
     fernet_key = os.environ.get("FERNET_KEY", "")

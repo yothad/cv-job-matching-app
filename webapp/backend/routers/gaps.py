@@ -21,9 +21,9 @@ def _get_user_and_data(authorization: str):
     if not resp.user:
         raise HTTPException(status_code=401, detail="Unauthorized")
     user_id = resp.user.id
-    row = supabase.table("users").select(
+    row = getattr(supabase.table("users").select(
         "profile_md,cv_text,profile_version,gemini_api_key_encrypted"
-    ).eq("id", user_id).maybe_single().execute().data
+    ).eq("id", user_id).maybe_single().execute(), "data", None)
     return user_id, row or {}
 
 
