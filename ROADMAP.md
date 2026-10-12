@@ -155,7 +155,7 @@ First-time-user comprehension, digest trust, the job-seeker workspace, and the a
 | [WEBAPP_POSITIONS_MARK_APPLIED](future_devs/WEBAPP_POSITIONS_MARK_APPLIED_SPEC.md) | Mark-applied on Positions (shared catalog) — needs per-user overlay; confirm scope first | `not-started` | S | WEBAPP_POSITIONS_CATALOG_SYNC |
 | [WEBAPP_HIDE_DISMISS_JOBS](future_devs/WEBAPP_HIDE_DISMISS_JOBS_SPEC.md) | Hide / dismiss irrelevant jobs | `not-started` | S | WEBAPP_JOBSEEKER_WORKFLOW |
 | [WEBAPP_NEW_SINCE_LAST_VISIT](future_devs/WEBAPP_NEW_SINCE_LAST_VISIT_SPEC.md) | "New since last visit" badges + filter | `not-started` | S | WEBAPP_JOBSEEKER_WORKFLOW |
-| [WEBAPP_DIGEST_SORT_PERSIST](future_devs/WEBAPP_DIGEST_SORT_PERSIST_SPEC.md) | Sort controls + persist filter/sort view + counts | `in-progress` | S | WEBAPP_JOBSEEKER_WORKFLOW |
+| [WEBAPP_DIGEST_SORT_PERSIST](future_devs/WEBAPP_DIGEST_SORT_PERSIST_SPEC.md) | Sort controls + persist filter/sort view + counts | `completed` | S | WEBAPP_JOBSEEKER_WORKFLOW |
 
 ### Epic: App shell & account UX
 
