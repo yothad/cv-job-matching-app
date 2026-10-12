@@ -31,8 +31,9 @@ refresh_companies.py  (weekly)
   └─ merges big_companies.yml (manually maintained, never auto-discovered)
   └─ for new VC companies: discovers careers URL + detects ATS
   └─ for stale VC entries (30d+ since last_verified_at, or consecutive_failures >= 3): re-verifies
+     (a re-verify that finds no usable ATS keeps the cached working config - never downgrades to unknown)
   └─ big_companies.yml entries are NEVER re-verified automatically - edit the YAML to update
-  └─ writes to companies.json (merge, never overwrite)
+  └─ writes to companies.json (merge, never overwrite; atomic write-then-rename)
 
 collect_jobs.py  (daily)
   └─ reads companies.json
@@ -41,12 +42,16 @@ collect_jobs.py  (daily)
   └─ writes new_jobs.json
   └─ NEVER does careers discovery - that's refresh's job
   └─ on failure: increment consecutive_failures, continue with next company
+     (only a puller exception counts; most pullers still return [] on HTTP errors, which looks like 0 jobs)
+  └─ companies.json / new_jobs.json / live_positions.json are written atomically
 
 score.py  (daily, after collect_jobs.py)
   └─ reads new_jobs.json + profile.md + cv.md
   └─ cv_default / cv_lead in score_config.json may point at local-only files; if a
      path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
   └─ sends each job to Gemini 2.5 Flash
+  └─ a malformed item only fails that job; scorer-error results are not logged to
+     all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)
   └─ exits non-zero if GEMINI_API_KEY is missing for any profile (so CI goes red)
 ```

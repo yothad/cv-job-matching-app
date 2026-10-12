@@ -52,6 +52,9 @@ this task's actual work.
 - **Run each job 3× and report pass@1 vs pass@3** (ECC's pass@k). Gemini at default
   temperature is not deterministic; a 1-point band wobble must be distinguishable from a
   real regression before anyone trusts the gate.
+- `score_jobs_batch` returns `flags: ["scorer-error"]` (score 0) for a failed call or a
+  malformed / missing item (per-item since PIPELINE_FAILURE_RESILIENCE). Count those
+  separately and exclude them from band accuracy / MAE - they are infra noise, not scoring.
 
 ### `evals/baseline.json`
 - The committed current-performance record: metric values, model name, prompt hash, date.

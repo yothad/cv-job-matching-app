@@ -233,7 +233,8 @@ def _score_jobs_batched(
             i = batch_start + j + 1
             label = f"{job.get('company', '?')} - {job.get('title', '?')}"
             print(f"[{name}] [{i}/{N}] {label}: score={result['score']}")
-            if all_scores_fp:
+            # scorer errors (503s, malformed output) are not logged as seen, so the next run retries them
+            if all_scores_fp and "scorer-error" not in result["flags"]:
                 all_scores_fp.write(json.dumps(merged, ensure_ascii=False) + "\n")
                 all_scores_fp.flush()
 
@@ -552,7 +553,7 @@ def _rescore_profile(profile_dir: Path) -> None:
 
     for job in rescored:
         key = _job_key(job)
-        if key in existing:
+        if key in existing and "scorer-error" not in job.get("flags", []):
             existing[key]["score"] = job["score"]
             existing[key]["reasoning"] = job.get("reasoning", "")
             existing[key]["flags"] = job.get("flags", [])

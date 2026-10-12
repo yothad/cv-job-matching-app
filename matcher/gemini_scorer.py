@@ -109,12 +109,20 @@ def score_jobs_batch(jobs: list[dict], profile_md: str, cv_md: str, client) -> l
                 data = [data]
             results = []
             for i in range(len(jobs)):
-                item = data[i] if i < len(data) else {}
-                results.append({
-                    "score": int(item.get("score", 0)),
-                    "reasoning": str(item.get("reasoning", "")),
-                    "flags": list(item.get("flags", [])),
-                })
+                # Per-item isolation: one malformed or missing item must not fail the whole batch.
+                try:
+                    item = data[i]
+                    results.append({
+                        "score": int(item.get("score", 0)),
+                        "reasoning": str(item.get("reasoning", "")),
+                        "flags": list(item.get("flags", [])),
+                    })
+                except Exception as item_err:
+                    results.append({
+                        "score": 0,
+                        "reasoning": f"scorer error: bad item {i + 1}/{len(jobs)}: {item_err!r}",
+                        "flags": ["scorer-error"],
+                    })
             return results
         except Exception as e:
             last_exc = e

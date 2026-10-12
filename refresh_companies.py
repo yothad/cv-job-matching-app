@@ -16,6 +16,7 @@ from pathlib import Path
 import yaml
 
 from ats.detect import detect_ats, find_careers_url
+from collect_jobs import _write_json_atomic
 from vcs.registry import VC_REGISTRY
 
 COMPANIES_FILE = Path("companies.json")
@@ -38,8 +39,7 @@ def load_companies() -> dict[str, dict]:
 
 
 def save_companies(companies: dict[str, dict]) -> None:
-    with COMPANIES_FILE.open("w", encoding="utf-8") as f:
-        json.dump(list(companies.values()), f, ensure_ascii=False, indent=2)
+    _write_json_atomic(COMPANIES_FILE, list(companies.values()))
 
 
 def needs_reverify(entry: dict, reverify_unknown: bool = False) -> bool:
@@ -74,6 +74,24 @@ def discover(name: str, website: str) -> dict:
     else:
         print(f"  {name}: detected {ats_name}")
     return {"careers_url": careers_url, "ats": ats_name, "ats_params": ats_params}
+
+
+def apply_reverify(entry: dict, discovery: dict) -> None:
+    """Record a re-verification result on an existing entry.
+
+    A discovery that finds no usable ATS never overwrites a working cached
+    config: discovery flakes (timeouts, bot walls, careers page redesigns) used
+    to wipe live companies to ats=unknown, which collect_jobs then skips.
+    consecutive_failures is left as-is so a still-failing entry retries next run.
+    """
+    entry["last_verified_at"] = now_iso()
+    if not discovery["ats_params"] and entry.get("ats", "unknown") != "unknown" and entry.get("ats_params"):
+        print(f"  {entry['name']}: re-discovery found no ATS, keeping cached {entry['ats']}")
+        return
+    entry["careers_url"] = discovery["careers_url"]
+    entry["ats"] = discovery["ats"]
+    entry["ats_params"] = discovery["ats_params"]
+    entry["consecutive_failures"] = 0
 
 
 def merge_big_companies(companies: dict[str, dict]) -> tuple[int, int]:
@@ -191,12 +209,7 @@ def refresh(reverify_unknown: bool = False):
                         else f"last_verified {entry.get('last_verified_at', 'never')}"
                     )
                     print(f"  {name}: re-verifying ({reason})")
-                    discovery = discover(name, website)
-                    entry["careers_url"] = discovery["careers_url"]
-                    entry["ats"] = discovery["ats"]
-                    entry["ats_params"] = discovery["ats_params"]
-                    entry["last_verified_at"] = now_iso()
-                    entry["consecutive_failures"] = 0
+                    apply_reverify(entry, discover(name, website))
                     reverified_count += 1
                 else:
                     print(f"  {name}: cached, skipping discovery")
@@ -218,12 +231,7 @@ def refresh(reverify_unknown: bool = False):
             if needs_reverify(entry, reverify_unknown):
                 print(f"  {name}: running discovery")
                 try:
-                    discovery = discover(name, entry["website"])
-                    entry["careers_url"] = discovery["careers_url"]
-                    entry["ats"] = discovery["ats"]
-                    entry["ats_params"] = discovery["ats_params"]
-                    entry["last_verified_at"] = now_iso()
-                    entry["consecutive_failures"] = 0
+                    apply_reverify(entry, discover(name, entry["website"]))
                     reverified_count += 1
                 except Exception as e:
                     print(f"  {name}: ERROR - {e}")
