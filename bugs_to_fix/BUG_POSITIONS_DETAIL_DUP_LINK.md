@@ -36,7 +36,13 @@ duplicate. Keep the button; drop the inline link from the description fallback
 
 ## Fix Notes
 <!-- populated after fix -->
-Remove the inline `<a>Go to posting</a>` at lines ~84-88 of `positions/page.tsx`
+Fixed 2026-10-12 (night run): removed the inline `<a>` from the "Job description"
+fallback. With an `apply_url` the copy now reads "The full description isn't stored
+in the shared catalog. Use the Go to posting button above to open the original
+posting." The no-link branch is unchanged. The actions-row button is the only CTA.
+Verified with `npm run build`.
+
+Original plan: remove the inline `<a>Go to posting</a>` at lines ~84-88 of `positions/page.tsx`
 and reword the fallback sentence (e.g. "The full description isn't stored in the
 shared catalog - use the Go to posting button above to open the original
 posting."). The `actions`-row button is the single CTA.

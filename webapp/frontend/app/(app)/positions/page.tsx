@@ -81,14 +81,9 @@ function PositionDetailPanel({ position, onClose }: { position: Position; onClos
         <p className="cw-label text-subtle mb-2">Job description</p>
         <p className="text-sm text-subtle">
           The full description isn&apos;t stored in the shared catalog.{' '}
-          {position.apply_url ? (
-            <>
-              Open the posting via{' '}
-              <a href={position.apply_url} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">Go to posting</a>.
-            </>
-          ) : (
-            <>No application link is available for this position yet.</>
-          )}
+          {position.apply_url
+            ? 'Use the Go to posting button above to open the original posting.'
+            : 'No application link is available for this position yet.'}
         </p>
       </div>
     </DetailPanel>
