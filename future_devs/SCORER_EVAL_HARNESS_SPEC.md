@@ -29,6 +29,15 @@ vocabulary and structure — capability vs regression evals, the three grader ty
 specific to this pipeline. Note what it does *not* provide: a runnable harness. That is
 this task's actual work.
 
+## Code shipped (SCORER_EVAL_HARNESS_CODE)
+
+`evals/metrics.py`, `evals/run_eval.py` (`--golden`, `--profile`, `--runs`, `--baseline`,
+`--write-baseline`), `evals/make_labelling_sheet.py` (make + `--import`), `evals/README.md`,
+`tests/test_evals.py` (fake client). Confusion bands are 9-10 / 7-8 / 5-6 / 0-4 and hard-filter
+flags are `dealbreaker-location` / `non-ds`. Because the repo is public, the golden set, sheet and
+baseline default to the gitignored `evals/private/` instead of being committed (overrides the
+"Committed to the repo" lines below). Remaining here: label, record the baseline, CI gate, docs.
+
 ## Behaviour
 
 ### `evals/golden_set.jsonl` (human-labelled, the ground truth)
