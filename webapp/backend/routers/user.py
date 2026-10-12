@@ -4,6 +4,7 @@ from typing import List, Optional
 import os
 from datetime import datetime, timezone, date, timedelta
 from cryptography.fernet import Fernet
+from auth import require_user
 from db.supabase_client import supabase
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -20,11 +21,7 @@ class SetupRequest(BaseModel):
 
 @router.post("/setup")
 def setup_user(body: SetupRequest, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    user_id = resp.user.id
+    user_id = require_user(authorization)
 
     f = Fernet(FERNET_KEY.encode())
     encrypted_key = f.encrypt(body.gemini_api_key.encode()).decode()
@@ -51,13 +48,10 @@ def setup_user(body: SetupRequest, authorization: str = Header(...)):
 
 @router.get("/me")
 def get_me(authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     row = getattr(supabase.table("users").select(
         "scoring_runs_this_week,last_week_reset,profile_md,cv_text,profile_version,profile_updated_at,cv_updated_at,gemini_api_key_encrypted"
-    ).eq("id", resp.user.id).maybe_single().execute(), "data", None)
+    ).eq("id", user_id).maybe_single().execute(), "data", None)
     if not row:
         return {}
     has_api_key = bool(row.get("gemini_api_key_encrypted"))
@@ -101,46 +95,34 @@ class ApiKeyUpdate(BaseModel):
 
 @router.patch("/profile")
 def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    current = getattr(supabase.table("users").select("profile_version").eq("id", resp.user.id).maybe_single().execute(), "data", None)
+    user_id = require_user(authorization)
+    current = getattr(supabase.table("users").select("profile_version").eq("id", user_id).maybe_single().execute(), "data", None)
     new_version = ((current or {}).get("profile_version") or 1) + 1
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).eq("id", resp.user.id).execute()
+    supabase.table("users").update({"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).eq("id", user_id).execute()
     return {"status": "ok", "profile_version": new_version, "profile_updated_at": now}
 
 
 @router.patch("/cv")
 def update_cv(body: CvUpdate, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"cv_text": body.cv_text, "cv_updated_at": now}).eq("id", resp.user.id).execute()
+    supabase.table("users").update({"cv_text": body.cv_text, "cv_updated_at": now}).eq("id", user_id).execute()
     return {"status": "ok", "cv_updated_at": now}
 
 
 @router.get("/filters")
 def get_filters(authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    row = getattr(supabase.table("score_configs").select("*").eq("user_id", resp.user.id).maybe_single().execute(), "data", None)
+    user_id = require_user(authorization)
+    row = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute(), "data", None)
     return row or {}
 
 
 @router.patch("/filters")
 def update_filters(body: FiltersUpdate, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     supabase.table("score_configs").upsert({
-        "user_id": resp.user.id,
+        "user_id": user_id,
         **body.model_dump(),
     }, on_conflict="user_id").execute()
     return {"status": "ok"}
@@ -148,14 +130,11 @@ def update_filters(body: FiltersUpdate, authorization: str = Header(...)):
 
 @router.patch("/apikey")
 def update_apikey(body: ApiKeyUpdate, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     fernet_key = os.environ.get("FERNET_KEY", "")
     f = Fernet(fernet_key.encode())
     encrypted = f.encrypt(body.gemini_api_key.encode()).decode()
-    supabase.table("users").update({"gemini_api_key_encrypted": encrypted}).eq("id", resp.user.id).execute()
+    supabase.table("users").update({"gemini_api_key_encrypted": encrypted}).eq("id", user_id).execute()
     return {"status": "ok"}
 
 
@@ -164,10 +143,7 @@ class TestKeyRequest(BaseModel):
 
 @router.post("/test-key-inline")
 def test_apikey_inline(body: TestKeyRequest, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     try:
         import google.genai as genai
         client = genai.Client(api_key=body.gemini_api_key)
@@ -179,13 +155,10 @@ def test_apikey_inline(body: TestKeyRequest, authorization: str = Header(...)):
 
 @router.post("/test-key")
 def test_apikey(authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    row = getattr(supabase.table("users").select("gemini_api_key_encrypted").eq("id", resp.user.id).maybe_single().execute(), "data", None)
+    user_id = require_user(authorization)
+    row = getattr(supabase.table("users").select("gemini_api_key_encrypted").eq("id", user_id).maybe_single().execute(), "data", None)
     if not row or not row.get("gemini_api_key_encrypted"):
-        raise HTTPException(status_code=400, detail="No API key stored")
+        raise HTTPException(status_code=400, detail="No API key saved yet - save your key first, or paste one to test it")
     fernet_key = os.environ.get("FERNET_KEY", "")
     f = Fernet(fernet_key.encode())
     api_key = f.decrypt(row["gemini_api_key_encrypted"].encode()).decode()
@@ -200,32 +173,22 @@ def test_apikey(authorization: str = Header(...)):
 
 @router.delete("/apikey")
 def delete_apikey(authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    supabase.table("users").update({"gemini_api_key_encrypted": None}).eq("id", resp.user.id).execute()
+    user_id = require_user(authorization)
+    supabase.table("users").update({"gemini_api_key_encrypted": None}).eq("id", user_id).execute()
     return {"status": "ok"}
 
 
 @router.get("/export")
 def export_data(authorization: str = Header(...)):
     from fastapi.responses import JSONResponse
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    jobs = supabase.table("scored_jobs").select("*").eq("user_id", resp.user.id).execute().data
+    user_id = require_user(authorization)
+    jobs = supabase.table("scored_jobs").select("*").eq("user_id", user_id).execute().data
     return JSONResponse(content=jobs, headers={"Content-Disposition": "attachment; filename=careerwatch_export.json"})
 
 
 @router.delete("/account")
 def delete_account(authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    user_id = resp.user.id
+    user_id = require_user(authorization)
     supabase.table("users").delete().eq("id", user_id).execute()
     try:
         supabase.auth.admin.delete_user(user_id)
@@ -261,10 +224,7 @@ def _markitdown():
 
 @router.post("/parse-cv")
 async def parse_cv(request: Request, authorization: str = Header(...)):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = require_user(authorization)
     body = await request.json()
     file_b64 = body.get("pdf_b64", "")
     mime_type = body.get("mime_type", "application/pdf")

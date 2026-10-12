@@ -7,8 +7,19 @@
    - `SUPABASE_URL` - from Supabase project settings
    - `SUPABASE_SERVICE_ROLE_KEY` - from Supabase API settings (service_role key, NOT anon)
    - `FERNET_KEY` - generate with: `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`
-3. The persistent disk mounts at `/data`. On first deploy, copy `new_jobs.json` and `companies.json` there.
-   GitHub Actions commits these files to the repo; seed the disk manually on first deploy.
+3. No disk needed. Jobs come from the shared Supabase `positions` table, which the
+   collect-and-score workflow fills via `scripts/sync_positions.py` (new_jobs.json is
+   gitignored and never on Render). `companies.json` is committed and read from the
+   repo checkout (`COMPANIES_PATH`).
+4. Apply every file in `webapp/supabase/migrations/` (in order) in the Supabase SQL
+   editor - the code expects all of them, incl. `008_positions_description.sql`.
+
+## Tests
+
+```bash
+cd webapp/backend
+uv run --with pytest python -m pytest tests -q
+```
 
 ## Local development
 

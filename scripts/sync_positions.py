@@ -3,7 +3,8 @@ Sync the shared `positions` catalog in Supabase from local new_jobs.json.
 
 The webapp's Positions page shows the full market of open roles to EVERY user
 (one shared copy), unlike the per-user scored_jobs table. This script pushes the
-current new_jobs.json snapshot into the global `positions` table:
+current new_jobs.json snapshot (incl. `description`, migration 008 - skipped
+with a warning if the column isn't there yet) into the global `positions` table:
 
   1. Upsert every current role, stamping this run's `synced_at`.
   2. Delete any row left with an older `synced_at` (i.e. no longer in the
@@ -30,8 +31,23 @@ import httpx
 
 REPO_ROOT = Path(__file__).parent.parent
 NEW_JOBS_PATH = Path(os.environ.get("NEW_JOBS_PATH") or REPO_ROOT / "new_jobs.json")
-BATCH_SIZE = 500
+BATCH_SIZE = 250  # rows now carry multi-KB descriptions
 TIMEOUT = 60.0
+
+
+def _upsert(client: httpx.Client, base: str, auth_headers: dict, batch: list[dict]) -> httpx.Response:
+    return client.post(
+        base,
+        params={"on_conflict": "apply_url"},
+        headers={**auth_headers, "Prefer": "resolution=merge-duplicates,return=minimal"},
+        content=json.dumps(batch),
+    )
+
+
+def _missing_description_column(resp: httpx.Response) -> bool:
+    """PostgREST answers 400 (PGRST204 "Could not find the 'description'
+    column") when the payload has a column the table lacks."""
+    return resp.status_code == 400 and "description" in resp.text
 
 
 def main() -> None:
@@ -59,6 +75,7 @@ def main() -> None:
             "company": j.get("company") or "",
             "title": j.get("title") or "",
             "location": j.get("location") or "",
+            "description": j.get("description") or "",
             "first_seen": j.get("first_seen"),
             "synced_at": run_ts,
         }
@@ -76,14 +93,21 @@ def main() -> None:
     with httpx.Client(timeout=TIMEOUT) as client:
         # Upsert current snapshot in batches. merge-duplicates on the apply_url
         # PK refreshes existing rows (incl. synced_at) and inserts new ones.
+        with_description = True
         for i in range(0, len(rows), BATCH_SIZE):
             batch = rows[i:i + BATCH_SIZE]
-            resp = client.post(
-                base,
-                params={"on_conflict": "apply_url"},
-                headers={**auth_headers, "Prefer": "resolution=merge-duplicates,return=minimal"},
-                content=json.dumps(batch),
-            )
+            if not with_description:
+                batch = [{k: v for k, v in r.items() if k != "description"} for r in batch]
+            resp = _upsert(client, base, auth_headers, batch)
+            if with_description and _missing_description_column(resp):
+                # Migration 008 not applied yet - keep syncing without the JD
+                # rather than failing the whole catalog refresh.
+                print("  WARNING: positions.description column missing - apply "
+                      "webapp/supabase/migrations/008_positions_description.sql. "
+                      "Syncing without descriptions.")
+                with_description = False
+                batch = [{k: v for k, v in r.items() if k != "description"} for r in batch]
+                resp = _upsert(client, base, auth_headers, batch)
             resp.raise_for_status()
             print(f"  {min(i + BATCH_SIZE, len(rows))}/{len(rows)} upserted")
 

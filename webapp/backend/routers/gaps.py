@@ -3,6 +3,7 @@ import os
 import sys
 from pathlib import Path
 from cryptography.fernet import Fernet
+from auth import require_user
 from db.supabase_client import supabase
 
 router = APIRouter(prefix="/gaps", tags=["gaps"])
@@ -16,11 +17,7 @@ _positions_cache: dict = {}
 
 
 def _get_user_and_data(authorization: str):
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    user_id = resp.user.id
+    user_id = require_user(authorization)
     row = getattr(supabase.table("users").select(
         "profile_md,cv_text,profile_version,gemini_api_key_encrypted"
     ).eq("id", user_id).maybe_single().execute(), "data", None)

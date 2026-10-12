@@ -4,6 +4,8 @@ import json
 import os
 from typing import List
 from pydantic import BaseModel
+from auth import require_user
+from db.positions import fetch_positions, latest_sync_time
 from db.supabase_client import supabase
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
@@ -11,16 +13,10 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 _companies_env = os.environ.get("COMPANIES_PATH")
 COMPANIES_PATH = Path(_companies_env) if _companies_env else Path(__file__).parent.parent.parent.parent / "companies.json"
 
-_jobs_env = os.environ.get("NEW_JOBS_PATH")
-NEW_JOBS_PATH = Path(_jobs_env) if _jobs_env else Path(__file__).parent.parent.parent.parent / "new_jobs.json"
 
 
 def _get_user(authorization: str) -> str:
-    token = authorization.removeprefix("Bearer ")
-    resp = supabase.auth.get_user(token)
-    if not resp.user:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    return resp.user.id
+    return require_user(authorization)
 
 
 @router.get("/companies")
@@ -29,7 +25,12 @@ def list_companies(authorization: str = Header(...)):
     if not COMPANIES_PATH.exists():
         return []
     companies = json.loads(COMPANIES_PATH.read_text(encoding="utf-8"))
-    jobs = json.loads(NEW_JOBS_PATH.read_text(encoding="utf-8")) if NEW_JOBS_PATH.exists() else []
+    # Open-role counts come from the shared positions catalog (new_jobs.json is
+    # gitignored and absent on Render, which left every count at 0).
+    try:
+        jobs = fetch_positions()
+    except Exception:
+        jobs = []
     counts: dict[str, int] = {}
     for j in jobs:
         name = j.get("company", "")
@@ -118,15 +119,15 @@ class FilterPreviewRequest(BaseModel):
 @router.post("/filter-preview")
 def filter_preview(body: FilterPreviewRequest, authorization: str = Header(...)):
     _get_user(authorization)
-    if not NEW_JOBS_PATH.exists():
+    jobs = fetch_positions()
+    if not jobs:
         return {"empty": True, "passing": 0, "total": 0}
-    jobs = json.loads(NEW_JOBS_PATH.read_text(encoding="utf-8"))
     total = len(jobs)
     passing = 0
     for job in jobs:
-        title = job.get("title", "").lower()
-        location = job.get("location", "").lower()
-        company = job.get("company", "").lower()
+        title = (job.get("title") or "").lower()
+        location = (job.get("location") or "").lower()
+        company = (job.get("company") or "").lower()
         # location filter
         if body.location_terms and not any(t.lower() in location for t in body.location_terms):
             continue
@@ -159,23 +160,34 @@ def jobs_stats(authorization: str = Header(...)):
         .execute()
         .count
     ) or 0
-    # collected = the raw market pulled from ATSes before scoring. Prefer the
-    # local snapshot; on the deployed backend (where new_jobs.json may be absent)
-    # fall back to the shared positions catalog count. null if neither resolves.
-    collected: int | None = None
-    if NEW_JOBS_PATH.exists():
-        try:
-            collected = len(json.loads(NEW_JOBS_PATH.read_text(encoding="utf-8")))
-        except (json.JSONDecodeError, OSError):
-            collected = None
-    if collected is None:
-        try:
-            collected = (
-                supabase.table("positions").select("apply_url", count="exact").execute().count
-            )
-        except Exception:
-            collected = None
-    return {"suitable": suitable, "collected": collected}
+    # collected = the raw market pulled from ATSes before scoring = the size of
+    # the shared positions catalog. null if it can't be read.
+    try:
+        collected = (
+            supabase.table("positions").select("apply_url", count="exact").limit(1).execute().count
+        )
+    except Exception:
+        collected = None
+    # Freshness for the Digest header: when the catalog was last synced (i.e.
+    # jobs last collected) and when this user last had jobs scored.
+    try:
+        last_collected_at = latest_sync_time()
+    except Exception:
+        last_collected_at = None
+    try:
+        last = (
+            supabase.table("scored_jobs").select("scored_at").eq("user_id", user_id)
+            .order("scored_at", desc=True).limit(1).execute().data
+        )
+        last_scored_at = last[0]["scored_at"] if last else None
+    except Exception:
+        last_scored_at = None
+    return {
+        "suitable": suitable,
+        "collected": collected,
+        "last_collected_at": last_collected_at,
+        "last_scored_at": last_scored_at,
+    }
 
 
 @router.get("/{job_id}")
@@ -193,14 +205,17 @@ def get_job(job_id: str, authorization: str = Header(...)):
     if not row:
         raise HTTPException(status_code=404, detail="Job not found")
     # Rows scored before migration 006 have no stored description - fall back
-    # to a request-time match against new_jobs.json by apply_url. Fragile if
-    # the file has rotated, so newly scored rows persist it durably instead.
-    if not row.get("description") and NEW_JOBS_PATH.exists():
-        apply_url = row.get("apply_url", "")
-        jobs = json.loads(NEW_JOBS_PATH.read_text(encoding="utf-8"))
-        match = next((j for j in jobs if j.get("apply_url", "") == apply_url), None)
-        if match:
-            row["description"] = match.get("description", "")
+    # to the shared positions catalog (description column from migration 008).
+    if not row.get("description") and row.get("apply_url"):
+        try:
+            match = (
+                supabase.table("positions").select("description")
+                .eq("apply_url", row["apply_url"]).limit(1).execute().data
+            )
+            if match and match[0].get("description"):
+                row["description"] = match[0]["description"]
+        except Exception:
+            pass  # column not migrated yet / catalog unavailable - show without JD
     return row
 
 
