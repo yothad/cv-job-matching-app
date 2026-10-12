@@ -106,6 +106,37 @@ def _read_cv(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _resolve_cvs(profile_dir: Path, config: dict, name: str) -> tuple[str, str]:
+    """Return (cv_default, cv_lead) text for a profile.
+
+    score_config.json may point cv_default / cv_lead at local files (e.g. a .docx
+    outside the repo). Those don't exist in CI, so a missing configured path
+    falls back with a warning instead of crashing the run:
+      cv_default -> profile_dir/cv.md (or "" if that is absent too)
+      cv_lead    -> cv_default (same as when cv_lead is unset)
+    """
+    fallback = profile_dir / "cv.md"
+    cv_default_path = config.get("cv_default")
+    default_label = "cv.md"
+    if cv_default_path and Path(cv_default_path).exists():
+        cv_default = _read_cv(Path(cv_default_path))
+        default_label = Path(cv_default_path).name
+    else:
+        if cv_default_path:
+            print(f"[{name}] Warning: cv_default not found ({Path(cv_default_path).name}) - falling back to cv.md")
+        cv_default = _read_cv(fallback) if fallback.exists() else ""
+
+    cv_lead_path = config.get("cv_lead")
+    if cv_lead_path and Path(cv_lead_path).exists():
+        cv_lead = _read_cv(Path(cv_lead_path))
+        print(f"[{name}] CV routing: lead CV - {Path(cv_lead_path).name}, default CV - {default_label}")
+    else:
+        if cv_lead_path:
+            print(f"[{name}] Warning: cv_lead not found ({Path(cv_lead_path).name}) - using the default CV for lead roles")
+        cv_lead = cv_default
+    return cv_default, cv_lead
+
+
 def _sync_applied_from_digest(digest_path: Path, jobs_by_key: dict) -> int:
     """Read digest.md, find Applied: 1 entries, mark them in jobs_by_key. Returns count updated."""
     if not digest_path.exists():
@@ -394,6 +425,11 @@ def _write_digest(jobs_by_key: dict, out_path: Path) -> None:
     out_path.write_text("\n".join(lines), encoding="utf-8")
 
 
+class MissingApiKeyError(RuntimeError):
+    """GEMINI_API_KEY is unset for a profile. Must fail the run (non-zero exit) -
+    a silent return kept CI green for ~2 months while nothing was scored."""
+
+
 def _score_one_profile(profile_dir: Path, jobs: list, args) -> None:
     name = profile_dir.name
 
@@ -404,7 +440,7 @@ def _score_one_profile(profile_dir: Path, jobs: list, args) -> None:
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print(f"[{name}] Error: GEMINI_API_KEY not set.", file=sys.stderr)
-        return
+        raise MissingApiKeyError(name)
 
     profile_md = (profile_dir / "profile.md").read_text(encoding="utf-8")
 
@@ -425,18 +461,8 @@ def _score_one_profile(profile_dir: Path, jobs: list, args) -> None:
     keep_terms = config.get("keep_title_terms", _KEEP_TITLE_TERMS)
 
     # CV routing: lead CV vs default CV
-    cv_default_path = config.get("cv_default")
-    cv_lead_path = config.get("cv_lead")
     lead_terms = [t.lower() for t in config.get("lead_title_terms", [])]
-    if cv_default_path:
-        cv_default = _read_cv(Path(cv_default_path))
-    else:
-        cv_default = _read_cv(profile_dir / "cv.md") if (profile_dir / "cv.md").exists() else ""
-    if cv_lead_path:
-        cv_lead = _read_cv(Path(cv_lead_path))
-        print(f"[{name}] CV routing: lead CV → {Path(cv_lead_path).name}, default CV → {Path(cv_default_path or 'cv.md').name}")
-    else:
-        cv_lead = cv_default
+    cv_default, cv_lead = _resolve_cvs(profile_dir, config, name)
 
     total = len(jobs)
     loc_filtered, empty_loc = _location_prefilter(jobs)
@@ -510,12 +536,11 @@ def _rescore_profile(profile_dir: Path) -> None:
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print(f"[{name}] Error: GEMINI_API_KEY not set.", file=sys.stderr)
-        return
+        raise MissingApiKeyError(name)
 
     profile_md = (profile_dir / "profile.md").read_text(encoding="utf-8")
     config = _load_profile_config(profile_dir)
-    cv_default_path = config.get("cv_default")
-    cv_default = _read_cv(Path(cv_default_path)) if cv_default_path else _read_cv(profile_dir / "cv.md")
+    cv_default, _ = _resolve_cvs(profile_dir, config, name)
 
     from google import genai
     client = genai.Client(api_key=api_key)
@@ -561,8 +586,14 @@ def main():
         if not profiles:
             print("Error: no profiles found for rescore.", file=sys.stderr)
             sys.exit(1)
+        failed = []
         for profile in profiles:
-            _rescore_profile(profile)
+            try:
+                _rescore_profile(profile)
+            except MissingApiKeyError:
+                failed.append(profile.name)
+        if failed:
+            sys.exit(1)
         return
 
     input_file = "tests/sample_jobs.json" if args.sample else args.input
@@ -589,15 +620,24 @@ def main():
         print(build_prompt(jobs[0], profile_md, cv_md))
         return
 
+    failed: list[str] = []
     if len(profiles) == 1:
-        _score_one_profile(profiles[0], jobs, args)
+        try:
+            _score_one_profile(profiles[0], jobs, args)
+        except MissingApiKeyError:
+            failed.append(profiles[0].name)
     else:
         with ThreadPoolExecutor(max_workers=len(profiles)) as pool:
             futures = {pool.submit(_score_one_profile, p, jobs, args): p.name for p in profiles}
             for fut in as_completed(futures):
                 exc = fut.exception()
                 if exc:
-                    print(f"[{futures[fut]}] Error: {exc}", file=sys.stderr)
+                    failed.append(futures[fut])
+                    if not isinstance(exc, MissingApiKeyError):
+                        print(f"[{futures[fut]}] Error: {exc}", file=sys.stderr)
+    if failed:
+        print(f"Error: scoring failed for profile(s): {', '.join(sorted(failed))}", file=sys.stderr)
+        sys.exit(1)
 
 
 def _run_root_profile(jobs: list, args) -> None:
