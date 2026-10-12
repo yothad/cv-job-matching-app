@@ -46,14 +46,30 @@ def setup_user(body: SetupRequest, authorization: str = Header(...)):
     return {"status": "ok"}
 
 
+def derive_setup(row: dict, filters_seen: bool) -> dict:
+    """Onboarding state from existing fields only - booleans, never the values.
+
+    complete = profile AND api_key; CV and filters are recommended, not required.
+    filters_seen = a score_configs row exists (written by the wizard's filter step
+    or Settings).
+    """
+    def present(k):
+        v = row.get(k)
+        return bool(v.strip()) if isinstance(v, str) else bool(v)
+    profile, cv, api_key = present("profile_md"), present("cv_text"), present("gemini_api_key_encrypted")
+    return {"profile": profile, "cv": cv, "api_key": api_key, "filters_seen": filters_seen, "complete": profile and api_key}
+
+
 @router.get("/me")
 def get_me(authorization: str = Header(...)):
     user_id = require_user(authorization)
     row = getattr(supabase.table("users").select(
         "scoring_runs_this_week,last_week_reset,profile_md,cv_text,profile_version,profile_updated_at,cv_updated_at,gemini_api_key_encrypted"
     ).eq("id", user_id).maybe_single().execute(), "data", None)
+    filters_row = getattr(supabase.table("score_configs").select("user_id").eq("user_id", user_id).limit(1).execute(), "data", None)
     if not row:
-        return {}
+        return {"setup": derive_setup({}, bool(filters_row))}
+    setup = derive_setup(row, bool(filters_row))
     has_api_key = bool(row.get("gemini_api_key_encrypted"))
     api_key_last4 = None
     if has_api_key and FERNET_KEY:
@@ -73,6 +89,7 @@ def get_me(authorization: str = Header(...)):
     today = date.today()
     days_until_monday = (7 - today.weekday()) % 7 or 7
     row["run_limit_resets_on"] = (today + timedelta(days=days_until_monday)).isoformat()
+    row["setup"] = setup
     return row
 
 
@@ -99,7 +116,8 @@ def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
     current = getattr(supabase.table("users").select("profile_version").eq("id", user_id).maybe_single().execute(), "data", None)
     new_version = ((current or {}).get("profile_version") or 1) + 1
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).eq("id", user_id).execute()
+    # upsert, not update: the onboarding wizard saves per step, possibly before the users row exists
+    supabase.table("users").upsert({"id": user_id, "profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).execute()
     return {"status": "ok", "profile_version": new_version, "profile_updated_at": now}
 
 
@@ -107,7 +125,7 @@ def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
 def update_cv(body: CvUpdate, authorization: str = Header(...)):
     user_id = require_user(authorization)
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"cv_text": body.cv_text, "cv_updated_at": now}).eq("id", user_id).execute()
+    supabase.table("users").upsert({"id": user_id, "cv_text": body.cv_text, "cv_updated_at": now}).execute()
     return {"status": "ok", "cv_updated_at": now}
 
 
@@ -134,7 +152,7 @@ def update_apikey(body: ApiKeyUpdate, authorization: str = Header(...)):
     fernet_key = os.environ.get("FERNET_KEY", "")
     f = Fernet(fernet_key.encode())
     encrypted = f.encrypt(body.gemini_api_key.encode()).decode()
-    supabase.table("users").update({"gemini_api_key_encrypted": encrypted}).eq("id", user_id).execute()
+    supabase.table("users").upsert({"id": user_id, "gemini_api_key_encrypted": encrypted}).execute()
     return {"status": "ok"}
 
 

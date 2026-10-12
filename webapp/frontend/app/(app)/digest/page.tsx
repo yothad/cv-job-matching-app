@@ -451,9 +451,9 @@ export default function DigestPage() {
       setRunsUsed(d.scoring_runs_this_week ?? 0)
       setRunLimitResetsOn(d.run_limit_resets_on ?? null)
       setCurrentProfileVersion(d.profile_version ?? 1)
-      setHasProfile(!!(d.profile_md && String(d.profile_md).trim()))
-      setHasCv(!!(d.cv_text && String(d.cv_text).trim()))
-      setHasApiKey(d.has_api_key === true)
+      setHasProfile(d.setup?.profile === true)
+      setHasCv(d.setup?.cv === true)
+      setHasApiKey(d.setup?.api_key === true)
       setUserLoaded(true)
     } catch {
       /* network error - keep the checklist hidden rather than show it wrong */

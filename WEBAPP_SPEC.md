@@ -45,7 +45,14 @@ Single persona: a job-seeking professional (primarily technical — data scienti
 
 ### 3. Onboarding Flow (first-time user, 4 steps)
 
-**Step 1 — Generate your profile (optional)**
+**First-login journey (WEBAPP_FIRST_LOGIN_JOURNEY):**
+- `GET /user/me` returns a derived `setup` object `{ profile, cv, api_key, filters_seen, complete }` (booleans only, from existing fields; `filters_seen` = a `score_configs` row exists). `complete` = profile AND api_key; CV and filters are recommended, not required. A user with no `users` row gets `{ setup: {...all false} }`.
+- `/auth/callback` sends a user whose `setup.complete` is false to `/onboarding`, everyone else to `/digest`. Any failure (no session, backend down, 5s timeout) falls back to `/digest`. Email/password sign-in navigates through `/auth/callback` (no `code`) so it gets the same routing.
+- No middleware redirect from `/digest` to `/onboarding` - the app is never blocked; an incomplete user can browse everything and the Digest checklist links each open item to `/onboarding?step=N` (to Settings once setup is complete).
+- `/onboarding` opens with a 3-bullet welcome (once per browser, localStorage `cw.onboarding.welcomed.v1`; skipped by `?step=N` deep links), then resumes the wizard at the first incomplete step, prefilled with the saved profile/CV/filters, showing "N of 4 done". Each step saves on Next (`PATCH /user/profile`, `/user/cv`, `/user/apikey`; filters on finish via `PATCH /user/filters`), so leaving mid-way loses nothing. These PATCH endpoints upsert the `users` row so a brand-new user's first step persists.
+- A user whose setup is already complete sees a "You're all set" card with links to Settings and the Digest instead of the wizard.
+
+**Step 1 — Generate your profile (required to finish setup, skippable)**
 - Explanation: "Your profile tells the AI what you're looking for. The best way to create it is to use an AI assistant."
 - Optional: the user can skip and add a profile later in Settings. The Next button reads "Skip ->" when the field is empty and "Next ->" once filled. (Note: scoring still requires a profile, so a skipped profile means no results until one is added.)
 - A copyable prompt block:

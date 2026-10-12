@@ -222,7 +222,28 @@ function FilterPanel({ locationInput, onLocationChange, skipTitles, onSkipTitles
   )
 }
 
+const WELCOMED_KEY = 'cw.onboarding.welcomed.v1'
+const STEP_KEYS = ['profile', 'cv', 'api_key', 'filters_seen'] as const
+type Setup = Record<(typeof STEP_KEYS)[number], boolean>
+
+async function authedFetch(path: string, init: RequestInit = {}) {
+  const { data: { session } } = await supabase.auth.getSession()
+  const token = session?.access_token
+  if (!token) throw new Error('Not authenticated')
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
+    ...init,
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, ...init.headers },
+  })
+}
+
 export default function OnboardingPage() {
+  // 'loading' until /user/me answers; a failed lookup still opens the wizard.
+  const [phase, setPhase] = useState<'loading' | 'welcome' | 'wizard' | 'allset'>('loading')
+  const [setup, setSetup] = useState<Setup>({ profile: false, cv: false, api_key: false, filters_seen: false })
+  const [savedProfileMd, setSavedProfileMd] = useState('')
+  const [savedCvText, setSavedCvText] = useState('')
+  const [stepSaving, setStepSaving] = useState(false)
+  const [stepError, setStepError] = useState('')
   const [step, setStep] = useState(1)
   const [profileMd, setProfileMd] = useState('')
   const [cvText, setCvText] = useState('')
@@ -249,6 +270,92 @@ export default function OnboardingPage() {
   const [filterPreviewLoading, setFilterPreviewLoading] = useState(false)
   const [scoringStage, setScoringStage] = useState<'idle' | 'scoring' | 'done'>('idle')
   const [scoredCount, setScoredCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    async function load() {
+      // ?step=N comes from the Digest checklist and skips the welcome.
+      const requested = Number(new URLSearchParams(window.location.search).get('step'))
+      let welcomed = false
+      try { welcomed = localStorage.getItem(WELCOMED_KEY) === '1' } catch { /* storage blocked */ }
+      let s = setup
+      try {
+        const r = await authedFetch('/user/me')
+        if (r.ok) {
+          const d = await r.json()
+          if (d.setup) s = { profile: !!d.setup.profile, cv: !!d.setup.cv, api_key: !!d.setup.api_key, filters_seen: !!d.setup.filters_seen }
+          if (d.setup?.complete) { setSetup(s); setPhase('allset'); return }
+          if (typeof d.profile_md === 'string') { setProfileMd(d.profile_md); setSavedProfileMd(d.profile_md) }
+          if (typeof d.cv_text === 'string') { setCvText(d.cv_text); setSavedCvText(d.cv_text) }
+        }
+        if (s.filters_seen) {
+          const fr = await authedFetch('/user/filters')
+          const f = fr.ok ? await fr.json() : null
+          if (f && f.user_id) {
+            setFilters({
+              location_terms: f.location_terms ?? [],
+              skip_title_terms: f.skip_title_terms ?? [],
+              keep_title_terms: f.keep_title_terms ?? [],
+              skip_companies: f.skip_companies ?? [],
+              skip_industries: f.skip_industries ?? [],
+            })
+            setLocationInput((f.location_terms ?? [])[0] ?? '')
+          }
+        }
+      } catch { /* backend unreachable - start fresh, never block */ }
+      setSetup(s)
+      const firstIncomplete = STEP_KEYS.findIndex(k => !s[k]) + 1
+      setStep(requested >= 1 && requested <= 4 ? requested : firstIncomplete || 4)
+      setPhase(welcomed || requested ? 'wizard' : 'welcome')
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function startJourney() {
+    try { localStorage.setItem(WELCOMED_KEY, '1') } catch { /* storage blocked */ }
+    setPhase('wizard')
+  }
+
+  // Each step saves on Next, so closing the tab mid-way loses nothing.
+  async function saveAndGo(next: number, save?: () => Promise<Partial<Setup> | void>) {
+    setStepError('')
+    if (save) {
+      setStepSaving(true)
+      try {
+        const marked = await save()
+        if (marked) setSetup(s => ({ ...s, ...marked }))
+      } catch {
+        setStepError('Could not save this step - check your connection and try again')
+        setStepSaving(false)
+        return
+      }
+      setStepSaving(false)
+    }
+    setStep(next)
+  }
+
+  async function patch(path: string, body: unknown) {
+    const r = await authedFetch(path, { method: 'PATCH', body: JSON.stringify(body) })
+    if (!r.ok) throw new Error(`HTTP ${r.status}`)
+  }
+
+  function saveProfile() {
+    return saveAndGo(2, profileMd.trim() && profileMd !== savedProfileMd
+      ? async () => { await patch('/user/profile', { profile_md: profileMd }); setSavedProfileMd(profileMd); return { profile: true } }
+      : undefined)
+  }
+
+  function saveCv() {
+    return saveAndGo(3, cvText.trim() && cvText !== savedCvText
+      ? async () => { await patch('/user/cv', { cv_text: cvText }); setSavedCvText(cvText); return { cv: true } }
+      : undefined)
+  }
+
+  function saveKey() {
+    return saveAndGo(4, geminiKey.trim()
+      ? async () => { await patch('/user/apikey', { gemini_api_key: geminiKey.trim() }); setGeminiKey(''); return { api_key: true } }
+      : undefined)
+  }
 
   async function fetchFilterPreview(loc: string, st: string[], kt: string[], sc: string[], si: string[]) {
     setFilterPreviewLoading(true)
@@ -321,7 +428,7 @@ export default function OnboardingPage() {
       setProfileSkipWarned(true)
       return
     }
-    setStep(2)
+    saveProfile()
   }
 
   async function finish() {
@@ -332,17 +439,13 @@ export default function OnboardingPage() {
       const token = session?.access_token
       if (!token) throw new Error('Not authenticated')
 
-      const effectiveFilters = {
-        ...filters,
-        location_terms: locationInput.trim() ? [locationInput.trim()] : [],
-      }
-
-      const r = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/setup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ profile_md: profileMd, cv_text: cvText, gemini_api_key: geminiKey, filters: effectiveFilters }),
+      // Profile, CV and key were already saved step by step; only filters remain.
+      const r = await authedFetch('/user/filters', {
+        method: 'PATCH',
+        body: JSON.stringify({ ...filters, location_terms: locationInput.trim() ? [locationInput.trim()] : [] }),
       })
-      if (!r.ok) throw new Error('Setup failed')
+      if (!r.ok) throw new Error('Could not save your filters')
+      setSetup(s => ({ ...s, filters_seen: true }))
 
       // Trigger the first scan and wait for the result so we can show a count
       // instead of redirecting silently.
@@ -369,6 +472,43 @@ export default function OnboardingPage() {
   }
 
   const steps = ['Profile', 'CV', 'API Key', 'Filters']
+  const doneCount = STEP_KEYS.filter(k => setup[k]).length
+
+  if (phase === 'loading') {
+    return <div className="min-h-screen bg-background" aria-busy="true" />
+  }
+
+  if (phase === 'welcome' || phase === 'allset') {
+    return (
+      <div className="relative min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-center px-4 py-12">
+        <ThemeToggle className="absolute top-4 right-4 z-10" />
+        <div className="bg-surface border border-border rounded-2xl p-8 w-full max-w-xl shadow-2xl shadow-black/20 space-y-5">
+          {phase === 'welcome' ? (
+            <>
+              <h1 className="font-display text-3xl">Welcome to CareerWatch</h1>
+              <ul className="space-y-2 text-sm text-muted list-disc list-inside">
+                <li>We track open roles at 100+ Israeli cyber, fraud and fintech companies and score each one against YOUR profile.</li>
+                <li>To score well we need your profile (what you want), your CV (what you&apos;ve done) and a free Gemini API key - scoring runs on your own quota.</li>
+                <li>Setup takes about 5 minutes. Progress saves at every step, so you can leave and pick up where you stopped.</li>
+              </ul>
+              <div className="flex justify-end">
+                <button onClick={startJourney} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">Get started</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="font-display text-3xl">You&apos;re all set</h1>
+              <p className="text-sm text-muted">Your profile and Gemini key are saved{setup.cv ? '' : ' - adding your CV in Settings will sharpen every score'}. Change anything in Settings.</p>
+              <div className="flex flex-wrap gap-3 justify-end">
+                <a href="/settings" className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">Open Settings</a>
+                <a href="/digest" className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">Go to my digest</a>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="relative min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-center px-4 py-12 overflow-hidden">
@@ -388,14 +528,14 @@ export default function OnboardingPage() {
         }
       `}</style>
       {/* Progress */}
-      <div className="relative flex items-center gap-2 sm:gap-3 mb-4" aria-label={`Step ${step} of ${steps.length}`}>
+      <div className="relative flex items-center gap-2 sm:gap-3 mb-4" aria-label={`Step ${step} of ${steps.length}, ${doneCount} of ${steps.length} done`}>
         {steps.map((label, i) => {
-          const done = i + 1 < step
+          const done = setup[STEP_KEYS[i]] && i + 1 !== step
           const current = i + 1 === step
           return (
             <div key={label} className="flex items-center gap-2 sm:gap-3">
               {i > 0 && (
-                <div className={`h-px w-4 sm:w-8 transition-colors duration-300 ${i + 1 <= step ? 'bg-accent' : 'bg-border-subtle'}`} />
+                <div className={`h-px w-4 sm:w-8 transition-colors duration-300 ${setup[STEP_KEYS[i - 1]] ? 'bg-accent' : 'bg-border-subtle'}`} />
               )}
               <div className="flex items-center gap-2">
                 <div
@@ -418,20 +558,22 @@ export default function OnboardingPage() {
       </div>
 
       {/* Orientation intro */}
+      <p className="relative font-mono text-xs text-subtle mb-2">{doneCount} of {steps.length} done</p>
       <p className="relative text-sm text-muted mb-6 text-center max-w-lg">
-        Set up in 4 steps - Profile, CV, API key, and Filters - then we run your first scan and show you a ranked digest.
+        Set up in 4 steps - Profile, CV, API key, and Filters - then we run your first scan and show you a ranked digest. Profile and API key are required; CV and filters are recommended. Each step saves when you click Next.
       </p>
 
       <div className="relative bg-surface border border-border rounded-2xl p-8 w-full max-w-2xl shadow-2xl shadow-black/20">
+        {stepError && <p role="alert" className="text-danger text-sm mb-4">{stepError}</p>}
 
         {/* Step 1 */}
         {step === 1 && (
           <div className="space-y-4 onboarding-step-in">
             <div>
-              <h2 className="font-display text-3xl">Set up your profile <span className="font-sans text-sm text-subtle">(optional)</span></h2>
+              <h2 className="font-display text-3xl">Set up your profile</h2>
               <p className="text-sm text-subtle mt-1">Your profile tells the AI what to look for - without it, scoring is generic.</p>
             </div>
-            <p className="text-muted text-sm">Describe your target roles, domains, location, and dealbreakers. You can skip this and add it later in Settings.</p>
+            <p className="text-muted text-sm">Describe your target roles, domains, location, and dealbreakers. Required to finish setup - you can skip it for now and come back.</p>
 
             <ProfileExampleGuidance />
 
@@ -479,7 +621,7 @@ export default function OnboardingPage() {
             )}
 
             <div className="flex justify-end">
-              <button onClick={handleStep1Next} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">{profileMd.trim() ? 'Next ->' : 'Skip ->'}</button>
+              <button onClick={handleStep1Next} disabled={stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : profileMd.trim() ? 'Next ->' : 'Skip ->'}</button>
             </div>
           </div>
         )}
@@ -526,7 +668,7 @@ export default function OnboardingPage() {
             )}
             <div className="flex justify-between">
               <button onClick={() => setStep(1)} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">&lt;- Back</button>
-              <button onClick={() => setStep(3)} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">{cvText.trim() ? 'Next ->' : 'Skip ->'}</button>
+              <button onClick={saveCv} disabled={stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : cvText.trim() ? 'Next ->' : 'Skip ->'}</button>
             </div>
           </div>
         )}
@@ -540,7 +682,7 @@ export default function OnboardingPage() {
             </div>
             <p className="text-muted text-sm">Used only for scoring. Never logged or shared.</p>
             <p className="text-sm text-accent">It&apos;s fully free - Google&apos;s Gemini API has a free tier that&apos;s plenty for scoring jobs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
-            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder="Paste your Gemini API key" className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
+            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder={setup.api_key ? 'Key saved - paste a new one to replace it' : 'Paste your Gemini API key'} className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             <div className="flex items-center gap-3">
               <button onClick={testKeyInline} disabled={!geminiKey.trim() || keyTesting}
                 className="px-4 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors disabled:opacity-40 rounded-lg text-sm">
@@ -567,7 +709,7 @@ export default function OnboardingPage() {
             <p className="text-xs text-subtle">We never score jobs without your key. If you delete it, scoring stops.</p>
             <div className="flex justify-between">
               <button onClick={() => setStep(2)} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">&lt;- Back</button>
-              <button onClick={() => setStep(4)} disabled={!geminiKey.trim()} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">Next -&gt;</button>
+              <button onClick={saveKey} disabled={(!geminiKey.trim() && !setup.api_key) || stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : 'Next ->'}</button>
             </div>
           </div>
         )}
@@ -610,8 +752,8 @@ export default function OnboardingPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted w-16">Key</span>
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-score-high" />
-                <span className="text-score-high">Set</span>
+                <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${setup.api_key ? 'bg-score-high' : 'bg-warning'}`} />
+                <span className={setup.api_key ? 'text-score-high' : 'text-warning'}>{setup.api_key ? 'Set' : 'Missing - required'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted w-16">Location</span>
@@ -641,7 +783,7 @@ export default function OnboardingPage() {
 
             <div className="flex justify-between">
               <button onClick={() => setStep(3)} disabled={saving} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors disabled:opacity-40 rounded-lg">&lt;- Back</button>
-              <button onClick={finish} disabled={saving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">
+              <button onClick={finish} disabled={saving || !setup.api_key} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">
                 {scoringStage === 'scoring' ? 'Scoring...' : saving ? 'Starting...' : 'Start my first scan'}
               </button>
             </div>

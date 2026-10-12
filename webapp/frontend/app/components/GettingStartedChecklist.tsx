@@ -24,33 +24,30 @@ export default function GettingStartedChecklist({ profile, cv, apiKey, hasJobs }
 
   if (allDone || dismissed) return null
 
+  // While setup is incomplete (profile + API key), resume the onboarding wizard
+  // at that step; afterwards the leftover items (e.g. CV) live in Settings.
+  const setupComplete = profile && apiKey
+  const stepLink = (step: number, hash: string) => (
+    <Link href={setupComplete ? `/settings#${hash}` : `/onboarding?step=${step}`} className="text-xs text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
+      {setupComplete ? 'Go to settings' : 'Continue setup'}
+    </Link>
+  )
+
   const items: ChecklistItem[] = [
     {
       label: 'Add your profile',
       done: profile,
-      action: (
-        <Link href="/settings#profile" className="text-xs text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
-          Go to settings
-        </Link>
-      ),
+      action: stepLink(1, 'profile'),
     },
     {
       label: 'Upload your CV',
       done: cv,
-      action: (
-        <Link href="/settings#cv" className="text-xs text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
-          Go to settings
-        </Link>
-      ),
+      action: stepLink(2, 'cv'),
     },
     {
       label: 'Set your API key',
       done: apiKey,
-      action: (
-        <Link href="/settings#apikey" className="text-xs text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
-          Go to settings
-        </Link>
-      ),
+      action: stepLink(3, 'apikey'),
     },
     {
       label: 'Run your first scan',
