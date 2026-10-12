@@ -45,6 +45,30 @@ function ScoreNowHelp() {
   )
 }
 
+// "Oct 12, 19:22" in the viewer's local time zone; null for missing/invalid
+// input so the header line is hidden instead of reading "Invalid Date".
+function fmtDateTime(iso: string | null | undefined): string | null {
+  if (!iso) return null
+  const d = new Date(iso)
+  if (isNaN(d.getTime())) return null
+  const date = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+  const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false })
+  return `${date}, ${time}`
+}
+
+// Collection runs Mon & Thu 07:00 UTC (.github/workflows/collect-and-score.yml).
+// Returns the weekday of the next run in the viewer's local time, e.g. "Thu".
+function nextCollectionDay(now: Date = new Date()): string {
+  for (let i = 0; i < 8; i++) {
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + i, 7, 0))
+    const dow = d.getUTCDay()
+    if ((dow === 1 || dow === 4) && d.getTime() > now.getTime()) {
+      return d.toLocaleDateString(undefined, { weekday: 'short' })
+    }
+  }
+  return 'Mon'
+}
+
 function ScoreLegend() {
   const [open, setOpen] = useState(false)
   return (
@@ -281,7 +305,15 @@ export default function DigestPage() {
   const [detailJobId, setDetailJobId] = useState<string | null>(null)
   const [detailDescription, setDetailDescription] = useState<string | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
-  const [stats, setStats] = useState<{ suitable: number; collected: number | null } | null>(null)
+  const [stats, setStats] = useState<{
+    suitable: number
+    collected: number | null
+    last_collected_at?: string | null
+    last_scored_at?: string | null
+  } | null>(null)
+  // The checklist renders only once /user/me has answered, so it never flashes
+  // (or sticks on) all-unchecked for a user who has everything set up.
+  const [userLoaded, setUserLoaded] = useState(false)
 
   async function getToken() {
     const { data: { session } } = await supabase.auth.getSession()
@@ -311,18 +343,22 @@ export default function DigestPage() {
   }
 
   async function loadUser() {
-    const token = await getToken()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    if (res.ok) {
+    try {
+      const token = await getToken()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) return
       const d = await res.json()
       setRunsUsed(d.scoring_runs_this_week ?? 0)
       setRunLimitResetsOn(d.run_limit_resets_on ?? null)
       setCurrentProfileVersion(d.profile_version ?? 1)
-      setHasProfile(!!d.profile_md)
-      setHasCv(!!d.cv_text)
+      setHasProfile(!!(d.profile_md && String(d.profile_md).trim()))
+      setHasCv(!!(d.cv_text && String(d.cv_text).trim()))
       setHasApiKey(d.has_api_key === true)
+      setUserLoaded(true)
+    } catch {
+      /* network error - keep the checklist hidden rather than show it wrong */
     }
   }
 
@@ -331,14 +367,22 @@ export default function DigestPage() {
   async function triggerScoring() {
     setScoring(true)
     setScoreMsg('')
-    const token = await getToken()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/score/`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    const data = await res.json()
-    if (res.ok) setScoreMsg(`Scored ${data.scored} new jobs`)
-    else setScoreMsg(data.detail ?? 'Scoring failed')
+    try {
+      const token = await getToken()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/score/`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        const base = data.message ?? `Scored ${data.scored ?? 0} new jobs`
+        setScoreMsg(data.warning ? `${base} - ${data.warning}` : base)
+      } else {
+        setScoreMsg(typeof data.detail === 'string' ? data.detail : `Scoring failed (HTTP ${res.status})`)
+      }
+    } catch {
+      setScoreMsg('Could not reach the server - please try again in a minute')
+    }
     await loadJobs()
     await loadUser()
     await loadStats()
@@ -404,7 +448,10 @@ export default function DigestPage() {
     setLocationFilter('')
   }
 
-  const lastScored = jobs.length > 0 ? timeAgo(jobs.reduce((a, b) => a.scored_at > b.scored_at ? a : b).scored_at) : null
+  const lastScoredIso = stats?.last_scored_at
+    ?? (jobs.length > 0 ? jobs.reduce((a, b) => a.scored_at > b.scored_at ? a : b).scored_at : null)
+  const lastScored = lastScoredIso && !isNaN(new Date(lastScoredIso).getTime()) ? timeAgo(lastScoredIso) : null
+  const lastCollected = fmtDateTime(stats?.last_collected_at)
 
   return (
     <div>
@@ -431,7 +478,11 @@ export default function DigestPage() {
                 : `${stats.suitable.toLocaleString()} suitable roles`}
             </div>
           )}
-          <div className="text-xs text-subtle font-mono">New jobs collected Mon &amp; Thu</div>
+          <div className="text-xs text-subtle font-mono">
+            {lastCollected
+              ? `Last collected ${lastCollected} · next run ${nextCollectionDay()}`
+              : 'New jobs collected Mon & Thu'}
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {scoring && (
@@ -464,12 +515,12 @@ export default function DigestPage() {
 
       <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
         {/* Getting started checklist */}
-        <GettingStartedChecklist
+        {userLoaded && <GettingStartedChecklist
           profile={hasProfile}
           cv={hasCv}
           apiKey={hasApiKey}
           hasJobs={jobs.length > 0}
-        />
+        />}
 
         {/* Score legend */}
         <ScoreLegend />

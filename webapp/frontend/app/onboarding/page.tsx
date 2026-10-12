@@ -287,7 +287,7 @@ export default function OnboardingPage() {
       const r = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/test-key-inline`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ gemini_api_key: geminiKey }),
+        body: JSON.stringify({ gemini_api_key: geminiKey.trim() }),
       })
       const d = await r.json()
       setKeyTestResult(r.ok ? 'Key works!' : (d.detail ?? 'Test failed'))
@@ -540,7 +540,7 @@ export default function OnboardingPage() {
             </div>
             <p className="text-muted text-sm">Used only for scoring. Never logged or shared.</p>
             <p className="text-sm text-accent">It&apos;s fully free - Google&apos;s Gemini API has a free tier that&apos;s plenty for scoring jobs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
-            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder="AIza..." className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
+            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder="Paste your Gemini API key" className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             <div className="flex items-center gap-3">
               <button onClick={testKeyInline} disabled={!geminiKey.trim() || keyTesting}
                 className="px-4 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors disabled:opacity-40 rounded-lg text-sm">

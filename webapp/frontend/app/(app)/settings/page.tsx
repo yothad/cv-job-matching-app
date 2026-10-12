@@ -8,6 +8,31 @@ import { ACCEPT_ATTR, extractUploadText } from '@/lib/uploadFormats'
 
 type Tab = 'profile' | 'cv' | 'filters' | 'apikey' | 'account'
 
+// "Oct 12, 2026" in the viewer's locale; null for missing/invalid input so we
+// never render "Invalid Date".
+function fmtDate(iso: string | null | undefined): string | null {
+  if (!iso) return null
+  const d = new Date(iso)
+  return isNaN(d.getTime()) ? null : d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
+// A styled file picker. The native <input type="file"> always reads "No file
+// chosen" after a reload, which looked like nothing was saved - the saved state
+// is shown separately next to this button instead.
+function FilePickButton({ label, onFile, className }: { label: string; onFile: (f: File) => void; className: string }) {
+  return (
+    <label className={`${className} inline-flex items-center cursor-pointer focus-within:ring-2 focus-within:ring-accent`}>
+      {label}
+      <input
+        type="file"
+        accept={ACCEPT_ATTR}
+        className="sr-only"
+        onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = '' }}
+      />
+    </label>
+  )
+}
+
 const PROFILE_PROMPT = `You are helping me create a job-matching profile file. I will answer your questions and you will produce a structured Markdown document called profile.md that a job-scoring AI will use to evaluate job postings for me.
 
 Ask me the following questions one at a time (or ask them all at once and I will answer):
@@ -140,6 +165,10 @@ export default function SettingsPage() {
   const [profileMd, setProfileMd] = useState('')
   const [profileVersion, setProfileVersion] = useState<number>(1)
   const [profileUpdatedAt, setProfileUpdatedAt] = useState<string | null>(null)
+  const [savedProfileMd, setSavedProfileMd] = useState('')
+  // 'loading' until GET /user/me answers; 'error' keeps the editors untouched
+  // and says so, instead of rendering empty boxes that look like "no data".
+  const [meState, setMeState] = useState<'loading' | 'ok' | 'error'>('loading')
   const [showPrompt, setShowPrompt] = useState(false)
   const [copiedPrompt, setCopiedPrompt] = useState(false)
   const [mdUploadError, setMdUploadError] = useState('')
@@ -147,6 +176,7 @@ export default function SettingsPage() {
   // CV tab
   const [cvText, setCvText] = useState('')
   const [cvUpdatedAt, setCvUpdatedAt] = useState<string | null>(null)
+  const [savedCvText, setSavedCvText] = useState('')
   const [pdfLoading, setPdfLoading] = useState(false)
   const [pdfError, setPdfError] = useState('')
 
@@ -212,18 +242,38 @@ export default function SettingsPage() {
   }
 
   async function loadMe() {
-    const r = await api('/user/me')
-    const d = await r.json()
-    setProfileMd(d.profile_md ?? '')
-    setProfileVersion(d.profile_version ?? 1)
-    setProfileUpdatedAt(d.profile_updated_at ?? null)
-    setCvText(d.cv_text ?? '')
-    setCvUpdatedAt(d.cv_updated_at ?? null)
-    setHasApiKey(d.has_api_key ?? false)
-    setApiKeyLast4(d.api_key_last4 ?? null)
+    let d: Record<string, unknown>
+    try {
+      const r = await api('/user/me')
+      d = await r.json().catch(() => ({}))
+      if (!r.ok) {
+        setMeState('error')
+        flash(typeof d.detail === 'string' ? d.detail : 'Could not load your saved settings - please reload')
+        return
+      }
+    } catch {
+      setMeState('error')
+      flash('Could not reach the server - please reload')
+      return
+    }
+    const profile = typeof d.profile_md === 'string' ? d.profile_md : ''
+    const cv = typeof d.cv_text === 'string' ? d.cv_text : ''
+    setProfileMd(profile)
+    setSavedProfileMd(profile)
+    setProfileVersion(typeof d.profile_version === 'number' ? d.profile_version : 1)
+    setProfileUpdatedAt(typeof d.profile_updated_at === 'string' ? d.profile_updated_at : null)
+    setCvText(cv)
+    setSavedCvText(cv)
+    setCvUpdatedAt(typeof d.cv_updated_at === 'string' ? d.cv_updated_at : null)
+    setHasApiKey(d.has_api_key === true)
+    setApiKeyLast4(typeof d.api_key_last4 === 'string' ? d.api_key_last4 : null)
+    setMeState('ok')
   }
 
   useEffect(() => {
+    // Deep links like /settings#cv (from the Digest checklist) open that tab.
+    const hashTab = window.location.hash.replace('#', '') as Tab
+    if (['profile', 'cv', 'filters', 'apikey', 'account'].includes(hashTab)) setActiveTab(hashTab)
     loadMe()
     api('/user/filters').then(r => r.json()).then(d => {
       setLocationInput((d.location_terms ?? [])[0] ?? '')
@@ -238,10 +288,10 @@ export default function SettingsPage() {
       const identities = user.identities ?? []
       const provider = identities[0]?.provider ?? 'email'
       setUserIdentity({
-        name: meta.full_name ?? meta.name ?? '—',
-        email: user.email ?? '—',
+        name: meta.full_name ?? meta.name ?? '-',
+        email: user.email ?? '-',
         provider: provider === 'google' ? 'Google' : 'Email',
-        memberSince: user.created_at ? new Date(user.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '—',
+        memberSince: user.created_at ? new Date(user.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '-',
       })
     })
   }, [])
@@ -259,6 +309,7 @@ export default function SettingsPage() {
       const d = await r.json()
       setProfileVersion(d.profile_version ?? (profileVersion + 1))
       setProfileUpdatedAt(d.profile_updated_at ?? null)
+      setSavedProfileMd(profileMd)
       flash('Profile saved')
     } else {
       flash('Save failed')
@@ -283,6 +334,7 @@ export default function SettingsPage() {
     if (r.ok) {
       const d = await r.json()
       setCvUpdatedAt(d.cv_updated_at ?? null)
+      setSavedCvText(cvText)
       flash('CV saved')
     } else {
       flash('Save failed')
@@ -309,6 +361,7 @@ export default function SettingsPage() {
       if (saveRes.ok) {
         const saved = await saveRes.json()
         setCvUpdatedAt(saved.cv_updated_at ?? null)
+        setSavedCvText(text)
         flash('CV uploaded and saved')
       } else {
         flash('CV parsed - click Save CV to store it')
@@ -349,11 +402,23 @@ export default function SettingsPage() {
     setSaving(false)
   }
 
+  // Test what's in the box if anything was typed/pasted; otherwise the stored key.
   async function testKey() {
-    setTestResult('Testing...')
-    const r = await api('/user/test-key', { method: 'POST' })
-    const d = await r.json()
-    setTestResult(r.ok ? 'Key works!' : d.detail ?? 'Test failed')
+    const typed = newKey.trim()
+    setTestResult(typed ? 'Testing the key you pasted...' : 'Testing your saved key...')
+    try {
+      const r = typed
+        ? await api('/user/test-key-inline', { method: 'POST', body: JSON.stringify({ gemini_api_key: typed }) })
+        : await api('/user/test-key', { method: 'POST' })
+      const d = await r.json().catch(() => ({}))
+      if (r.ok) {
+        setTestResult(typed ? 'Key works! Save it to use it for scoring.' : 'Your saved key works!')
+      } else {
+        setTestResult(typeof d.detail === 'string' ? d.detail : 'Test failed')
+      }
+    } catch {
+      setTestResult('Could not reach the server - please try again')
+    }
   }
 
   async function deleteKey() {
@@ -407,7 +472,6 @@ export default function SettingsPage() {
   const secondaryBtn = 'px-4 py-2 bg-surface-raised hover:bg-border-subtle/50 border border-border rounded-lg text-sm transition-colors'
   const dangerBtn = 'px-4 py-2 bg-danger/10 hover:bg-danger/20 border border-danger/30 text-danger rounded-lg text-sm transition-colors'
   const inputCls = 'bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-border placeholder:text-subtle transition-colors focus:outline-none focus:border-accent'
-  const fileInputCls = 'block text-sm text-muted file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-accent file:text-accent-foreground file:text-sm file:font-medium hover:file:bg-accent-hover file:transition-colors file:cursor-pointer cursor-pointer'
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
@@ -428,26 +492,23 @@ export default function SettingsPage() {
         {/* Profile tab */}
         {activeTab === 'profile' && (
           <div className="space-y-4">
-            {/* Status */}
-            <div className="text-sm text-muted">
-              {profileMd.trim()
-                ? <span className="text-score-high">
-                    Profile saved · v{profileVersion}
-                    {profileUpdatedAt && ` · updated ${new Date(profileUpdatedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}`}
-                  </span>
-                : <span className="text-warning">No profile yet - upload a file or generate one with AI below</span>
-              }
-            </div>
-
-            {/* Path A: Upload .md */}
+            {/* Path A: Upload a file - saved state shown beside the picker */}
             <div>
-              <label className="text-sm text-muted block mb-1">Upload profile (.md, .txt, .pdf, .docx, .doc)</label>
-              <input
-                type="file"
-                accept={ACCEPT_ATTR}
-                onChange={e => { const f = e.target.files?.[0]; if (f) uploadMdFile(f); e.target.value = '' }}
-                className={fileInputCls}
-              />
+              <p className="text-sm text-muted mb-1.5">Upload profile (.md, .txt, .pdf, .docx, .doc)</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <FilePickButton label={savedProfileMd.trim() ? 'Replace file' : 'Choose file'} onFile={uploadMdFile} className={secondaryBtn} />
+                <span className="text-sm">
+                  {meState === 'loading' ? <span className="text-subtle">Loading your saved profile...</span>
+                    : meState === 'error' ? <span className="text-danger">Couldn&apos;t load your saved profile</span>
+                    : savedProfileMd.trim()
+                      ? <span className="inline-flex items-center gap-1.5 text-score-high">
+                          <Check className="w-4 h-4" aria-hidden="true" />
+                          Saved profile · v{profileVersion}{fmtDate(profileUpdatedAt) && ` · updated ${fmtDate(profileUpdatedAt)}`}
+                        </span>
+                      : <span className="text-warning">No profile saved yet - upload a file or generate one with AI below</span>}
+                  {meState === 'ok' && profileMd !== savedProfileMd && <span className="text-warning"> · unsaved changes</span>}
+                </span>
+              </div>
               {mdUploadError && <p className="text-sm text-danger mt-1">{mdUploadError}</p>}
             </div>
 
@@ -487,29 +548,29 @@ export default function SettingsPage() {
         {/* CV tab */}
         {activeTab === 'cv' && (
           <div className="space-y-4">
-            {/* Current state header */}
-            {cvText ? (
-              <div className="flex items-center justify-between text-xs text-subtle font-mono">
-                <span>
-                  {cvText.length.toLocaleString()} chars · {cvWordCount.toLocaleString()} words
-                  {cvUpdatedAt && ` · updated ${new Date(cvUpdatedAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}`}
+            <div>
+              <p className="text-sm text-muted mb-1.5">Upload CV (.md, .txt, .pdf, .docx, .doc)</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <FilePickButton label={savedCvText.trim() ? 'Replace file' : 'Choose file'} onFile={uploadCvFile} className={secondaryBtn} />
+                <span className="text-sm">
+                  {meState === 'loading' ? <span className="text-subtle">Loading your saved CV...</span>
+                    : meState === 'error' ? <span className="text-danger">Couldn&apos;t load your saved CV</span>
+                    : savedCvText.trim()
+                      ? <span className="inline-flex items-center gap-1.5 text-score-high">
+                          <Check className="w-4 h-4" aria-hidden="true" />
+                          Saved CV{fmtDate(cvUpdatedAt) && ` · updated ${fmtDate(cvUpdatedAt)}`}
+                        </span>
+                      : <span className="text-warning">No CV saved yet - upload a file or paste text below</span>}
+                  {meState === 'ok' && cvText !== savedCvText && <span className="text-warning"> · unsaved changes</span>}
                 </span>
-                <button onClick={downloadCvText} className="text-accent hover:text-accent-hover underline transition-colors">Download as .txt</button>
-              </div>
-            ) : (
-              <p className="text-sm text-subtle">No CV on file yet. Upload a file or paste text below.</p>
-            )}
-            <div className="flex items-center justify-between">
-              <div>
-                <label className="text-sm text-muted block mb-1">Upload CV (.md, .txt, .pdf, .docx, .doc)</label>
-                <input
-                  type="file"
-                  accept={ACCEPT_ATTR}
-                  onChange={e => { const f = e.target.files?.[0]; if (f) uploadCvFile(f); e.target.value = '' }}
-                  className={fileInputCls}
-                />
               </div>
             </div>
+            {cvText && (
+              <div className="flex items-center justify-between text-xs text-subtle font-mono">
+                <span>{cvText.length.toLocaleString()} chars · {cvWordCount.toLocaleString()} words</span>
+                <button onClick={downloadCvText} className="text-accent hover:text-accent-hover underline transition-colors">Download as .txt</button>
+              </div>
+            )}
             {pdfLoading && <p className="text-sm text-muted">Extracting text...</p>}
             {pdfError && <p className="text-sm text-danger">{pdfError}</p>}
             <textarea value={cvText} onChange={e => setCvText(e.target.value)} rows={18}
@@ -555,12 +616,12 @@ export default function SettingsPage() {
             {hasApiKey !== null && (
               <div className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm border ${hasApiKey ? 'bg-score-high/10 border-score-high/25 text-score-high' : 'bg-warning/10 border-warning/30 text-warning'}`}>
                 {hasApiKey
-                  ? <span className="inline-flex items-center gap-1.5"><Check className="w-4 h-4" aria-hidden="true" /> Gemini key configured{apiKeyLast4 ? ` · AIza••••••••${apiKeyLast4}` : ''}</span>
+                  ? <span className="inline-flex items-center gap-1.5"><Check className="w-4 h-4" aria-hidden="true" /> Gemini key saved{apiKeyLast4 ? ` · ••••${apiKeyLast4}` : ''}</span>
                   : <span className="inline-flex items-center gap-1.5"><AlertTriangle className="w-4 h-4" aria-hidden="true" /> No API key - scoring is paused</span>
                 }
               </div>
             )}
-            <p className="text-sm text-muted">Replace your Gemini API key. The current key is never shown.</p>
+            <p className="text-sm text-muted">Paste a Gemini API key to test it or replace your saved one. The saved key is never shown.</p>
             <p className="text-sm text-accent">It&apos;s fully free - Google&apos;s Gemini API has a free tier that&apos;s plenty for scoring jobs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
             <ol className="text-sm text-muted space-y-1 list-decimal list-inside bg-surface border border-border p-4 rounded-lg">
               <li>Go to <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-accent underline">Google AI Studio</a></li>
@@ -568,11 +629,11 @@ export default function SettingsPage() {
               <li>Click &quot;Get API key&quot; then &quot;Create API key&quot;</li>
               <li>Copy and paste the key below</li>
             </ol>
-            <input type="password" value={newKey} onChange={e => setNewKey(e.target.value)} placeholder="AIza..."
+            <input type="password" value={newKey} onChange={e => setNewKey(e.target.value)} placeholder="Paste your Gemini API key"
               className={`w-full ${inputCls}`} />
             <div className="flex gap-3">
-              <button onClick={saveKey} disabled={!newKey || saving} className={primaryBtn}>Replace key</button>
-              <button onClick={testKey} className={secondaryBtn}>Test key</button>
+              <button onClick={saveKey} disabled={!newKey || saving} className={primaryBtn}>{hasApiKey ? 'Replace key' : 'Save key'}</button>
+              <button onClick={testKey} disabled={!newKey.trim() && !hasApiKey} className={`${secondaryBtn} disabled:opacity-50`}>{newKey.trim() ? 'Test this key' : 'Test saved key'}</button>
               <button onClick={deleteKey} className={dangerBtn}>Delete key</button>
             </div>
             {testResult && <p className="text-sm text-muted">{testResult}</p>}
