@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P7 (Standalone) |
-| **Status** | `not-started` |
+| **Status** | `in-progress` |
 | **Effort** | S |
 | **Epic** | — |
 | **Depends on** | — |
