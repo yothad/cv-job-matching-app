@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { readCache, writeCache } from '@/lib/swrCache'
+import { takeLastSeen, isNewSince } from '@/lib/lastSeen'
 import { SCORE_BANDS, bandFor } from '@/lib/scoreBands'
 import { flagInfo } from '@/lib/flags'
 import GettingStartedChecklist from '@/app/components/GettingStartedChecklist'
@@ -368,6 +369,13 @@ export default function DigestPage() {
   // overwrite it.
   const [viewLoaded, setViewLoaded] = useState(false)
   const [showApplied, setShowApplied] = useState(false)
+  // PREVIOUS last_seen_at (ms), captured once per page visit before it is
+  // stamped to now. null = first visit / storage blocked: no banner, no badges.
+  const [prevSeenAt, setPrevSeenAt] = useState<number | null>(null)
+  const lastSeenTaken = useRef(false)
+  // Not persisted in the saved view: on the next visit nothing is new, so a
+  // remembered "only new" would just show an empty list.
+  const [onlyNew, setOnlyNew] = useState(false)
   const [detailJobId, setDetailJobId] = useState<string | null>(null)
   const [detailDescription, setDetailDescription] = useState<string | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -410,6 +418,12 @@ export default function DigestPage() {
       const { data: { session } } = await supabase.auth.getSession()
       const userId = session?.user?.id ?? null
       setCacheUserId(userId)
+      // Once per visit (ref also guards a StrictMode double effect), so the
+      // cached paint and the revalidated list share the same baseline.
+      if (!lastSeenTaken.current) {
+        lastSeenTaken.current = true
+        setPrevSeenAt(takeLastSeen(userId))
+      }
       const cached = readCache<Job[]>('jobs', { userId, version: JOBS_CACHE_VERSION, maxAgeMs: JOBS_CACHE_MAX_AGE_MS })
       if (Array.isArray(cached) && cached.length > 0) {
         setJobs(cached)
@@ -553,6 +567,7 @@ export default function DigestPage() {
     .filter(j => matchesMultiFilter(j.title, titleFilter))
     .filter(j => matchesMultiFilter(j.company, companyFilter))
     .filter(j => matchesMultiFilter(j.location, locationFilter))
+    .filter(j => !onlyNew || isNewSince(j.scored_at, prevSeenAt))
     .sort(compareJobs(sortBy))
 
   // Below-5 scores fall outside every band (bandFor would lump them into 5-6).
@@ -565,6 +580,9 @@ export default function DigestPage() {
   const closedJobs = filtered.filter(j => j.status === 'closed')
   const active = openJobs.filter(j => !j.applied)
   const applied = openJobs.filter(j => j.applied)
+  // /jobs returns every score, so honour the min-score slider (not the text
+  // filters) to keep the count meaningful when "show only new" is applied.
+  const newCount = jobs.filter(j => j.score >= minScore && j.status !== 'closed' && isNewSince(j.scored_at, prevSeenAt)).length
 
   function resetFilters() {
     setMinScore(5)
@@ -572,6 +590,7 @@ export default function DigestPage() {
     setCompanyFilter('')
     setLocationFilter('')
     setSortBy(DEFAULT_VIEW.sortBy)
+    setOnlyNew(false)
   }
 
   const lastScoredIso = stats?.last_scored_at
@@ -657,6 +676,19 @@ export default function DigestPage() {
           hasJobs={jobs.length > 0}
         />}
 
+        {/* New since last visit (suppressed on first visit - see lib/lastSeen.ts) */}
+        {!loading && newCount > 0 && (
+          <div className="flex items-center justify-between gap-3 flex-wrap px-4 py-2.5 rounded-xl border border-accent/25 bg-accent/10 text-sm" aria-live="polite">
+            <span className="text-foreground">
+              {newCount.toLocaleString()} new since your last visit
+            </span>
+            <button onClick={() => setOnlyNew(v => !v)} aria-pressed={onlyNew}
+              className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
+              {onlyNew ? 'Show all' : 'Show only new'}
+            </button>
+          </div>
+        )}
+
         {/* Score legend */}
         <ScoreLegend />
 
@@ -716,7 +748,7 @@ export default function DigestPage() {
             onResetFilters={resetFilters}
           />
         )}
-        {!loading && active.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} />)}
+        {!loading && active.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} isNew={isNewSince(job.scored_at, prevSeenAt)} />)}
 
         {/* Applied section */}
         {applied.length > 0 && (
@@ -724,7 +756,7 @@ export default function DigestPage() {
             <button onClick={() => setShowApplied(v => !v)} className="text-sm text-muted hover:text-foreground py-2 underline underline-offset-2 decoration-border-subtle transition-colors">
               {showApplied ? `Hide ${applied.length} applied` : `Show ${applied.length} applied`}
             </button>
-            {showApplied && applied.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} />)}
+            {showApplied && applied.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} isNew={isNewSince(job.scored_at, prevSeenAt)} />)}
           </div>
         )}
 
