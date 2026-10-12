@@ -1,7 +1,7 @@
 # BUG: Positions detail panel shows "Go to posting" twice (button + redundant inline link)
 
 ## Status
-🔵 Open
+🟡 In Progress
 
 ## Severity
 P3
