@@ -240,7 +240,7 @@ enable server-side `fallbacks` to `claude-opus-4-8` for cyber-content refusals.
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [PIPELINE_FAILURE_RESILIENCE](future_devs/PIPELINE_FAILURE_RESILIENCE_SPEC.md) | Diagnose + harden intermittent collect/score/refresh failures | `not-started` | M | — |
+| [PIPELINE_FAILURE_RESILIENCE](future_devs/PIPELINE_FAILURE_RESILIENCE_SPEC.md) | Diagnose + harden intermittent collect/score/refresh failures | `in-progress` | M | — |
 
 ---
 
