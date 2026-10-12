@@ -30,6 +30,9 @@ jobs:
         run: uv run python collect_jobs.py
 
       - name: Sync shared positions catalog to Supabase
+        # The webapp catalog is a side output - a Supabase outage (e.g. a paused
+        # project) must never block scoring below.
+        continue-on-error: true
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
