@@ -20,7 +20,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Do you store my CV or API key?',
-    a: 'Both live in your account and nowhere else. The API key is encrypted before it is saved. Your CV goes to Gemini only when your jobs are scored. CareerWatch never logs them, never trains anything on them, and never hands them to anyone else. You can export or delete everything from Settings > Account.',
+    a: 'Both live in your account and nowhere else. The API key is encrypted before it is saved. Your CV and profile go to Gemini for two things: scoring your jobs, and the gap analysis that runs when you open the Gaps page. CareerWatch never logs them, never trains anything on them, and never hands them to anyone else. You can export or delete everything from Settings > Account.',
   },
   {
     q: 'Can I use it if I\'m not a data scientist?',
@@ -260,7 +260,7 @@ export default function LandingPage() {
             <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">Bring your own free AI key</h2>
             <p className="text-muted text-sm leading-relaxed mb-3">
               Scoring runs on Google Gemini, whose free tier covers everything CareerWatch does.
-              During onboarding you paste your own API key. It is encrypted, kept in your account, and used for one thing: scoring jobs for you.
+              During onboarding you paste your own API key. It is encrypted, kept in your account, and used for two things: scoring jobs for you, and the gap analysis on the Gaps page.
             </p>
             <p className="text-muted text-sm leading-relaxed">
               Your CV, your key, your quota. CareerWatch never trains anything on your data.

@@ -206,7 +206,7 @@ function FilterPanel({ locationInput, onLocationChange, skipTitles, onSkipTitles
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Skip these industries <span title="Jobs at companies tagged with these industries are dropped before scoring" className="text-subtle cursor-help">(?)</span>
+          Skip these industries <span title="Jobs whose description or company name contains any of these terms are dropped before scoring" className="text-subtle cursor-help">(?)</span>
         </label>
         <p className="text-xs text-subtle mb-1">e.g. gaming, adtech, gambling</p>
         <TagInput tags={skipIndustries} onChange={onSkipIndustriesChange} placeholder="Industry, press Enter" />
@@ -680,7 +680,7 @@ export default function OnboardingPage() {
               <h2 className="font-display text-3xl">Your Gemini API key</h2>
               <p className="text-sm text-subtle mt-1">Scoring runs on your own free Gemini quota. Your key, your calls, nothing to pay.</p>
             </div>
-            <p className="text-muted text-sm">The key is encrypted before it is stored and used for one thing only: scoring jobs for you. It is never logged or shared.</p>
+            <p className="text-muted text-sm">The key is encrypted before it is stored and used for two things: scoring jobs for you, and the gap analysis on the Gaps page. It is never logged or shared.</p>
             <p className="text-sm text-accent">It costs nothing - Google&apos;s Gemini API has a free tier, and that is all CareerWatch needs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
             <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder={setup.api_key ? 'A key is already saved - paste a new one to replace it' : 'Paste your Gemini API key'} className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             <div className="flex items-center gap-3">
