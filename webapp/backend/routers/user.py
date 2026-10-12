@@ -171,7 +171,7 @@ def test_apikey_inline(body: TestKeyRequest, authorization: str = Header(...)):
     try:
         import google.genai as genai
         client = genai.Client(api_key=body.gemini_api_key)
-        client.models.generate_content(model="gemini-2.0-flash", contents="ping")
+        client.models.generate_content(model="gemini-3.5-flash-lite", contents="ping")
         return {"ok": True}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -192,7 +192,7 @@ def test_apikey(authorization: str = Header(...)):
     try:
         import google.genai as genai
         client = genai.Client(api_key=api_key)
-        client.models.generate_content(model="gemini-2.0-flash", contents="ping")
+        client.models.generate_content(model="gemini-3.5-flash-lite", contents="ping")
         return {"ok": True}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
