@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
+import { readCache, writeCache } from '@/lib/swrCache'
 import { SCORE_BANDS, bandFor } from '@/lib/scoreBands'
 import { flagInfo } from '@/lib/flags'
 import GettingStartedChecklist from '@/app/components/GettingStartedChecklist'
@@ -335,9 +336,20 @@ function ClosedJobCard({ job }: { job: Job }) {
   )
 }
 
+// SWR cache for the /jobs list. Bump JOBS_CACHE_VERSION when the Job row shape
+// changes. 4 days = the longest gap between collection runs (Thu -> Mon), so an
+// older cache certainly predates the latest collection and is not worth painting.
+const JOBS_CACHE_VERSION = 1
+const JOBS_CACHE_MAX_AGE_MS = 4 * 24 * 60 * 60 * 1000
+
 export default function DigestPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
+  // While a cached list is on screen: 'updating' = background refetch in flight,
+  // 'failed' = refetch failed and the cached list stays. 'none' = live data.
+  const [cacheState, setCacheState] = useState<'none' | 'updating' | 'failed'>('none')
+  const [cacheUserId, setCacheUserId] = useState<string | null>(null)
+  const [jobsSynced, setJobsSynced] = useState(false)
   const [scoring, setScoring] = useState(false)
   const [scoreMsg, setScoreMsg] = useState('')
   const [runsUsed, setRunsUsed] = useState(0)
@@ -375,12 +387,44 @@ export default function DigestPage() {
   }
 
   async function loadJobs() {
-    const token = await getToken()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    if (res.ok) setJobs(await res.json())
-    setLoading(false)
+    try {
+      const token = await getToken()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setJobs(await res.json())
+      setJobsSynced(true)
+      setCacheState('none')
+    } catch {
+      // Keep whatever is on screen (cached list or empty); only flag it if cached.
+      setCacheState(s => (s === 'none' ? 'none' : 'failed'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Paint the last-seen list from the per-user cache, then revalidate.
+  async function initialLoad() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const userId = session?.user?.id ?? null
+      setCacheUserId(userId)
+      const cached = readCache<Job[]>('jobs', { userId, version: JOBS_CACHE_VERSION, maxAgeMs: JOBS_CACHE_MAX_AGE_MS })
+      if (Array.isArray(cached) && cached.length > 0) {
+        setJobs(cached)
+        setCacheState('updating')
+        setLoading(false)
+      }
+    } catch {
+      /* no session / no cache - skeleton path */
+    }
+    await loadJobs()
+  }
+
+  function retryRefresh() {
+    setCacheState('updating')
+    loadJobs()
   }
 
   async function loadStats() {
@@ -416,7 +460,13 @@ export default function DigestPage() {
     }
   }
 
-  useEffect(() => { loadJobs(); loadUser(); loadStats() }, [])
+  useEffect(() => { initialLoad(); loadUser(); loadStats() }, [])
+
+  // Persist the list only once it is live, so a failed refresh never re-stamps
+  // stale cached data as fresh. Also catches applied toggles and score reloads.
+  useEffect(() => {
+    if (jobsSynced) writeCache('jobs', jobs, { userId: cacheUserId, version: JOBS_CACHE_VERSION })
+  }, [jobsSynced, jobs, cacheUserId])
 
   useEffect(() => {
     const v = loadView()
@@ -568,6 +618,15 @@ export default function DigestPage() {
             </span>
           )}
           {!scoring && scoreMsg && <span className="text-sm text-muted">{scoreMsg}</span>}
+          {cacheState === 'updating' && (
+            <span className="text-xs text-subtle" aria-live="polite">Updating...</span>
+          )}
+          {cacheState === 'failed' && (
+            <span className="text-xs text-subtle" aria-live="polite">
+              Couldn&apos;t refresh - showing saved results.{' '}
+              <button onClick={retryRefresh} className="underline underline-offset-2 hover:text-foreground transition-colors">Retry</button>
+            </span>
+          )}
           {runsUsed >= 2 && (
             <span className="text-xs text-subtle" title="2 scoring runs per week. The limit resets at the start of the week (Monday).">
               Run limit reached - {resetWording(runLimitResetsOn)}

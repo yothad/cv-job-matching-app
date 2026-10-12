@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { clearSwrCache } from '@/lib/swrCache'
 import { ThemeToggle } from '@/app/components/ThemeToggle'
 
 const NAV_LINKS = [
@@ -30,6 +31,7 @@ export default function Nav() {
 
   async function handleSignOut() {
     await supabase.auth.signOut()
+    clearSwrCache()
     router.push('/landing')
   }
 

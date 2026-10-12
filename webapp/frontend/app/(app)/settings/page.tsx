@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AlertTriangle, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { clearSwrCache } from '@/lib/swrCache'
 import { ACCEPT_ATTR, extractUploadText } from '@/lib/uploadFormats'
 
 type Tab = 'profile' | 'cv' | 'filters' | 'apikey' | 'account'
@@ -455,6 +456,7 @@ export default function SettingsPage() {
   async function deleteAccount() {
     await api('/user/account', { method: 'DELETE' })
     await supabase.auth.signOut()
+    clearSwrCache()
     router.push('/')
   }
 

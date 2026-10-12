@@ -136,6 +136,22 @@ selects explicit columns so descriptions never bloat the list payload.
 - Filter by date scored
 - Search by company or title
 
+**Instant load (stale-while-revalidate cache):** Digest (`/jobs` list) and
+Positions (`/jobs/positions` list) paint the last-seen list from `localStorage`
+on mount, then refetch in the background (`webapp/frontend/lib/swrCache.ts`).
+- Key `cw:swr:<jobs|positions>:<supabase user id>`, value
+  `{ v, savedAt, userId, data }`. No session user id -> no cache read.
+- Discarded (and removed) on version mismatch, `userId` mismatch, age over the
+  ceiling (4 days = the longest gap between collection runs, Thu -> Mon), a
+  future `savedAt`, or unparseable JSON. Bump `JOBS_CACHE_VERSION` /
+  `POSITIONS_CACHE_VERSION` in the page whenever the row shape changes.
+- Cache hit: no skeleton, a quiet "Updating..." while the refetch runs; on
+  failure the cached list stays with "Couldn't refresh - ... Retry". Cold cache:
+  skeleton as before. Written only from live data, so a failed refresh never
+  re-stamps stale data as fresh. `/user/me` and `/jobs/stats` stay live-only.
+- All `cw:swr:` keys are cleared on sign-out (nav + delete account).
+- Node unit test: `node --test webapp/frontend/tests/swrCache.test.mjs`.
+
 ---
 
 ### 4b. Positions (`/positions`)
@@ -203,6 +219,7 @@ Tabs: **Profile** | **CV** | **Filters** | **API Key** | **Account**
 | `refresh_companies.py` | Every 2 weeks | GitHub Actions cron |
 | `collect_jobs.py` | Mon + Thu | GitHub Actions cron |
 | `score.py` | User-triggered | Web server (async job) |
+| Backend keep-warm (`GET /health`) | Every 10 min, 03:00-20:59 UTC | GitHub Actions cron (`keep-warm.yml`, repo variable `BACKEND_URL`; no-op while unset, never fails the run) |
 
 **Scoring rate limit:** 2 runs per user per week. Enforced server-side. Shown clearly in the UI.
 
