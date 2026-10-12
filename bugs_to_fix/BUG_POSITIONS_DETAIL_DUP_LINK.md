@@ -31,6 +31,7 @@ duplicate. Keep the button; drop the inline link from the description fallback
 - **Depends on:** —
 - **Blocks:** —
 - **Touches:** `webapp/frontend/app/(app)/positions/page.tsx`
+- **Night-ready:** 🌙 yes
 - **Spec files to update:** — (behavior unchanged; no spec owns this copy)
 
 ## Fix Notes

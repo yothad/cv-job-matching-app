@@ -49,5 +49,7 @@ Verify:
 
 All Tier 1 checks pass AND no Tier 2/3/4 regressions observed.
 
+Under `/night_run`, the orchestrator's exit gate + review agent replace this command; Omer runs `/qa_task` in the morning for the morning-QA items.
+
 On pass: print a QA summary and **STOP**. Do NOT invoke `/wrap_task`. The user must explicitly run `/wrap_task <slug>` to proceed.
 On fail: return to `/start_task` Phase B, fix, re-run QA. Only surface to the user if the failure needs their judgement.

@@ -173,6 +173,8 @@ First-time-user comprehension, digest trust, the job-seeker workspace, and the a
 |---|---|---|---|---|
 | [WEBAPP_COPY_POLISH](future_devs/WEBAPP_COPY_POLISH_SPEC.md) | Voice/clarity pass on onboarding + landing + help + profile.md notes (Fable) | `not-started` | S | — |
 | [WEBAPP_INSTANT_LOAD_SWR](future_devs/WEBAPP_INSTANT_LOAD_SWR_SPEC.md) | Instant load — SWR localStorage cache on Digest + Positions + keep-warm ping to kill Render cold start | `not-started` | S | — |
+| [WEBAPP_FIRST_LOGIN_JOURNEY](future_devs/WEBAPP_FIRST_LOGIN_JOURNEY_SPEC.md) | First-login journey - redirect new users to a short welcome + resumable guided setup (profile, CV, API key, filters) | `not-started` | S | - |
+| [WEBAPP_MULTI_PROFILE](future_devs/WEBAPP_MULTI_PROFILE_SPEC.md) | Multiple named profiles per user (own profile text, CV, filters, scores) with a profile switcher | `not-started` | L | WEBAPP_FIRST_LOGIN_JOURNEY |
 
 > Bug: [BUG_LANDING_DEAD_GITHUB_LINKS](bugs_to_fix/BUG_LANDING_DEAD_GITHUB_LINKS.md) — dead `href="#"` GitHub links on landing (filed in `bugs_to_fix/`).
 
@@ -346,6 +348,8 @@ regression. Build the golden set and the two metrics before touching the scorer 
 | `future_devs/archive/WEBAPP_ACCESSIBILITY_PASS_SPEC.md` | P7 — Accessibility pass (wrapped) |
 | `future_devs/WEBAPP_COPY_POLISH_SPEC.md` | P7 — Voice/clarity copy pass (onboarding, landing, help, profile.md) (Fable) |
 | `future_devs/WEBAPP_INSTANT_LOAD_SWR_SPEC.md` | P7 — Instant load: SWR localStorage cache (Digest + Positions) + keep-warm ping vs Render cold start |
+| `future_devs/WEBAPP_FIRST_LOGIN_JOURNEY_SPEC.md` | P7 - First-login journey: redirect to welcome + resumable guided setup |
+| `future_devs/WEBAPP_MULTI_PROFILE_SPEC.md` | P7 - Multiple named profiles per user (profile/CV/filters/scores per profile) |
 | `future_devs/archive/POSITION_LIVENESS_SPEC.md` | P8 — Position liveness (epic root, wrapped) |
 | `future_devs/archive/POSITION_LIVENESS_LIVE_SET_SPEC.md` | P8 — Persist live apply_url set from successful pulls (wrapped) |
 | `future_devs/archive/POSITION_LIVENESS_STATUS_DIFF_SPEC.md` | P8 — Status diff: scored jobs vs live set (wrapped) |

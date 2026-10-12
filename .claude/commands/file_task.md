@@ -48,6 +48,7 @@ P<0-3>
 - **Blocks:** <slug or —>
 - **Touches:** <file list>
 - **Spec files to update:** <spec list or —>
+- **Night-ready:** 🌙 yes | no — <reason>
 
 ## Fix Notes
 <!-- populated after fix -->
@@ -69,6 +70,7 @@ Then add a row to `bugs_to_fix/BUG_TRACKER.md`:
 | **Depends on** | — |
 | **Blocks** | — |
 | **Touches** | <file list> |
+| **Night-ready** | 🌙 yes / no — <reason> |
 
 ## Overview
 <what + why>
@@ -86,6 +88,14 @@ Then add a row to `bugs_to_fix/BUG_TRACKER.md`:
 ```
 
 Then add a row to the appropriate phase in `ROADMAP.md` and a line in the Spec Index.
+
+## Night-ready (🌙)
+
+Set `🌙 yes` only when an unattended `/night_run` can take the task from spec to a green exit gate alone:
+- The spec is unambiguous and every "How to QA" step is either automatable or explicitly a morning-QA check.
+- No human-only step: no Supabase SQL / schema change, no secrets or env vars, no scorer prompt/rubric/model/batch change (eval-gated), no login, no force push, no deleting data.
+- Depends on items are wrapped (or ship earlier in the same run).
+Otherwise write `no — <reason>`. Marking a task night-ready is a daytime, human-present decision; the night run never sets it.
 
 ## Severity guide (bugs)
 

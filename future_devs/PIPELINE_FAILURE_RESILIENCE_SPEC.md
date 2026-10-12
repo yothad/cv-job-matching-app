@@ -7,6 +7,7 @@
 | **Depends on** | — |
 | **Blocks** | — |
 | **Touches** | `collect_jobs.py`, `refresh_companies.py`, `score.py`, `companies.json` (state), `tests/` |
+| **Night-ready** | 🌙 yes |
 | **Model** | Fable (`claude-fable-5`) |
 
 ## Overview

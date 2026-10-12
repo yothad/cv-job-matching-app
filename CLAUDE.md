@@ -238,6 +238,7 @@ This project uses a lightweight task system modeled on the PowerME project. Read
 | `/wrap_task <slug>` | Archive a completed+QA'd task |
 | `/orchestrate_epic <slug>` | Execute all children of an epic in waves |
 | `/tasks_status` | Print a dashboard of all active work |
+| `/night_run [slugs]` | Unattended: run 🌙 night-ready tasks one after another on a `night/<date>` branch, morning report in `night_reports/` |
 
 ### Task lifecycle
 
@@ -248,6 +249,8 @@ not-started → in-progress (/start_task Phase A)
 ```
 
 **Rule: `/start_task` always stops at `completed`. Never auto-chains to QA or wrap. The user must explicitly run `/wrap_task <slug>` to land changes.**
+
+**Night runs** (`/night_run`) take 🌙 night-ready tasks to `completed` unattended on a `night/<date>` branch - never on `main`, which auto-deploys to Render. Omer merges the night branch and wraps in the morning. A task is night-ready only if `/file_task`'s 🌙 criteria hold.
 
 ### Exit gate (required before marking completed)
 

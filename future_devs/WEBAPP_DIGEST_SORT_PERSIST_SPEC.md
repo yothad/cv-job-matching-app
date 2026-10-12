@@ -7,6 +7,7 @@
 | **Depends on** | — |
 | **Blocks** | — |
 | **Touches** | `webapp/frontend/app/digest/page.tsx` |
+| **Night-ready** | 🌙 yes |
 
 ## Overview
 

@@ -39,6 +39,8 @@ e.g. `/start_task BUG_VIOLA_GETRO_DUPES` or `/start_task WEBAPP_AUTH`
 
 ## Rules
 
+- Exception: under `/night_run` the orchestrator drives the task end to end (dev → gate → review → `completed`) on the `night/<date>` branch; it still never wraps or touches `main`.
+
 - Never touch files outside the **Touches** list without updating the spec first
 - Never mark `completed` if the sanity checks fail
 - If scope expands during implementation, pause and update the spec before continuing

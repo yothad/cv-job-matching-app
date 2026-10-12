@@ -9,6 +9,7 @@
 | **Depends on** | — |
 | **Blocks** | — |
 | **Touches** | `webapp/frontend/app/(app)/digest/page.tsx`, `webapp/frontend/app/(app)/positions/page.tsx`, `webapp/frontend/lib/swrCache.ts` (new), `.github/workflows/keep-warm.yml` (new) |
+| **Night-ready** | 🌙 yes |
 | **Spec files to update** | `WEBAPP_SPEC.md` |
 
 ## Overview
