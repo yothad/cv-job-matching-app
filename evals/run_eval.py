@@ -38,13 +38,31 @@ DEFAULT_PROFILE = ROOT / "profiles" / "omer"
 # Allowed drop vs the baseline before --baseline fails. Written into the baseline
 # file so Omer can tune it there once pass@1 vs pass@3 shows the real noise floor.
 DEFAULT_TOLERANCE = {"band_accuracy": 0.05, "mae": 0.5, "hard_filter_recall": 0.0}
+# Max share of scorer-error results (over jobs x runs) before the run fails outright:
+# a dead model or key turns every job into scorer-error and would otherwise leave no
+# metrics to compare. Override with --max-error-share or tolerance.scorer_error_share.
+DEFAULT_MAX_ERROR_SHARE = 0.10
 # Metrics where a higher value is better; the rest (mae) are lower-is-better.
 HIGHER_IS_BETTER = {"band_accuracy", "hard_filter_recall"}
 
 
 def load_golden(path: Path) -> list[dict]:
+    """Read and validate the golden set; raises ValueError naming the bad line."""
+    items = []
     with open(path, encoding="utf-8") as f:
-        return [json.loads(line) for line in f if line.strip()]
+        for lineno, line in enumerate(f, start=1):
+            if not line.strip():
+                continue
+            where = f"{path.name} line {lineno}"
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError as e:
+                raise ValueError(f"{where}: invalid JSON ({e.msg})")
+            if not isinstance(item, dict):
+                raise ValueError(f"{where}: expected a JSON object")
+            metrics.parse_label(item.get("label_score"), item.get("label_band"), where)
+            items.append(item)
+    return items
 
 
 def _model_name() -> str:
@@ -132,11 +150,17 @@ def print_report(rep: dict) -> None:
 def compare_to_baseline(rep: dict, baseline: dict) -> list[str]:
     """Return a list of regression messages (empty = pass)."""
     tol = {**DEFAULT_TOLERANCE, **baseline.get("tolerance", {})}
+    tol.pop("scorer_error_share", None)  # not a metric - checked by check_error_share
     base = baseline["metrics"]
     problems = []
     for name, t in tol.items():
         old, new = base.get(name), rep.get(name)
-        if old is None or new is None:
+        if old is None:
+            continue
+        if new is None:
+            # the baseline measured it, this run could not - never a silent pass
+            print(f"  {name}: baseline {old:.3f} -> now n/a - REGRESSION")
+            problems.append(f"{name} {old:.3f} -> n/a")
             continue
         regressed = new < old - t if name in HIGHER_IS_BETTER else new > old + t
         status = "REGRESSION" if regressed else "ok"
@@ -144,6 +168,16 @@ def compare_to_baseline(rep: dict, baseline: dict) -> list[str]:
         if regressed:
             problems.append(f"{name} {old:.3f} -> {new:.3f}")
     return problems
+
+
+def check_error_share(rep: dict, max_share: float) -> str | None:
+    """Return a failure message if too many results were scorer-error, else None."""
+    total = rep["n_jobs"] * rep["runs"]
+    share = rep["scorer_errors"] / total if total else 0.0
+    if share > max_share:
+        return (f"{rep['scorer_errors']}/{total} results were scorer-error ({share:.0%} > {max_share:.0%}) - "
+                "the model or API key is likely broken; metrics are not trustworthy")
+    return None
 
 
 def _make_client():
@@ -168,6 +202,9 @@ def main(argv: list[str] | None = None, client=None) -> int:
                    help=f"compare to a baseline file and exit 1 on regression (default {DEFAULT_BASELINE}, env EVAL_BASELINE)")
     p.add_argument("--write-baseline", type=Path, nargs="?", const=DEFAULT_BASELINE,
                    help="write this run's metrics as the new baseline file")
+    p.add_argument("--max-error-share", type=float,
+                   help=f"fail if more than this share of results are scorer-error (default {DEFAULT_MAX_ERROR_SHARE}, "
+                        "or tolerance.scorer_error_share in the --baseline file)")
     args = p.parse_args(argv)
 
     if not args.golden.exists():
@@ -180,7 +217,11 @@ def main(argv: list[str] | None = None, client=None) -> int:
         print(f"Error: no profile.md in {args.profile}.", file=sys.stderr)
         return 2
 
-    golden = load_golden(args.golden)
+    try:
+        golden = load_golden(args.golden)
+    except ValueError as e:
+        print(f"Error: bad golden set - {e}", file=sys.stderr)
+        return 2
     print(f"Loaded {len(golden)} golden jobs from {args.golden}")
     if client is None:
         client = _make_client()
@@ -197,10 +238,19 @@ def main(argv: list[str] | None = None, client=None) -> int:
     rep = compute_report(golden, runs)
     print_report(rep)
 
+    baseline = json.loads(args.baseline.read_text(encoding="utf-8")) if args.baseline else {}
+    max_share = args.max_error_share
+    if max_share is None:
+        max_share = baseline.get("tolerance", {}).get("scorer_error_share", DEFAULT_MAX_ERROR_SHARE)
+    err = check_error_share(rep, max_share)
+    if err:
+        # also blocks --write-baseline from recording an all-error run
+        print(f"FAIL - {err}", file=sys.stderr)
+        return 1
+
     exit_code = 0
     if args.baseline:
         print(f"\nComparing to baseline {args.baseline}:")
-        baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
         problems = compare_to_baseline(rep, baseline)
         if problems:
             print(f"FAIL - regression beyond tolerance: {'; '.join(problems)}", file=sys.stderr)

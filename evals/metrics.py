@@ -25,6 +25,20 @@ def label_band(item: dict) -> str:
     return item.get("label_band") or band(int(item["label_score"]))
 
 
+def parse_label(raw_score, raw_band, where: str) -> tuple[int, str]:
+    """Validate a human label; raises ValueError naming `where` (a row or line)."""
+    raw = str(raw_score if raw_score is not None else "").strip()
+    try:
+        score = int(raw)
+        assert 0 <= score <= 10
+    except (ValueError, AssertionError):
+        raise ValueError(f"{where}: label_score must be an integer 0-10, got {raw!r}")
+    lb = str(raw_band or "").strip() or band(score)
+    if lb not in BANDS:
+        raise ValueError(f"{where}: label_band must be one of {BANDS}, got {lb!r}")
+    return score, lb
+
+
 def is_hard_filter(item: dict) -> bool:
     return any(f.strip().lower() in HARD_FILTER_FLAGS for f in item.get("label_flags") or [])
 

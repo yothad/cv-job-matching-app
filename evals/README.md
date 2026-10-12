@@ -11,7 +11,11 @@ and reports:
 - **Confusion table** (human band x Gemini band).
 - **pass@1 / pass@k / pass^k** with `--runs k` (any run / every run in the right band).
 
-`scorer-error` results are counted and excluded from every metric.
+`scorer-error` results are counted and excluded from every metric. If more than 10% of results
+(jobs x runs) are `scorer-error`, the run fails with exit 1 - a dead model or key must never
+look like a pass. Override with `--max-error-share 0.2` or `tolerance.scorer_error_share` in the
+baseline file. A metric the baseline has but this run could not compute (`n/a`) counts as a
+regression.
 
 ## Privacy
 

@@ -65,6 +65,9 @@ baseline default to the gitignored `evals/private/` instead of being committed (
 - `score_jobs_batch` returns `flags: ["scorer-error"]` (score 0) for a failed call or a
   malformed / missing item (per-item since PIPELINE_FAILURE_RESILIENCE). Count those
   separately and exclude them from band accuracy / MAE - they are infra noise, not scoring.
+  But the run fails (exit 1) when more than 10% of results are `scorer-error`
+  (`--max-error-share` / `tolerance.scorer_error_share`), and a baseline metric that comes
+  back `n/a` counts as a regression - a dead model must never make the gate pass.
 
 ### `evals/baseline.json`
 - The committed current-performance record: metric values, model name, prompt hash, date.

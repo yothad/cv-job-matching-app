@@ -100,14 +100,7 @@ def import_sheet(sheet: Path, out: Path, labelled_by: str) -> int:
             if not raw:
                 skipped += 1
                 continue
-            try:
-                score = int(raw)
-                assert 0 <= score <= 10
-            except (ValueError, AssertionError):
-                raise ValueError(f"row {lineno}: label_score must be an integer 0-10, got {raw!r}")
-            lb = (row.get("label_band") or "").strip() or metrics.band(score)
-            if lb not in metrics.BANDS:
-                raise ValueError(f"row {lineno}: label_band must be one of {metrics.BANDS}, got {lb!r}")
+            score, lb = metrics.parse_label(raw, row.get("label_band"), f"row {lineno}")
             flags = [x.strip() for x in (row.get("label_flags") or "").replace(";", ",").split(",") if x.strip()]
             items.append({
                 **{c: row.get(c, "") for c in JOB_COLS},

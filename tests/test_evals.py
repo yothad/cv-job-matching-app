@@ -131,13 +131,56 @@ def test_run_eval_baseline_then_regression(env, capsys):
 def test_scorer_errors_are_excluded(env):
     tmp, golden, profile, good = env
 
-    class Broken(FakeClient):
-        def generate_content(self, **kw):
-            raise RuntimeError("503 unavailable")
-
     runs = [run_eval.score_golden(run_eval.load_golden(golden), profile, Broken(good))]
     rep = run_eval.compute_report(run_eval.load_golden(golden), runs)
     assert rep["scorer_errors"] == 6 and rep["band_accuracy"] is None
+
+
+class Broken(FakeClient):
+    """Every Gemini call fails with a non-429 error (dead model / bad key)."""
+
+    def generate_content(self, **kw):
+        raise RuntimeError("404 model not found")
+
+
+def test_all_scorer_errors_fail_baseline(env, capsys):
+    tmp, golden, profile, good = env
+    base = tmp / "baseline.json"
+    assert run_eval.main(_args(golden, profile, "--write-baseline", str(base)), client=FakeClient(good)) == 0
+    capsys.readouterr()
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base)), client=Broken(good)) == 1
+    assert "scorer-error" in capsys.readouterr().err
+    # even with the error-share gate disabled, n/a metrics vs a measured baseline regress
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base), "--max-error-share", "1"),
+                         client=Broken(good)) == 1
+    assert "band_accuracy 1.000 -> n/a" in capsys.readouterr().err
+
+
+def test_error_share_threshold():
+    rep = {"n_jobs": 10, "runs": 2, "scorer_errors": 3}  # 15%
+    assert run_eval.check_error_share(rep, run_eval.DEFAULT_MAX_ERROR_SHARE) is not None
+    assert run_eval.check_error_share(rep, 0.2) is None
+    assert run_eval.check_error_share({**rep, "scorer_errors": 2}, 0.1) is None  # exactly 10% passes
+
+
+def test_error_share_from_baseline_tolerance(env, capsys):
+    tmp, golden, profile, good = env
+    base = tmp / "baseline.json"
+    base.write_text(json.dumps({"metrics": {}, "tolerance": {"scorer_error_share": 1.0}}), encoding="utf-8")
+    # tolerance raised to 100% and nothing measured in the baseline -> no failure
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base)), client=Broken(good)) == 0
+
+
+@pytest.mark.parametrize("item, msg", [
+    ({"title": "x"}, "line 2: label_score"),
+    ({"title": "x", "label_score": 5, "label_band": "5-7"}, "line 2: label_band"),
+])
+def test_bad_golden_line_is_named(tmp_path, capsys, item, msg):
+    golden = tmp_path / "g.jsonl"
+    golden.write_text(json.dumps({"label_score": 3}) + "\n" + json.dumps(item) + "\n", encoding="utf-8")
+    (tmp_path / "profile.md").write_text("profile", encoding="utf-8")
+    assert run_eval.main(["--golden", str(golden), "--profile", str(tmp_path)], client=object()) == 2
+    assert msg in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------------------
