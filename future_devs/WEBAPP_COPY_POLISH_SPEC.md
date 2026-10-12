@@ -1,7 +1,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P7 |
-| **Status** | `not-started` |
+| **Status** | `in-progress` |
 | **Effort** | S |
 | **Epic** | — |
 | **Depends on** | WEBAPP_FIRST_LOGIN_JOURNEY (both edit onboarding copy - polish the new flow, not the old one) |

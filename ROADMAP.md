@@ -171,7 +171,7 @@ First-time-user comprehension, digest trust, the job-seeker workspace, and the a
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [WEBAPP_COPY_POLISH](future_devs/WEBAPP_COPY_POLISH_SPEC.md) | Voice/clarity pass on onboarding + landing + help + profile.md notes (Fable) | `not-started` | S | — |
+| [WEBAPP_COPY_POLISH](future_devs/WEBAPP_COPY_POLISH_SPEC.md) | Voice/clarity pass on onboarding + landing + help + profile.md notes (Fable) | `in-progress` | S | — |
 | [WEBAPP_INSTANT_LOAD_SWR](future_devs/WEBAPP_INSTANT_LOAD_SWR_SPEC.md) | Instant load — SWR localStorage cache on Digest + Positions + keep-warm ping to kill Render cold start | `completed` | S | — |
 | [WEBAPP_FIRST_LOGIN_JOURNEY](future_devs/WEBAPP_FIRST_LOGIN_JOURNEY_SPEC.md) | First-login journey - redirect new users to a short welcome + resumable guided setup (profile, CV, API key, filters) | `completed` | S | - |
 | [WEBAPP_MULTI_PROFILE](future_devs/WEBAPP_MULTI_PROFILE_SPEC.md) | Multiple named profiles per user (own profile text, CV, filters, scores) with a profile switcher | `not-started` | L | WEBAPP_FIRST_LOGIN_JOURNEY |
