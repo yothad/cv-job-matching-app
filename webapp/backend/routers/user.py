@@ -4,7 +4,7 @@ from typing import List, Optional
 import os
 from datetime import datetime, timezone, date, timedelta
 from cryptography.fernet import Fernet
-from auth import require_user
+from auth import require_user, require_user_and_email
 from db.supabase_client import supabase
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -110,22 +110,35 @@ class ApiKeyUpdate(BaseModel):
     gemini_api_key: str
 
 
+def _save_user_fields(user_id: str, email: str | None, fields: dict) -> None:
+    """Update the users row; insert it only if none exists yet (onboarding may save first).
+
+    Not upsert: users.email is NOT NULL, and Postgres checks that on the proposed
+    insert row before ON CONFLICT, so an upsert without email fails even for existing users.
+    """
+    res = supabase.table("users").update(fields).eq("id", user_id).execute()
+    if getattr(res, "data", None):
+        return
+    if not email:
+        return  # no email from the verified session - cannot insert; keep the old no-op behaviour
+    supabase.table("users").insert({"id": user_id, "email": email, **fields}).execute()
+
+
 @router.patch("/profile")
 def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     current = getattr(supabase.table("users").select("profile_version").eq("id", user_id).maybe_single().execute(), "data", None)
     new_version = ((current or {}).get("profile_version") or 1) + 1
     now = datetime.now(timezone.utc).isoformat()
-    # upsert, not update: the onboarding wizard saves per step, possibly before the users row exists
-    supabase.table("users").upsert({"id": user_id, "profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).execute()
+    _save_user_fields(user_id, email, {"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now})
     return {"status": "ok", "profile_version": new_version, "profile_updated_at": now}
 
 
 @router.patch("/cv")
 def update_cv(body: CvUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").upsert({"id": user_id, "cv_text": body.cv_text, "cv_updated_at": now}).execute()
+    _save_user_fields(user_id, email, {"cv_text": body.cv_text, "cv_updated_at": now})
     return {"status": "ok", "cv_updated_at": now}
 
 
@@ -148,11 +161,11 @@ def update_filters(body: FiltersUpdate, authorization: str = Header(...)):
 
 @router.patch("/apikey")
 def update_apikey(body: ApiKeyUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     fernet_key = os.environ.get("FERNET_KEY", "")
     f = Fernet(fernet_key.encode())
     encrypted = f.encrypt(body.gemini_api_key.encode()).decode()
-    supabase.table("users").upsert({"id": user_id, "gemini_api_key_encrypted": encrypted}).execute()
+    _save_user_fields(user_id, email, {"gemini_api_key_encrypted": encrypted})
     return {"status": "ok"}
 
 
