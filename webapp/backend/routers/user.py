@@ -34,16 +34,28 @@ def setup_user(body: SetupRequest, authorization: str = Header(...)):
     }).execute()
 
     filters = body.filters
-    supabase.table("score_configs").upsert({
-        "user_id": user_id,
+    _save_filters(user_id, {
         "location_terms": filters.get("location_terms", []),
         "skip_title_terms": filters.get("skip_title_terms", []),
         "keep_title_terms": filters.get("keep_title_terms", []),
         "skip_companies": filters.get("skip_companies", []),
         "skip_industries": filters.get("skip_industries", []),
-    }, on_conflict="user_id").execute()
+    })
 
     return {"status": "ok"}
+
+
+def _save_filters(user_id: str, fields: dict) -> None:
+    """Update the user's score_configs row; insert it if there is none yet.
+
+    Not upsert: score_configs.user_id has no unique constraint, so
+    on_conflict="user_id" fails (42P10) and nothing was ever saved.
+    """
+    fields = {**fields, "updated_at": datetime.now(timezone.utc).isoformat()}
+    res = supabase.table("score_configs").update(fields).eq("user_id", user_id).execute()
+    if getattr(res, "data", None):
+        return
+    supabase.table("score_configs").insert({"user_id": user_id, **fields}).execute()
 
 
 def derive_setup(row: dict, filters_seen: bool) -> dict:
@@ -152,10 +164,7 @@ def get_filters(authorization: str = Header(...)):
 @router.patch("/filters")
 def update_filters(body: FiltersUpdate, authorization: str = Header(...)):
     user_id = require_user(authorization)
-    supabase.table("score_configs").upsert({
-        "user_id": user_id,
-        **body.model_dump(),
-    }, on_conflict="user_id").execute()
+    _save_filters(user_id, body.model_dump())
     return {"status": "ok"}
 
 

@@ -112,3 +112,25 @@ def test_profile_save_existing_user_updates_only(monkeypatch):
     monkeypatch.setattr(user, "require_user_and_email", lambda auth: ("user-1", "me@example.com"))
     d = user.update_profile(user.ProfileUpdate(profile_md="# me"), authorization="Bearer good")
     assert [c[0] for c in users.calls] == ["update"] and d["profile_version"] == 2
+
+
+def _save_filters(monkeypatch, existing):
+    configs = _RecordingUsers(existing)
+    monkeypatch.setattr(user, "supabase", types.SimpleNamespace(table=lambda name: configs))
+    monkeypatch.setattr(user, "require_user", lambda auth: "user-1")
+    user.update_filters(user.FiltersUpdate(location_terms=["israel"]), authorization="Bearer good")
+    return configs.calls
+
+
+def test_filters_save_updates_existing_row(monkeypatch):
+    calls = _save_filters(monkeypatch, [{"user_id": "user-1"}])
+    assert [c[0] for c in calls] == ["update"]
+    assert calls[0][1]["location_terms"] == ["israel"]
+
+
+def test_filters_first_save_inserts_row(monkeypatch):
+    # Regression: upsert(on_conflict="user_id") failed with 42P10 (no unique
+    # constraint on score_configs.user_id), so filters were never stored.
+    calls = _save_filters(monkeypatch, [])
+    assert [c[0] for c in calls] == ["update", "insert"]
+    assert calls[1][1]["user_id"] == "user-1" and calls[1][1]["location_terms"] == ["israel"]
