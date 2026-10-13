@@ -16,19 +16,6 @@
     "closed_at": "2026-10-12"
   },
   {
-    "company": "Native",
-    "title": "Senior Security Researcher",
-    "location": "Tel Aviv",
-    "apply_url": "https://www.comeet.com/jobs/native/5A.00A/senior-security-researcher/FF.26C",
-    "source_vc": "YL Ventures",
-    "score": 9,
-    "reasoning": "This role is an excellent fit, aligning perfectly with the candidate's cloud security expertise, production-first approach, and technical leadership aspirations at a Tier 1 cyber security company in a preferred location.",
-    "flags": [],
-    "scored_at": "2026-05-05",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Grip Security",
     "title": "R&D Team Lead",
     "location": "Tel Aviv, Israel",
@@ -45,54 +32,6 @@
     "closed_at": "2026-10-12"
   },
   {
-    "company": "Orca Security",
-    "title": "Security Researcher",
-    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
-    "apply_url": "https://orca.security/about/careers/5797515004?gh_jid=5797515004",
-    "source_vc": "YL Ventures",
-    "score": 8,
-    "reasoning": "This is a strong applied security research role at a top-tier cloud security company, perfectly matching the candidate's adversarial ML and production experience, though without an explicit management or team lead title.",
-    "flags": [
-      "lead-path-implied",
-      "title-laundering"
-    ],
-    "scored_at": "2026-05-06",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Orca Security",
-    "title": "Senior Security Researcher",
-    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
-    "apply_url": "https://orca.security/about/careers/5798960004?gh_jid=5798960004",
-    "source_vc": "YL Ventures",
-    "score": 9,
-    "reasoning": "The role offers lead responsibilities in cloud security detection at a Tier 1 VC-backed unicorn, perfectly matching the candidate's adversarial ML and technical leadership experience.",
-    "flags": [
-      "title-laundering"
-    ],
-    "scored_at": "2026-05-06",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Hunters",
-    "title": "Security Researcher",
-    "location": "Israel",
-    "apply_url": "https://www.comeet.com/jobs/hunters/67.007/security-researcher/7F.563",
-    "source_vc": "Bessemer",
-    "score": 6,
-    "reasoning": "The role offers a strong domain fit in cybersecurity leveraging LLMs as a tool, but the 'Security Researcher' title suggests an individual contributor role without the desired leadership or management path.",
-    "flags": [
-      "IC-role",
-      "no-lead-path",
-      "DS-vs-Researcher"
-    ],
-    "scored_at": "2026-05-07",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Axonius",
     "title": "Senior Data Infra Engineer",
     "location": "Tel Aviv, Israel",
@@ -107,24 +46,6 @@
     ],
     "scored_at": "2026-05-08",
     "status": "open"
-  },
-  {
-    "company": "Wiz",
-    "title": "AI Research Scientist",
-    "location": "Tel Aviv",
-    "apply_url": "https://www.wiz.io/careers/job/4663539006/:title?gh_jid=4663539006",
-    "source_vc": "a16z",
-    "score": 5,
-    "reasoning": "The role at Wiz is in the target domain and location, but its strong emphasis on novel LLM/transformer research and publications aligns with the candidate's 'weak fit' preferences for pure research or LLM craft roles.",
-    "flags": [
-      "llm-not-security",
-      "pure-research-focus",
-      "publications-gap",
-      "lead-path-implied"
-    ],
-    "scored_at": "2026-05-08",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Wiz",
@@ -260,22 +181,6 @@
     ],
     "scored_at": "2026-05-12",
     "status": "open"
-  },
-  {
-    "company": "Cato Networks",
-    "title": "Network & Security Researcher",
-    "location": "Tel Aviv District, Israel",
-    "apply_url": "https://www.catonetworks.com/careers/careers-post/4672344101?gh_jid=4672344101",
-    "source_vc": null,
-    "score": 7,
-    "reasoning": "This role offers a strong technical and domain fit in applying ML for network security research with production implications, but it is not a lead position.",
-    "flags": [
-      "not-lead",
-      "applied-research"
-    ],
-    "scored_at": "2026-05-12",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Cato Networks",
@@ -494,22 +399,6 @@
     "status": "open"
   },
   {
-    "company": "Cyera",
-    "title": "Data Scientist",
-    "location": "Tel Aviv",
-    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/data-scientist/6A.668",
-    "source_vc": "Cyberstarts",
-    "score": 9,
-    "reasoning": "Excellent domain in AI/Data Security at a Tier 1 company, with responsibilities for end-to-end ML model production, leadership in DS workflows, and using LLMs as a tool, aligning perfectly with a lead-path Senior DS role.",
-    "flags": [
-      "lead-path-implied",
-      "title-laundering-possible"
-    ],
-    "scored_at": "2026-05-12",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Tamnoon",
     "title": "Team Lead, Remediation",
     "location": "",
@@ -524,22 +413,6 @@
     "applied": true,
     "status": "closed",
     "closed_at": "2026-10-12"
-  },
-  {
-    "company": "Thetaray",
-    "title": "Automation and performance Team Leader",
-    "location": "Israel, Hod HaSharon",
-    "apply_url": "https://www.comeet.com/jobs/thetaray/72.00F/automation-and-performance-team-leader/E1.661",
-    "source_vc": "JVP",
-    "score": 6,
-    "reasoning": "While a Team Lead role in a strong fintech fraud domain and good location, the primary focus on QA automation, performance testing, and CI/CD for AI platforms is a weak fit for a production Data Scientist whose craft is not heavy infrastructure or MLOps.",
-    "flags": [
-      "wrong-craft",
-      "qa-automation-lead"
-    ],
-    "scored_at": "2026-05-12",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Alice",
@@ -776,93 +649,6 @@
     "status": "open"
   },
   {
-    "company": "Monday",
-    "title": "AI Engineering Tech Lead (Core Engineering)",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/ai-engineering-tech-lead-core-engineering/8A.052",
-    "source_vc": "whatsapp",
-    "score": 5,
-    "reasoning": "The \"Tech Lead\" title is a strong fit for the candidate's career goals, but the company's domain is general productivity AI, likely an LLM-centric product role which is a weak fit.",
-    "flags": [
-      "tech-lead",
-      "llm-as-product-unclear",
-      "wrong-domain"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Engineering Team Lead - monday Service",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/engineering-team-lead---monday-service/1B.D5A",
-    "source_vc": "whatsapp",
-    "score": 6,
-    "reasoning": "This \"Engineering Team Lead\" role offers excellent management responsibility and lead title at a large company in a good location, but the core focus is on building AI agent products outside the candidate's preferred security/fraud domain.",
-    "flags": [
-      "engineering-lead",
-      "llm-as-product",
-      "wrong-domain",
-      "management-fit"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Engineering Team Lead - Payments",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/engineering-team-lead---payments/B3.A44",
-    "source_vc": "whatsapp",
-    "score": 9,
-    "reasoning": "This \"Engineering Team Lead\" role perfectly aligns with the candidate's expertise in fintech fraud and payments risk, offers substantial team leadership, and is at a large company in a good location.",
-    "flags": [
-      "engineering-lead",
-      "payments-fraud",
-      "strong-domain-fit",
-      "management-fit"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Engineering Team Lead -Enterprise Core",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/engineering-team-lead--enterprise-core/2F.362",
-    "source_vc": "whatsapp",
-    "score": 8,
-    "reasoning": "This \"Engineering Team Lead\" role offers strong management responsibility and is in a highly relevant enterprise security and governance domain at a large company, closely matching the candidate's cloud security expertise.",
-    "flags": [
-      "engineering-lead",
-      "enterprise-security",
-      "strong-domain-fit",
-      "management-fit"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Full Stack Data Scientist (DevEx Internal AI)",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/full-stack-data-scientist-devex-internal-ai/0F.E5C",
-    "source_vc": "whatsapp",
-    "score": 5,
-    "reasoning": "While a senior production DS role at a large company, the domain of internal DevEx AI is not Omer's specialized adversarial domain, and it focuses heavily on generative AI.",
-    "flags": [
-      "wrong-domain",
-      "llm-focus-not-security"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Cognyte",
     "title": "AI Applications Team Leader",
     "location": "Israel, Herzliya",
@@ -965,23 +751,6 @@
   },
   {
     "company": "Cardinalops",
-    "title": "Team Lead Data Scientist",
-    "location": "Tel Aviv-Yafo, Israel",
-    "apply_url": "https://boards.greenhouse.io/pagayais/jobs/7589574003",
-    "source_vc": "Viola",
-    "score": 6,
-    "reasoning": "The Team Lead title and Tel Aviv location are strong fits, but the lack of a job description prevents confirming domain alignment and specific team management responsibilities.",
-    "flags": [
-      "description-missing",
-      "domain-unclear",
-      "management-gap"
-    ],
-    "scored_at": "2026-05-14",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Cardinalops",
     "title": "Principal Data Scientist",
     "location": "Tel Aviv District, Israel, Tel Aviv-Yafo, Israel",
     "apply_url": "https://il.linkedin.com/jobs/view/principal-data-scientist-at-pagaya-4413971924",
@@ -993,36 +762,6 @@
     ],
     "scored_at": "2026-05-17",
     "applied": true,
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Engineering Team Lead",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/engineering-team-lead/72.B62",
-    "source_vc": "whatsapp",
-    "score": 5,
-    "reasoning": "A leadership role in a strong company and location, but the focus on 'Engineering Team Lead' for a 'marketing engine' suggests a primary craft mismatch from core production ML Data Science.",
-    "flags": [
-      "wrong-craft",
-      "infra-focus",
-      "management-gap"
-    ],
-    "scored_at": "2026-05-17",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Claroty",
-    "title": "Vulnerability Research Team Lead",
-    "location": "Israel",
-    "apply_url": "https://claroty.teamme.link/jobs/94.A63",
-    "source_vc": "Bessemer",
-    "score": 9,
-    "reasoning": "This Team Lead role is an excellent fit, aligning with the candidate's leadership aspirations and deep adversarial ML experience in cloud security.",
-    "flags": [],
-    "scored_at": "2026-05-17",
     "status": "closed",
     "closed_at": "2026-07-06"
   },
@@ -1039,22 +778,6 @@
     ],
     "scored_at": "2026-05-17",
     "status": "open"
-  },
-  {
-    "company": "Varonis",
-    "title": "Senior Machine Learning Engineer (MLE)",
-    "location": "Israel",
-    "apply_url": "https://jobs.jobvite.com/varonis/job/oLtQzfwn",
-    "source_vc": null,
-    "score": 6,
-    "reasoning": "Despite the strong title and relevant domain, the empty job description prevents a full assessment of production ML ownership or lead opportunities.",
-    "flags": [
-      "job-description-missing",
-      "location-unclear"
-    ],
-    "scored_at": "2026-05-17",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Intuit Israel",
@@ -1104,35 +827,6 @@
     "closed_at": "2026-07-06"
   },
   {
-    "company": "PayPal Israel",
-    "title": "Sr Machine Learning Scientist",
-    "location": "Tel Aviv, Tel Aviv District, Israel",
-    "apply_url": "https://paypal.eightfold.ai/careers/job/274918502425",
-    "source_vc": null,
-    "score": 8,
-    "reasoning": "This role is a strong senior production ML position with explicit end-to-end ownership and deployment responsibilities, perfectly matching Omer's core skills and experience at a large, relevant company.",
-    "flags": [],
-    "scored_at": "2026-05-17",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Google Israel",
-    "title": "Staff Data Scientist, GenAI and Agentic SOC",
-    "location": "Ramat Gan, Israel; Tel Aviv, Israel",
-    "apply_url": "https://www.google.com/about/careers/applications/jobs/results/110451722916111046",
-    "source_vc": null,
-    "score": 9,
-    "reasoning": "This Staff Data Scientist role at Google strongly aligns with Omer's technical leadership, production ML expertise, and adversarial domain experience, focusing on applied AI in cybersecurity within a preferred large company and location.",
-    "flags": [
-      "lead-path-explicit",
-      "experience-gap-minor"
-    ],
-    "scored_at": "2026-05-17",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Unframe",
     "title": "Applied AI Engineer",
     "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
@@ -1145,24 +839,6 @@
     ],
     "scored_at": "2026-05-17",
     "applied": true,
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Orchid Security",
-    "title": "Senior AI Engineer",
-    "location": "Tel- Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/orchid_security/4A.001/senior-ai-engineer/53.359",
-    "source_vc": null,
-    "score": 8,
-    "reasoning": "This Senior AI Engineer role is in the strong-fit cybersecurity domain, involves architectural ownership of agentic systems for identity risk, and uses LLMs as a tool to serve the product, aligning well with the candidate's applied production ML expertise.",
-    "flags": [
-      "cyber-domain",
-      "llm-as-tool",
-      "lead-path-implied",
-      "e2e-ownership"
-    ],
-    "scored_at": "2026-06-01",
     "status": "closed",
     "closed_at": "2026-07-06"
   },
@@ -1216,37 +892,6 @@
     "status": "open"
   },
   {
-    "company": "JFrog",
-    "title": "R&D Team Lead -JFrog Security",
-    "location": "Tel Aviv/ Netanya, Israel",
-    "apply_url": "https://join.jfrog.com/job/?job=7920898&gh_jid=7920898",
-    "source_vc": null,
-    "score": 9,
-    "reasoning": "This is a strong R&D Team Lead role in cybersecurity, perfectly aligning with the candidate's desire for leadership in production ML within an adversarial domain and within his commute radius.",
-    "flags": [
-      "people-management-context"
-    ],
-    "scored_at": "2026-06-07",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
-    "company": "Monday",
-    "title": "Engineering Team Lead - Sidekick Group",
-    "location": "Tel-Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/monday/41.00B/engineering-team-lead---sidekick-group/C4.062",
-    "source_vc": "whatsapp",
-    "score": 5,
-    "reasoning": "While a Team Lead role in AI at a good company and location, the focus on leading full-stack engineers with a non-matching tech stack makes it a weaker fit for the candidate's specialized ML engineering craft.",
-    "flags": [
-      "craft-mismatch",
-      "stack-mismatch"
-    ],
-    "scored_at": "2026-06-07",
-    "status": "closed",
-    "closed_at": "2026-07-06"
-  },
-  {
     "company": "Ironscales",
     "title": "SW Development Team Lead- Inspection & Detection",
     "location": "Tel Aviv, Israel",
@@ -1288,23 +933,6 @@
     ],
     "scored_at": "2026-06-07",
     "status": "open"
-  },
-  {
-    "company": "Kiva Systems (Amazon Robotics since 2012)",
-    "title": "Applied scientist, Agentic AI, AWS Agentic AI",
-    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
-    "apply_url": "https://www.amazon.jobs/en/jobs/10430758/applied-scientist-agentic-ai-aws-agentic-ai",
-    "source_vc": "Bain Capital Ventures",
-    "score": 5,
-    "reasoning": "The role leans heavily into advanced research in agentic AI, RL, and multimodal models with an emphasis on publishing, which is a weaker fit for Omer's production-first, specialized ML background.",
-    "flags": [
-      "pure-research-component",
-      "llm-specialist-focus",
-      "skill-mismatch"
-    ],
-    "scored_at": "2026-06-07",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Kiva Systems (Amazon Robotics since 2012)",
@@ -1369,22 +997,6 @@
     ],
     "scored_at": "2026-06-07",
     "status": "open"
-  },
-  {
-    "company": "Kiva Systems (Amazon Robotics since 2012)",
-    "title": "Applied scientist, Agentic AI, AWS Agentic AI",
-    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
-    "apply_url": "https://www.amazon.jobs/en/jobs/3196112/applied-scientist-agentic-ai-aws-agentic-ai",
-    "source_vc": "Bain Capital Ventures",
-    "score": 5,
-    "reasoning": "Despite being at a top company with a good location, the role's primary focus on pure LLM/Agentic AI development is a weaker fit for the candidate's specialization.",
-    "flags": [
-      "pure-llm-product",
-      "research-component"
-    ],
-    "scored_at": "2026-06-07",
-    "status": "closed",
-    "closed_at": "2026-07-06"
   },
   {
     "company": "Menteebot",
@@ -2155,7 +1767,8 @@
     ],
     "scored_at": "2026-10-13",
     "first_seen": "2026-10-13",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-13"
   },
   {
     "company": "Microsoft Israel",
@@ -2168,7 +1781,8 @@
     "flags": [],
     "scored_at": "2026-10-13",
     "first_seen": "2026-10-13",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-13"
   },
   {
     "company": "Nominal",

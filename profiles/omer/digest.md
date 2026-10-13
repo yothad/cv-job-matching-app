@@ -24,14 +24,6 @@
 **Score:** 9/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-13
 **Reasoning:** AI Engineer role at a top-tier cyber security startup backed by YL Ventures, perfectly aligning with candidate's adversarial security background. `lead-path-implied`
 
-### **Microsoft Israel** - [Principal Security Research - Microsoft Defender ( Identity Threat Detection and Response)](https://apply.careers.microsoft.com/careers/job/1970393556942197)
-**Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Southern, Beer-Sheva, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Herzliya, Israel, Haifa, Haifa, Israel, Northern, Nazareth | **Applied:** 0 | **First seen:** 2026-10-13
-**Reasoning:** Principal security research role at Microsoft Defender in Israel combining deep security expertise, generative AI workflows, and technical leadership matching the candidate's profile. `lead-path-implied`
-
-### **Microsoft Israel** - [Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)](https://apply.careers.microsoft.com/careers/job/1970393556959639)
-**Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth | **Applied:** 0 | **First seen:** 2026-10-13
-**Reasoning:** Senior Security Researcher position at Microsoft Defender in Israel focusing on cloud, identity, and AI threat scenarios with direct paths to production-ready protection.
-
 ### **Zenity** - [Senior Applied AI Scientist](https://www.comeet.com/jobs/zenity/19.000/senior-applied-ai-scientist/7B.D66)
 **Score:** 8/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-13
 **Reasoning:** Senior Applied AI Scientist role at Zenity in Tel Aviv focusing on AI agent security, classical ML, and deep learning models for detection in an adversarial domain.
@@ -404,7 +396,15 @@
 **Score:** 5/10 | **Location:** Tel Aviv | **Applied:** 0
 **Reasoning:** The role is at a top-tier cyber security company in a perfect location with a senior title implying technical leadership, but the core focus on pure LLM R&D and AI agents is explicitly a weak fit for the candidate's desired role where LLMs are a tool, not the product. `llm-heavy` `lead-path-implied`
 
-## Recently closed (58)
+## Recently closed (36)
+
+### **Microsoft Israel** - [~~Principal Security Research - Microsoft Defender ( Identity Threat Detection and Response)~~](https://apply.careers.microsoft.com/careers/job/1970393556942197) (closed 2026-10-13)
+**Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Southern, Beer-Sheva, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Herzliya, Israel, Haifa, Haifa, Israel, Northern, Nazareth
+**Reasoning:** Principal security research role at Microsoft Defender in Israel combining deep security expertise, generative AI workflows, and technical leadership matching the candidate's profile. `lead-path-implied`
+
+### **Microsoft Israel** - [~~Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)~~](https://apply.careers.microsoft.com/careers/job/1970393556959639) (closed 2026-10-13)
+**Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth
+**Reasoning:** Senior Security Researcher position at Microsoft Defender in Israel focusing on cloud, identity, and AI threat scenarios with direct paths to production-ready protection.
 
 ### **Melio** - [~~Senior Data Scientist ~~](https://job-boards.greenhouse.io/melio/jobs/7765818003) (closed 2026-10-12)
 **Score:** 10/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel
@@ -518,12 +518,4 @@
 **Score:** 6/10 | **Location:** Tel Aviv, Israel
 **Reasoning:** Strong domain, location, and VC tier, with applied AI security research translating into product capabilities, but lacks explicit seniority and is not a direct Data Scientist role. `researcher-title` `no-explicit-seniority` `no-explicit-lead-path`
 
-### **Tenzai** - [~~Application Security Researcher~~](https://www.comeet.com/jobs/tenzai/1B.002/application-security-researcher/69.86D) (closed 2026-10-12)
-**Score:** 6/10 | **Location:** Tel Aviv, Israel
-**Reasoning:** The role is in a strong cyber security domain with an AI component and adversarial context, but focuses more on offensive security research and improving AI agents than building end-to-end ML detection systems. `cyber-security` `research-focus` `offensive-security-ai`
-
-### **SentinelOne** - [~~Engineering Manager - Windows Endpoint~~](https://www.sentinelone.com/jobs/7712720003?gh_jid=7712720003) (closed 2026-10-12)
-**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel
-**Reasoning:** The role of Engineering Manager for Windows Endpoint development focuses on C++/OS internals, which is a significant technical mismatch for Omer's specialized ML/Data Science engineering background, despite his strong general management experience and SentinelOne being a target company. `engineering-domain-mismatch`
-
-*(+28 older closed hidden)*
+*(+6 older closed hidden)*
