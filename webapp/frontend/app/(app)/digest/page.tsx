@@ -671,7 +671,7 @@ export default function DigestPage() {
     .sort(compareJobs(sortBy))
   // Jobs outside the saved Settings filters (e.g. scored before a location filter
   // was set) stay hidden unless asked for. Applied ones always show.
-  const hiddenByFilters = filtered.filter(j => j.outside_filters && !j.applied && j.status !== 'closed').length
+  const hiddenByFilters = filtered.filter(j => j.outside_filters && !j.applied).length
   const visible = showOutside ? filtered : filtered.filter(j => !j.outside_filters || j.applied)
 
   // Below-5 scores fall outside every band (bandFor would lump them into 5-6).
