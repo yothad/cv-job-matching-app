@@ -1,6 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Header
 from pydantic import BaseModel
 from pathlib import Path
+import hmac
 import os
 import sys
 import uuid
@@ -14,6 +15,8 @@ from db.supabase_client import supabase
 router = APIRouter(prefix="/score", tags=["scoring"])
 
 FERNET_KEY = os.environ.get("FERNET_KEY", "")
+# Shared with CI (GitHub secret of the same name) for POST /score/auto.
+AUTO_SCORE_SECRET = os.environ.get("AUTO_SCORE_SECRET", "")
 
 
 def _decrypt_key(encrypted: str) -> str:
@@ -28,13 +31,15 @@ RUN_CAP = int(os.environ.get("SCORE_RUN_CAP", "200"))
 # A "running" run that hasn't written progress for this long died with its
 # process (e.g. a Render restart) - treat it as interrupted, never as busy.
 STALE_AFTER = timedelta(minutes=10)
+# Ceiling on chained auto runs per user per collection (AUTO_MAX_RUNS x RUN_CAP jobs).
+AUTO_MAX_RUNS = int(os.environ.get("AUTO_SCORE_MAX_RUNS", "5"))
 IN_CHUNK = 50  # urls per PostgREST in.() filter (~84 chars each) - keeps the URL well under gateway limits
 
 
 class ScoreRequest(BaseModel):
     # "new": score newly collected jobs. "rescore": re-score jobs that were
     # saved without a description now that the catalog has one.
-    mode: Literal["new", "rescore"] = "new"
+    mode: Literal["new", "rescore"] = "new"  # "auto" runs are started by CI only
 
 
 def _now() -> str:
@@ -126,6 +131,41 @@ def _reset_if_new_week(user: dict) -> dict:
     return user
 
 
+def _new_pending(user_id: str, all_jobs: list[dict]) -> list[dict]:
+    """Catalog jobs this user hasn't scored yet that pass their filters."""
+    config_row = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute(), "data", None) or {}
+
+    scored_urls = _scored_urls(user_id)
+
+    location_terms = [t.lower() for t in (config_row.get("location_terms") or [])]
+    skip_title = [t.lower() for t in (config_row.get("skip_title_terms") or [])]
+    keep_title = [t.lower() for t in (config_row.get("keep_title_terms") or [])]
+    skip_companies = [c.lower() for c in (config_row.get("skip_companies") or [])]
+    skip_industries = [i.lower() for i in (config_row.get("skip_industries") or [])]
+
+    pending = []
+    for job in all_jobs:
+        url = job.get("apply_url", "")
+        if url in scored_urls:
+            continue
+        title_lower = (job.get("title") or "").lower()
+        loc_lower = (job.get("location") or "").lower()
+        company_lower = (job.get("company") or "").lower()
+        desc_lower = (job.get("description") or "").lower()
+        if location_terms and not any(t in loc_lower for t in location_terms):
+            continue
+        if any(t in title_lower for t in skip_title):
+            continue
+        if keep_title and not any(t in title_lower for t in keep_title):
+            continue
+        if any(c in company_lower for c in skip_companies):
+            continue
+        if any(i in desc_lower or i in company_lower for i in skip_industries):
+            continue
+        pending.append(job)
+    return pending
+
+
 @router.get("/status")
 def score_status(authorization: str = Header(...)):
     """Latest run's progress (polled by the digest) plus how many jobs can be
@@ -184,46 +224,26 @@ def trigger_score(
         if not pending:
             return {"started": False, "message": "No jobs need re-scoring"}
     else:
-        config_row = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute(), "data", None) or {}
-
         # Jobs come from the shared positions catalog the pipeline syncs to
         # Supabase. new_jobs.json is gitignored and never exists on Render.
         all_jobs = fetch_positions(with_description=True)
         if not all_jobs:
             raise HTTPException(status_code=503, detail="The jobs catalog is empty right now - try again after the next collection run")
-
-        scored_urls = _scored_urls(user_id)
-
-        location_terms = [t.lower() for t in (config_row.get("location_terms") or [])]
-        skip_title = [t.lower() for t in (config_row.get("skip_title_terms") or [])]
-        keep_title = [t.lower() for t in (config_row.get("keep_title_terms") or [])]
-        skip_companies = [c.lower() for c in (config_row.get("skip_companies") or [])]
-        skip_industries = [i.lower() for i in (config_row.get("skip_industries") or [])]
-
-        pending = []
-        for job in all_jobs:
-            url = job.get("apply_url", "")
-            if url in scored_urls:
-                continue
-            title_lower = (job.get("title") or "").lower()
-            loc_lower = (job.get("location") or "").lower()
-            company_lower = (job.get("company") or "").lower()
-            desc_lower = (job.get("description") or "").lower()
-            if location_terms and not any(t in loc_lower for t in location_terms):
-                continue
-            if any(t in title_lower for t in skip_title):
-                continue
-            if keep_title and not any(t in title_lower for t in keep_title):
-                continue
-            if any(c in company_lower for c in skip_companies):
-                continue
-            if any(i in desc_lower or i in company_lower for i in skip_industries):
-                continue
-            pending.append(job)
-
+        pending = _new_pending(user_id, all_jobs)
         if not pending:
             return {"started": False, "message": "No new jobs to score"}
 
+    run, pending = _new_run(mode, pending)
+    _save_run(user_id, run)
+    background_tasks.add_task(
+        _run_scoring, user_id, run, pending, profile_md, cv_text,
+        gemini_key, user_row.get("profile_version") or 1, user_row["scoring_runs_this_week"],
+    )
+    return {"started": True, "run": run}
+
+
+def _new_run(mode: str, pending: list[dict]) -> tuple[dict, list[dict]]:
+    """A fresh run record plus the capped job list it covers."""
     remaining = max(0, len(pending) - RUN_CAP)
     pending = pending[:RUN_CAP]
     run = {
@@ -232,12 +252,57 @@ def trigger_score(
         "error": None, "warning": None,
         "started_at": _now(), "updated_at": _now(), "finished_at": None,
     }
-    _save_run(user_id, run)
-    background_tasks.add_task(
-        _run_scoring, user_id, run, pending, profile_md, cv_text,
-        gemini_key, user_row.get("profile_version") or 1, user_row["scoring_runs_this_week"],
-    )
-    return {"started": True, "run": run}
+    return run, pending
+
+
+@router.post("/auto", status_code=202)
+def auto_score(background_tasks: BackgroundTasks, x_cron_secret: str = Header("")):
+    """Called by CI after each collection: score new catalog jobs for every
+    user with a saved key + profile, using their own key. Doesn't touch the
+    weekly limit. All work happens in the background; returns at once."""
+    if not AUTO_SCORE_SECRET or not hmac.compare_digest(x_cron_secret, AUTO_SCORE_SECRET):
+        raise HTTPException(status_code=403, detail="Forbidden")
+    background_tasks.add_task(_run_auto)
+    return {"accepted": True}
+
+
+def _run_auto() -> None:
+    users = supabase.table("users").select("*").execute().data or []
+    users = [u for u in users if u.get("profile_md") and u.get("gemini_api_key_encrypted")]
+    if not users:
+        print("auto-score: no users with a key and profile")
+        return
+    all_jobs = fetch_positions(with_description=True)
+    if not all_jobs:
+        print("auto-score: catalog empty - skipping")
+        return
+    for user in users:
+        user_id = user["id"]
+        try:
+            current = _effective_run(user.get("score_run"))
+            if current and current.get("status") == "running":
+                continue  # the user started one themselves
+            gemini_key = _decrypt_key(user["gemini_api_key_encrypted"])
+            # Chain capped runs until the backlog is clear, a run comes up
+            # short (quota / failures - retried next collection), or the
+            # per-collection ceiling is hit.
+            for _ in range(AUTO_MAX_RUNS):
+                pending = _new_pending(user_id, all_jobs)
+                if not pending:
+                    break
+                # Users go one after another; each run is marked running only
+                # when its turn starts, so the queue never looks stale.
+                run, pending = _new_run("auto", pending)
+                _save_run(user_id, run)
+                _run_scoring(
+                    user_id, run, pending, user["profile_md"], user.get("cv_text") or "",
+                    gemini_key, user.get("profile_version") or 1, user.get("scoring_runs_this_week") or 0,
+                )
+                print(f"auto-score: user {user_id[:8]} {run['status']} {run['scored']}/{run['total']}")
+                if run["status"] != "done" or run["scored"] < run["total"] or not run["remaining"]:
+                    break
+        except Exception as e:
+            print(f"auto-score: user {user_id[:8]} skipped - {type(e).__name__}")
 
 
 def _scorer(gemini_key: str):
@@ -327,10 +392,11 @@ def _score_pending(
         _save_run(user_id, run)
         return  # nothing scored - don't consume a weekly run
 
-    # A weekly run is used when a "new" run clears the backlog; capped runs
+    # A weekly run is used when a user-started "new" run clears the backlog
+    # (rescore and CI-started auto runs are free); capped runs
     # (remaining > 0) and runs that stopped early (quota / failed batch) can be
     # continued for free.
-    if not rescore and run["remaining"] == 0 and not stopped_early:
+    if run["mode"] == "new" and run["remaining"] == 0 and not stopped_early:
         supabase.table("users").update({"scoring_runs_this_week": runs_used + 1}).eq("id", user_id).execute()
     run["status"] = "done"
     if errors:

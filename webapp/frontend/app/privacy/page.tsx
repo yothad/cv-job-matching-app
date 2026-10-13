@@ -32,7 +32,7 @@ export default function PrivacyPage() {
             <p>
               Your CV and API key are used only to score job listings on your behalf and to
               run the gap analysis on the Gaps page. Your CV and profile are sent to the Gemini
-              API (using your own key) during scoring runs and when you open the Gaps page.
+              API (using your own key) during scoring runs - including the automatic one after each Monday and Thursday collection - and when you open the Gaps page.
               We do not sell, share, or otherwise transfer your data to any third party
               beyond the Gemini API calls you explicitly trigger.
             </p>

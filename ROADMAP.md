@@ -105,6 +105,7 @@ All Phase P2 tasks are wrapped. See `ROADMAP_ARCHIVE.md`.
 | [WEBAPP_POSITIONS_DETAIL_DESCRIPTION](future_devs/WEBAPP_POSITIONS_DETAIL_DESCRIPTION_SPEC.md) | Positions detail: show real job description (add `description` to shared catalog + sync + endpoint) | `not-started` | S | WEBAPP_POSITIONS_CATALOG_SYNC |
 | [WEBAPP_SCORE_NOW_BACKGROUND](future_devs/WEBAPP_SCORE_NOW_BACKGROUND_SPEC.md) | Score now runs in the background with progress + per-run cap | `completed` | M | — |
 | [WEBAPP_RESCORE_MISSING_DESCRIPTIONS](future_devs/WEBAPP_RESCORE_MISSING_DESCRIPTIONS_SPEC.md) | Re-score jobs that were scored without a job description | `completed` | S | WEBAPP_SCORE_NOW_BACKGROUND |
+| [WEBAPP_AUTO_SCORE_AFTER_COLLECT](future_devs/WEBAPP_AUTO_SCORE_AFTER_COLLECT_SPEC.md) | Auto-score after each collection, auto-continue capped runs, push pipeline scores to the webapp | `completed` | M | WEBAPP_SCORE_NOW_BACKGROUND ✅ |
 
 ---
 
@@ -270,6 +271,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Spec | Domain |
 |---|---|
+| `future_devs/WEBAPP_AUTO_SCORE_AFTER_COLLECT_SPEC.md` | P5 - auto-score after collect, auto-continue, pipeline score push |
 | `future_devs/WEBAPP_SCORE_NOW_BACKGROUND_SPEC.md` | P5 - background Score now, progress, run cap |
 | `future_devs/WEBAPP_RESCORE_MISSING_DESCRIPTIONS_SPEC.md` | P5 - re-score jobs scored without a description |
 | `future_devs/archive/WEBAPP_SUPABASE_SETUP_GUIDE_SPEC.md` | P2 post-launch — Supabase setup guide (wrapped) |

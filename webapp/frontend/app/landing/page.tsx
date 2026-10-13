@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/app/components/ThemeToggle'
 const FAQ_ITEMS = [
   {
     q: 'How often are jobs updated?',
-    a: 'New postings are pulled straight from each company\'s ATS twice a week, on Monday and Thursday mornings (UTC). Each fresh batch is scored on your next scoring run, which you can start from your digest up to twice a week.',
+    a: 'New postings are pulled straight from each company\'s ATS twice a week, on Monday and Thursday mornings (UTC). Each fresh batch is then scored automatically with your key, and you can also start a scoring run from your digest up to twice a week.',
   },
   {
     q: 'Which companies are tracked?',

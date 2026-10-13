@@ -70,6 +70,10 @@ also what the webapp's "Score now" endpoint reads. It then reconciles liveness o
 every user's Supabase `scored_jobs` from live_positions.json (same rule as score.py:
 close only if the company pulled OK and the URL is gone; reopen if it's back).
 A Supabase outage must never block scoring.
+After score.py, two more `continue-on-error` side steps feed the webapp:
+`scripts/push_scores_to_webapp.py` copies the pipeline's scores into the webapp accounts mapped in
+the `WEBAPP_PROFILE_USERS` secret, then a curl to the backend's `POST /score/auto`
+(secret `AUTO_SCORE_SECRET`, also set on Render) scores new jobs for every user with a saved key.
 
 ## Two sources of companies
 

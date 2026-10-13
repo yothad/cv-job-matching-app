@@ -162,3 +162,65 @@ def test_rescore_candidates_join_catalog_descriptions(monkeypatch):
                     "positions": [{"apply_url": "https://x/1", "description": "JD"}]})
     monkeypatch.setattr(scoring, "supabase", db)
     assert scoring._rescore_candidates("user-1") == [{"apply_url": "https://x/1", "description": "JD"}]
+
+
+def test_auto_endpoint_requires_the_shared_secret(monkeypatch):
+    import pytest
+    from fastapi import BackgroundTasks, HTTPException
+    monkeypatch.setattr(scoring, "AUTO_SCORE_SECRET", "s3cret")
+    with pytest.raises(HTTPException) as e:
+        scoring.auto_score(BackgroundTasks(), x_cron_secret="wrong")
+    assert e.value.status_code == 403
+    monkeypatch.setattr(scoring, "AUTO_SCORE_SECRET", "")
+    with pytest.raises(HTTPException):
+        scoring.auto_score(BackgroundTasks(), x_cron_secret="")
+    monkeypatch.setattr(scoring, "AUTO_SCORE_SECRET", "s3cret")
+    tasks = BackgroundTasks()
+    assert scoring.auto_score(tasks, x_cron_secret="s3cret") == {"accepted": True}
+    assert len(tasks.tasks) == 1
+
+
+def _auto(monkeypatch, users, pending_batches, results=lambda i, b: _ok(b)):
+    db = _DB(reads={"users": users})
+    monkeypatch.setattr(scoring, "supabase", db)
+    monkeypatch.setattr(scoring, "BATCH_SIZE", 2)
+    monkeypatch.setattr(scoring, "RUN_CAP", 2)
+    monkeypatch.setattr(scoring, "fetch_positions", lambda **k: _jobs(1))
+    monkeypatch.setattr(scoring, "_decrypt_key", lambda enc: "key")
+    calls = {"n": 0}
+
+    def score(batch, *a):
+        calls["n"] += 1
+        return results(calls["n"] - 1, batch)
+
+    monkeypatch.setattr(scoring, "_scorer", lambda key: (score, _Quota, object()))
+    queue = list(pending_batches)
+    monkeypatch.setattr(scoring, "_new_pending", lambda uid, jobs: queue.pop(0) if queue else [])
+    scoring._run_auto()
+    return db
+
+
+def test_auto_chains_capped_runs_and_never_charges(monkeypatch):
+    user = {"id": "user-1", "profile_md": "# me", "gemini_api_key_encrypted": "enc"}
+    db = _auto(monkeypatch, [user], [_jobs(5), _jobs(3), _jobs(1)])
+    finals = [r for r in db.runs if r.get("finished_at")]
+    assert [r["mode"] for r in finals] == ["auto"] * 3
+    assert [r["scored"] for r in finals] == [2, 2, 1]
+    assert db.user_updates == []
+
+
+def test_auto_stops_chaining_when_a_run_comes_up_short(monkeypatch):
+    user = {"id": "user-1", "profile_md": "# me", "gemini_api_key_encrypted": "enc"}
+    db = _auto(monkeypatch, [user], [_jobs(5), _jobs(5)], results=lambda i, b: _err(b))
+    assert len([r for r in db.runs if r.get("finished_at")]) == 1
+
+
+def test_auto_skips_users_without_profile_or_with_a_running_run(monkeypatch):
+    fresh = datetime.now(timezone.utc).isoformat()
+    users = [
+        {"id": "no-profile", "profile_md": "", "gemini_api_key_encrypted": "enc"},
+        {"id": "busy", "profile_md": "# me", "gemini_api_key_encrypted": "enc",
+         "score_run": {"status": "running", "updated_at": fresh}},
+    ]
+    db = _auto(monkeypatch, users, [_jobs(2)])
+    assert db.runs == [] and db.upserts == []

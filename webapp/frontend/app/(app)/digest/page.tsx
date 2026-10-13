@@ -39,7 +39,7 @@ function ScoreNowHelp() {
             <span className="font-medium text-foreground">Score now</span> scores newly collected jobs against your profile using your Gemini key.
           </p>
           <p className="text-muted">
-            It runs in the background - you can leave this page and come back. Each run scores up to 200 jobs; if more are waiting, press Score now again to continue.
+            It runs in the background - you can leave this page and come back. Jobs are scored 200 at a time, and the next batch starts by itself while this page is open. New jobs are also scored automatically after each Monday and Thursday collection.
           </p>
           <p className="text-muted">
             Limited to 2 runs per week, counted when a run finishes all waiting jobs. The limit resets Monday.
@@ -510,7 +510,7 @@ export default function DigestPage() {
 
   type ScoreRun = {
     status: 'running' | 'done' | 'failed'
-    mode: 'new' | 'rescore'
+    mode: 'new' | 'rescore' | 'auto'
     total: number
     scored: number
     remaining?: number
@@ -520,7 +520,7 @@ export default function DigestPage() {
 
   function finishedMessage(run: ScoreRun) {
     if (run.status === 'failed') return run.error ?? 'Scoring failed'
-    const noun = run.mode === 'rescore' ? 're-scored' : 'scored'
+    const noun = run.mode === 'rescore' ? 're-scored' : run.mode === 'auto' ? 'scored automatically' : 'scored'
     let msg = `${run.scored} of ${run.total} jobs ${noun}`
     if (run.remaining) msg += ` - ${run.remaining} more waiting, press Score now to continue`
     if (run.warning) msg += ` - ${run.warning}`
@@ -551,6 +551,14 @@ export default function DigestPage() {
       }
       if (watchingRun.current && run) {
         watchingRun.current = false
+        // A clean run that stopped at the per-run cap: start the next batch
+        // straight away instead of asking for another click. Auto runs are
+        // chained on the server.
+        if (run.status === 'done' && run.remaining && run.scored === run.total && run.mode !== 'auto') {
+          loadJobs()
+          triggerScoring(run.mode)
+          return
+        }
         setScoreMsg(finishedMessage(run))
         await loadJobs()
         await loadUser()

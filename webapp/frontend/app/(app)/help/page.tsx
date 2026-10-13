@@ -13,7 +13,7 @@ const sections = [
     heading: 'How it works',
     content: [
       'CareerWatch pulls new postings straight from the ATS of each tracked Israeli cyber, fraud and fintech company. When you run a scoring pass, Gemini reads every new posting next to your CV and profile and produces a ranked digest.',
-      'Three stages, three cadences: the company list is refreshed weekly (new companies discovered, stale entries re-verified), jobs are collected twice a week (Monday and Thursday), and scoring runs when you click "Score now", up to twice a week. Your Digest always shows the latest scored batch.',
+      'Three stages, three cadences: the company list is refreshed weekly (new companies discovered, stale entries re-verified), jobs are collected twice a week (Monday and Thursday), and new jobs are scored automatically right after each collection. You can also click "Score now", up to twice a week. Your Digest always shows the latest scored batch.',
     ],
   },
   {
@@ -37,8 +37,8 @@ const sections = [
     id: 'cadence',
     heading: 'Collection cadence and run limits',
     content: [
-      'Jobs are collected twice a week, on Monday and Thursday mornings (UTC). Scoring runs up to twice a week per user, which keeps the load on your free Gemini quota small. So a fresh digest can trail the very newest postings by a few days.',
-      'Collection runs on our side; there is nothing for you to trigger. Scoring is yours to start: open your Digest and click "Score now" after a collection to score what is new.',
+      'Jobs are collected twice a week, on Monday and Thursday mornings (UTC). New jobs are scored automatically right after each collection, so your digest catches up shortly after. Scoring only ever touches jobs you have not scored yet, which keeps the load on your free Gemini quota small.',
+      'Collection runs on our side; there is nothing for you to trigger. Scoring starts by itself after each collection, using your saved Gemini key. You can also click "Score now" on your Digest at any time (up to twice a week) to score what is new.',
     ],
   },
   {

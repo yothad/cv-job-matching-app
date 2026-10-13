@@ -43,6 +43,28 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: uv run python score.py
 
+      - name: Push pipeline scores to the webapp
+        # Mapped profiles (secret WEBAPP_PROFILE_USERS) get the pipeline's scores
+        # in their webapp digest, so auto-score below skips them. Side output.
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          WEBAPP_PROFILE_USERS: ${{ secrets.WEBAPP_PROFILE_USERS }}
+        run: uv run python scripts/push_scores_to_webapp.py
+
+      - name: Auto-score new jobs for webapp users
+        # The backend scores in the background with each user's own key; this
+        # only kicks it off. Retries cover a cold-starting Render instance.
+        continue-on-error: true
+        env:
+          AUTO_SCORE_SECRET: ${{ secrets.AUTO_SCORE_SECRET }}
+        run: |
+          if [ -z "$AUTO_SCORE_SECRET" ]; then echo "AUTO_SCORE_SECRET not set - skipping"; exit 0; fi
+          curl -fsS --retry 4 --retry-delay 30 --retry-all-errors --max-time 90 \
+            -X POST https://careerwatch-api.onrender.com/score/auto \
+            -H "X-Cron-Secret: $AUTO_SCORE_SECRET"
+
       - name: Commit updated outputs
         run: |
           git config user.name "github-actions[bot]"
