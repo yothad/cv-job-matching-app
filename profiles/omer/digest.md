@@ -40,10 +40,6 @@
 **Score:** 8/10 | **Location:** TLV Office, Israel | **Applied:** 0 | **First seen:** 2026-10-13
 **Reasoning:** Senior Applied AI Engineer role with strong end-to-end model ownership, production focus, and relevant tech stack in Tel Aviv. `lead-path-implied`
 
-### **Microsoft Israel** - [Senior AI Engineer - MSC AI Innovation](https://apply.careers.microsoft.com/careers/job/1970393556997721)
-**Score:** 7/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva | **Applied:** 0 | **First seen:** 2026-10-13
-**Reasoning:** Strong applied AI engineering role at Microsoft Israel with full end-to-end ownership, Python stack, and production LLM agent deployment within the commute radius. `lead-path-implied`
-
 ### **Grove Ventures Portfolio (Getro)** - [Senior AI Researcher](https://www.comeet.com/jobs/alice/D5.005/senior-ai-researcher/79.37C)
 **Score:** 7/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-13
 **Reasoning:** Senior AI researcher role in the local Grove Ventures portfolio with strong technical alignment. `location-unclear`
@@ -396,7 +392,7 @@
 **Score:** 5/10 | **Location:** Tel Aviv | **Applied:** 0
 **Reasoning:** The role is at a top-tier cyber security company in a perfect location with a senior title implying technical leadership, but the core focus on pure LLM R&D and AI agents is explicitly a weak fit for the candidate's desired role where LLMs are a tool, not the product. `llm-heavy` `lead-path-implied`
 
-## Recently closed (36)
+## Recently closed (37)
 
 ### **Microsoft Israel** - [~~Principal Security Research - Microsoft Defender ( Identity Threat Detection and Response)~~](https://apply.careers.microsoft.com/careers/job/1970393556942197) (closed 2026-10-13)
 **Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Southern, Beer-Sheva, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Herzliya, Israel, Haifa, Haifa, Israel, Northern, Nazareth
@@ -405,6 +401,10 @@
 ### **Microsoft Israel** - [~~Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)~~](https://apply.careers.microsoft.com/careers/job/1970393556959639) (closed 2026-10-13)
 **Score:** 8/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth
 **Reasoning:** Senior Security Researcher position at Microsoft Defender in Israel focusing on cloud, identity, and AI threat scenarios with direct paths to production-ready protection.
+
+### **Microsoft Israel** - [~~Senior AI Engineer - MSC AI Innovation~~](https://apply.careers.microsoft.com/careers/job/1970393556997721) (closed 2026-10-13)
+**Score:** 7/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva
+**Reasoning:** Strong applied AI engineering role at Microsoft Israel with full end-to-end ownership, Python stack, and production LLM agent deployment within the commute radius. `lead-path-implied`
 
 ### **Melio** - [~~Senior Data Scientist ~~](https://job-boards.greenhouse.io/melio/jobs/7765818003) (closed 2026-10-12)
 **Score:** 10/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel
@@ -514,8 +514,4 @@
 **Score:** 6/10 | **Location:** Israel, Multiple Locations, Multiple Locations
 **Reasoning:** Good company and security domain with applied AI, but the role appears more focused on deep security research and low-level system knowledge for detections rather than end-to-end ML model development. `location-unclear` `not-core-ml`
 
-### **Onyx Security** - [~~AI Researcher~~](https://www.comeet.com/jobs/onyxsecurity/BA.005/ai-researcher/8C.56A) (closed 2026-10-12)
-**Score:** 6/10 | **Location:** Tel Aviv, Israel
-**Reasoning:** Strong domain, location, and VC tier, with applied AI security research translating into product capabilities, but lacks explicit seniority and is not a direct Data Scientist role. `researcher-title` `no-explicit-seniority` `no-explicit-lead-path`
-
-*(+6 older closed hidden)*
+*(+7 older closed hidden)*
