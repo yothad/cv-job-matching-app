@@ -39,7 +39,10 @@ function ScoreNowHelp() {
             <span className="font-medium text-foreground">Score now</span> scores newly collected jobs against your profile using your Gemini key.
           </p>
           <p className="text-muted">
-            Limited to 2 runs per week. The limit resets Monday.
+            It runs in the background - you can leave this page and come back. Each run scores up to 200 jobs; if more are waiting, press Score now again to continue.
+          </p>
+          <p className="text-muted">
+            Limited to 2 runs per week, counted when a run finishes all waiting jobs. The limit resets Monday.
           </p>
         </div>
       )}
@@ -353,6 +356,12 @@ export default function DigestPage() {
   const [jobsSynced, setJobsSynced] = useState(false)
   const [scoring, setScoring] = useState(false)
   const [scoreMsg, setScoreMsg] = useState('')
+  const [scoreProgress, setScoreProgress] = useState<{ scored: number; total: number } | null>(null)
+  const [rescoreAvailable, setRescoreAvailable] = useState(0)
+  // True once this tab has seen a run in progress, so a finished run from an
+  // earlier visit never re-announces its result on page load.
+  const watchingRun = useRef(false)
+  const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [runsUsed, setRunsUsed] = useState(0)
   const [runLimitResetsOn, setRunLimitResetsOn] = useState<string | null>(null)
   const [currentProfileVersion, setCurrentProfileVersion] = useState(1)
@@ -496,28 +505,99 @@ export default function DigestPage() {
     if (viewLoaded) saveView({ minScore, titleFilter, companyFilter, locationFilter, sortBy })
   }, [viewLoaded, minScore, titleFilter, companyFilter, locationFilter, sortBy])
 
-  async function triggerScoring() {
+  type ScoreRun = {
+    status: 'running' | 'done' | 'failed'
+    mode: 'new' | 'rescore'
+    total: number
+    scored: number
+    remaining?: number
+    error?: string | null
+    warning?: string | null
+  }
+
+  function finishedMessage(run: ScoreRun) {
+    if (run.status === 'failed') return run.error ?? 'Scoring failed'
+    const noun = run.mode === 'rescore' ? 're-scored' : 'scored'
+    let msg = `${run.scored} of ${run.total} jobs ${noun}`
+    if (run.remaining) msg += ` - ${run.remaining} more waiting, press Score now to continue`
+    if (run.warning) msg += ` - ${run.warning}`
+    return msg
+  }
+
+  // Scoring runs in the background on the server; poll its progress every 3s,
+  // refreshing the list as batches land.
+  async function pollScoreStatus(tick = 0) {
+    if (pollTimer.current) clearTimeout(pollTimer.current)
+    try {
+      const token = await getToken()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/score/status`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data: { run: ScoreRun | null; rescore_available?: number } = await res.json()
+      setRescoreAvailable(data.rescore_available ?? 0)
+      const run = data.run
+      if (run?.status === 'running') {
+        watchingRun.current = true
+        setScoring(true)
+        setScoreProgress({ scored: run.scored, total: run.total })
+        if (tick > 0 && tick % 5 === 0) loadJobs()
+        pollTimer.current = setTimeout(() => pollScoreStatus(tick + 1), 3000)
+        return
+      }
+      if (watchingRun.current && run) {
+        watchingRun.current = false
+        setScoreMsg(finishedMessage(run))
+        await loadJobs()
+        await loadUser()
+        await loadStats()
+      }
+    } catch {
+      if (watchingRun.current) {
+        // Transient network blip while a run is going - keep polling.
+        pollTimer.current = setTimeout(() => pollScoreStatus(tick + 1), 5000)
+        return
+      }
+    }
+    setScoring(false)
+    setScoreProgress(null)
+  }
+
+  useEffect(() => {
+    pollScoreStatus()
+    return () => { if (pollTimer.current) clearTimeout(pollTimer.current) }
+  }, [])
+
+  async function triggerScoring(mode: 'new' | 'rescore' = 'new') {
     setScoring(true)
     setScoreMsg('')
+    setScoreProgress(null)
     try {
       const token = await getToken()
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/score/`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode }),
       })
       const data = await res.json().catch(() => ({}))
-      if (res.ok) {
-        const base = data.message ?? `Scored ${data.scored ?? 0} new jobs`
-        setScoreMsg(data.warning ? `${base} - ${data.warning}` : base)
-      } else {
-        setScoreMsg(typeof data.detail === 'string' ? data.detail : `Scoring failed (HTTP ${res.status})`)
+      if (res.ok && data.started) {
+        watchingRun.current = true
+        setScoreProgress({ scored: 0, total: data.run?.total ?? 0 })
+        pollTimer.current = setTimeout(() => pollScoreStatus(1), 3000)
+        return
       }
+      if (res.status === 409) {
+        // Already running (e.g. started in another tab) - just follow it.
+        watchingRun.current = true
+        pollScoreStatus(1)
+        return
+      }
+      setScoreMsg(res.ok
+        ? (data.message ?? 'Nothing to score')
+        : (typeof data.detail === 'string' ? data.detail : `Scoring failed (HTTP ${res.status})`))
     } catch {
       setScoreMsg('Could not reach the server - please try again in a minute')
     }
-    await loadJobs()
-    await loadUser()
-    await loadStats()
     setScoring(false)
   }
 
@@ -633,10 +713,23 @@ export default function DigestPage() {
           {scoring && (
             <span className="flex items-center gap-2 text-sm text-muted">
               <span className="w-3 h-3 rounded-full border-2 border-border-subtle border-t-accent animate-spin inline-block" />
-              Scoring your jobs...
+              <span aria-live="polite">
+                {scoreProgress && scoreProgress.total > 0
+                  ? `Scoring ${scoreProgress.scored} of ${scoreProgress.total}...`
+                  : 'Scoring your jobs...'}
+              </span>
             </span>
           )}
           {!scoring && scoreMsg && <span className="text-sm text-muted">{scoreMsg}</span>}
+          {!scoring && rescoreAvailable > 0 && (
+            <button
+              onClick={() => triggerScoring('rescore')}
+              className="text-xs text-subtle underline underline-offset-2 hover:text-foreground transition-colors"
+              title="These jobs were scored before their full job description was available. Re-scoring reads the description too. It doesn't count toward your weekly runs."
+            >
+              Re-score {rescoreAvailable} with full descriptions
+            </button>
+          )}
           {cacheState === 'updating' && (
             <span className="text-xs text-subtle" aria-live="polite">Updating...</span>
           )}
@@ -653,7 +746,7 @@ export default function DigestPage() {
           )}
           <ScoreNowHelp />
           <button
-            onClick={triggerScoring}
+            onClick={() => triggerScoring('new')}
             disabled={scoring || runsUsed >= 2}
             title={
               runsUsed >= 2

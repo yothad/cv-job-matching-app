@@ -103,6 +103,8 @@ All Phase P2 tasks are wrapped. See `ROADMAP_ARCHIVE.md`.
 | [WEBAPP_COUNTUP_ANIMATION](future_devs/archive/WEBAPP_COUNTUP_ANIMATION_SPEC.md) | Count-up animation on Companies + Positions page load | `wrapped` | XS | — |
 | [POSITION_FIRST_SEEN](future_devs/archive/POSITION_FIRST_SEEN_SPEC.md) | Stamp first_seen date on each position — persist across daily runs, show in digest + webapp cards | `wrapped` | S | — || [WEBAPP_POSITIONS_CATALOG_SYNC](future_devs/WEBAPP_POSITIONS_CATALOG_SYNC_SPEC.md) | Shared `positions` catalog auto-synced from pipeline — Positions page shows the full market to every user, not per-user scored_jobs | `in-progress` | S | WEBAPP_POSITIONS_VIEW ✅ |
 | [WEBAPP_POSITIONS_DETAIL_DESCRIPTION](future_devs/WEBAPP_POSITIONS_DETAIL_DESCRIPTION_SPEC.md) | Positions detail: show real job description (add `description` to shared catalog + sync + endpoint) | `not-started` | S | WEBAPP_POSITIONS_CATALOG_SYNC |
+| [WEBAPP_SCORE_NOW_BACKGROUND](future_devs/WEBAPP_SCORE_NOW_BACKGROUND_SPEC.md) | Score now runs in the background with progress + per-run cap | `completed` | M | — |
+| [WEBAPP_RESCORE_MISSING_DESCRIPTIONS](future_devs/WEBAPP_RESCORE_MISSING_DESCRIPTIONS_SPEC.md) | Re-score jobs that were scored without a job description | `completed` | S | WEBAPP_SCORE_NOW_BACKGROUND |
 
 ---
 
@@ -268,6 +270,8 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Spec | Domain |
 |---|---|
+| `future_devs/WEBAPP_SCORE_NOW_BACKGROUND_SPEC.md` | P5 - background Score now, progress, run cap |
+| `future_devs/WEBAPP_RESCORE_MISSING_DESCRIPTIONS_SPEC.md` | P5 - re-score jobs scored without a description |
 | `future_devs/archive/WEBAPP_SUPABASE_SETUP_GUIDE_SPEC.md` | P2 post-launch — Supabase setup guide (wrapped) |
 | `future_devs/WEBAPP_PDF_CV_UPLOAD_SPEC.md` | P2 post-launch — PDF CV upload in onboarding |
 | `future_devs/WEBAPP_OLD_PROFILE_BADGE_SPEC.md` | P2 post-launch — "Scored with old profile" badge |
