@@ -37,6 +37,8 @@ this task's actual work.
 flags are `dealbreaker-location` / `non-ds`. Because the repo is public, the golden set, sheet and
 baseline default to the gitignored `evals/private/` instead of being committed (overrides the
 "Committed to the repo" lines below). Remaining here: label, record the baseline, CI gate, docs.
+Exit codes: 0 pass, 1 gate failed (regression or more than 10% scorer errors), 2 bad input (empty
+golden set, `--runs` < 1, missing key, malformed or unmeasured baseline). A failed run never writes a baseline.
 
 ## Behaviour
 

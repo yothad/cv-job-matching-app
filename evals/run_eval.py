@@ -170,6 +170,23 @@ def compare_to_baseline(rep: dict, baseline: dict) -> list[str]:
     return problems
 
 
+def load_baseline(path: Path) -> dict:
+    """Read a baseline; raise ValueError unless it holds a measured band_accuracy and every gated metric key."""
+    try:
+        baseline = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise ValueError(f"not valid JSON ({e})") from e
+    m = baseline.get("metrics") if isinstance(baseline, dict) else None
+    if not isinstance(m, dict):
+        raise ValueError("no 'metrics' object")
+    missing = [k for k in DEFAULT_TOLERANCE if k not in m]
+    if missing:
+        raise ValueError(f"metrics missing {', '.join(missing)}")
+    if m["band_accuracy"] is None:
+        raise ValueError("band_accuracy is null - the baseline measured nothing")
+    return baseline
+
+
 def check_error_share(rep: dict, max_share: float) -> str | None:
     """Return a failure message if too many results were scorer-error, else None."""
     total = rep["n_jobs"] * rep["runs"]
@@ -186,7 +203,7 @@ def _make_client():
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         print("Error: GEMINI_API_KEY not set.", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(2)
     from google import genai
     return genai.Client(api_key=api_key)
 
@@ -206,6 +223,9 @@ def main(argv: list[str] | None = None, client=None) -> int:
                    help=f"fail if more than this share of results are scorer-error (default {DEFAULT_MAX_ERROR_SHARE}, "
                         "or tolerance.scorer_error_share in the --baseline file)")
     args = p.parse_args(argv)
+    if args.runs < 1:
+        print("Error: --runs must be at least 1.", file=sys.stderr)
+        return 2
 
     if not args.golden.exists():
         print(f"Error: golden set not found at {args.golden}. Label one first - see evals/README.md.", file=sys.stderr)
@@ -216,11 +236,21 @@ def main(argv: list[str] | None = None, client=None) -> int:
     if not (args.profile / "profile.md").exists():
         print(f"Error: no profile.md in {args.profile}.", file=sys.stderr)
         return 2
+    baseline = {}
+    if args.baseline:
+        try:
+            baseline = load_baseline(args.baseline)
+        except ValueError as e:
+            print(f"Error: bad baseline {args.baseline} - {e}", file=sys.stderr)
+            return 2
 
     try:
         golden = load_golden(args.golden)
     except ValueError as e:
         print(f"Error: bad golden set - {e}", file=sys.stderr)
+        return 2
+    if not golden:
+        print(f"Error: golden set {args.golden} is empty.", file=sys.stderr)
         return 2
     print(f"Loaded {len(golden)} golden jobs from {args.golden}")
     if client is None:
@@ -238,7 +268,6 @@ def main(argv: list[str] | None = None, client=None) -> int:
     rep = compute_report(golden, runs)
     print_report(rep)
 
-    baseline = json.loads(args.baseline.read_text(encoding="utf-8")) if args.baseline else {}
     max_share = args.max_error_share
     if max_share is None:
         max_share = baseline.get("tolerance", {}).get("scorer_error_share", DEFAULT_MAX_ERROR_SHARE)
@@ -258,7 +287,12 @@ def main(argv: list[str] | None = None, client=None) -> int:
         else:
             print("PASS - no regression beyond tolerance")
 
-    if args.write_baseline:
+    if args.write_baseline and exit_code:
+        print("Not writing a baseline from a run that failed the gate.", file=sys.stderr)
+    elif args.write_baseline and rep["band_accuracy"] is None:
+        print("Error: nothing was measured (band_accuracy n/a) - refusing to write a baseline.", file=sys.stderr)
+        exit_code = 1
+    elif args.write_baseline:
         profile_md = (args.profile / "profile.md").read_text(encoding="utf-8")
         cv_default, cv_lead = _resolve_cvs(args.profile, _load_profile_config(args.profile), args.profile.name)
         # keep a hand-tuned tolerance when re-recording over an existing baseline

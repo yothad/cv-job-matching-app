@@ -57,3 +57,8 @@ uv run python evals/run_eval.py --baseline     # exits 1 if any metric regresses
 
 Run it before and after changing the prompt, rubric, batch size, model, `profile.md`, CV or
 `score_config.json`, and report both numbers.
+
+Exit codes: `0` pass, `1` regression or too many scorer errors (the gate failed), `2` bad input -
+missing or empty golden set, `--runs` below 1, missing `GEMINI_API_KEY`, or a baseline that is
+not valid JSON, lacks a gated metric, or measured nothing. A run that fails the gate never
+writes a baseline.

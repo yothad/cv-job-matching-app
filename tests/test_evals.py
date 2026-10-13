@@ -166,9 +166,52 @@ def test_error_share_threshold():
 def test_error_share_from_baseline_tolerance(env, capsys):
     tmp, golden, profile, good = env
     base = tmp / "baseline.json"
-    base.write_text(json.dumps({"metrics": {}, "tolerance": {"scorer_error_share": 1.0}}), encoding="utf-8")
-    # tolerance raised to 100% and nothing measured in the baseline -> no failure
-    assert run_eval.main(_args(golden, profile, "--baseline", str(base)), client=Broken(good)) == 0
+    assert run_eval.main(_args(golden, profile, "--write-baseline", str(base)), client=FakeClient(good)) == 0
+    rec = json.loads(base.read_text(encoding="utf-8"))
+    rec["tolerance"]["scorer_error_share"] = 0.0
+    base.write_text(json.dumps(rec), encoding="utf-8")
+    capsys.readouterr()
+    # the baseline file's tolerance is honoured
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base)), client=Broken(good)) == 1
+    assert "scorer-error" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("content, msg", [
+    ("{", "not valid JSON"),
+    ('{"tolerance": {}}', "no 'metrics'"),
+    ('{"metrics": {}}', "metrics missing"),
+    ('{"metrics": {"band_accuracy": null, "mae": null, "hard_filter_recall": null}}', "band_accuracy is null"),
+])
+def test_bad_baseline_is_input_error(env, capsys, content, msg):
+    tmp, golden, profile, good = env
+    base = tmp / "baseline.json"
+    base.write_text(content, encoding="utf-8")
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base)), client=FakeClient(good)) == 2
+    assert msg in capsys.readouterr().err
+
+
+def test_nothing_measured_is_never_a_pass(env, capsys):
+    tmp, golden, profile, good = env
+    empty = tmp / "empty.jsonl"
+    empty.write_text("", encoding="utf-8")
+    assert run_eval.main(_args(empty, profile), client=FakeClient(good)) == 2
+    assert run_eval.main(_args(golden, profile, "--runs", "0"), client=FakeClient(good)) == 2
+    # all-error run with the share gate disabled must not record a baseline
+    base = tmp / "b.json"
+    assert run_eval.main(_args(golden, profile, "--write-baseline", str(base), "--max-error-share", "1"),
+                         client=Broken(good)) == 1
+    assert not base.exists()
+
+
+def test_failed_gate_does_not_overwrite_baseline(env):
+    tmp, golden, profile, good = env
+    base = tmp / "baseline.json"
+    assert run_eval.main(_args(golden, profile, "--write-baseline", str(base)), client=FakeClient(good)) == 0
+    before = base.read_text(encoding="utf-8")
+    bad = {**good, "Haifa Data Scientist": 9}
+    assert run_eval.main(_args(golden, profile, "--baseline", str(base), "--write-baseline", str(base)),
+                         client=FakeClient(bad)) == 1
+    assert base.read_text(encoding="utf-8") == before
 
 
 @pytest.mark.parametrize("item, msg", [
