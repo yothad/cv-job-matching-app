@@ -36,3 +36,10 @@ def test_build_rows_only_live_and_new_or_description_less():
     r = rows[0]
     assert r["score"] == 8 and r["profile_version"] == 3 and r["scored_at"] == "now"
     assert "applied" not in r and "status" not in r
+
+
+def test_build_rows_never_repushes_description_less_over_description_less():
+    scores = {"both-bare": {"score": 6, "flags": [], "description": ""},
+              "new-bare": {"score": 6, "flags": [], "description": ""}}
+    rows = push.build_rows({"id": "u"}, scores, {"both-bare", "new-bare"}, {"both-bare": ""}, "now")
+    assert [r["apply_url"] for r in rows] == ["new-bare"]

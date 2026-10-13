@@ -14,6 +14,8 @@ services:
         sync: false
       - key: FERNET_KEY
         sync: false
+      - key: AUTO_SCORE_SECRET   # same value as the GitHub secret; gates POST /score/auto
+        sync: false
       - key: COMPANIES_PATH
         value: /opt/render/project/src/companies.json
 

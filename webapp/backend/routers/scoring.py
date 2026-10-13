@@ -4,6 +4,7 @@ from pathlib import Path
 import hmac
 import os
 import sys
+import threading
 import uuid
 from datetime import date, datetime, timedelta, timezone
 from typing import Literal
@@ -33,6 +34,9 @@ RUN_CAP = int(os.environ.get("SCORE_RUN_CAP", "200"))
 STALE_AFTER = timedelta(minutes=10)
 # Ceiling on chained auto runs per user per collection (AUTO_MAX_RUNS x RUN_CAP jobs).
 AUTO_MAX_RUNS = int(os.environ.get("AUTO_SCORE_MAX_RUNS", "5"))
+# Only one auto loop per process: a retried / replayed / manual CI call while
+# one is going would otherwise score the same users twice on their own keys.
+_AUTO_LOCK = threading.Lock()
 IN_CHUNK = 50  # urls per PostgREST in.() filter (~84 chars each) - keeps the URL well under gateway limits
 
 
@@ -171,11 +175,7 @@ def score_status(authorization: str = Header(...)):
     """Latest run's progress (polled by the digest) plus how many jobs can be
     re-scored with a description."""
     user_id = require_user(authorization)
-    try:
-        row = getattr(supabase.table("users").select("score_run").eq("id", user_id).maybe_single().execute(), "data", None) or {}
-    except Exception:
-        row = {}  # migration 010 not applied yet
-    run = _effective_run(row.get("score_run"))
+    run = _effective_run(_fetch_run(user_id))
     rescore_available = 0
     if not run or run.get("status") != "running":
         try:
@@ -266,7 +266,26 @@ def auto_score(background_tasks: BackgroundTasks, x_cron_secret: str = Header(""
     return {"accepted": True}
 
 
+def _fetch_run(user_id: str) -> dict | None:
+    """The user's run record as stored right now (None if absent/unreadable)."""
+    try:
+        row = getattr(supabase.table("users").select("score_run").eq("id", user_id).maybe_single().execute(), "data", None) or {}
+    except Exception:
+        return None  # migration 010 not applied yet
+    return row.get("score_run")
+
+
 def _run_auto() -> None:
+    if not _AUTO_LOCK.acquire(blocking=False):
+        print("auto-score: already running - ignoring duplicate trigger")
+        return
+    try:
+        _run_auto_locked()
+    finally:
+        _AUTO_LOCK.release()
+
+
+def _run_auto_locked() -> None:
     users = supabase.table("users").select("*").execute().data or []
     users = [u for u in users if u.get("profile_md") and u.get("gemini_api_key_encrypted")]
     if not users:
@@ -279,7 +298,9 @@ def _run_auto() -> None:
     for user in users:
         user_id = user["id"]
         try:
-            current = _effective_run(user.get("score_run"))
+            # Re-read now, not the start-of-loop snapshot: the user may have
+            # pressed Score now while earlier users were being scored.
+            current = _effective_run(_fetch_run(user_id))
             if current and current.get("status") == "running":
                 continue  # the user started one themselves
             gemini_key = _decrypt_key(user["gemini_api_key_encrypted"])

@@ -180,7 +180,8 @@ def test_auto_endpoint_requires_the_shared_secret(monkeypatch):
     assert len(tasks.tasks) == 1
 
 
-def _auto(monkeypatch, users, pending_batches, results=lambda i, b: _ok(b)):
+def _auto(monkeypatch, users, pending_batches, results=lambda i, b: _ok(b), stored_runs=None):
+    stored_runs = stored_runs or {}
     db = _DB(reads={"users": users})
     monkeypatch.setattr(scoring, "supabase", db)
     monkeypatch.setattr(scoring, "BATCH_SIZE", 2)
@@ -196,6 +197,8 @@ def _auto(monkeypatch, users, pending_batches, results=lambda i, b: _ok(b)):
     monkeypatch.setattr(scoring, "_scorer", lambda key: (score, _Quota, object()))
     queue = list(pending_batches)
     monkeypatch.setattr(scoring, "_new_pending", lambda uid, jobs: queue.pop(0) if queue else [])
+    stored = {u["id"]: u.get("score_run") for u in users}
+    monkeypatch.setattr(scoring, "_fetch_run", lambda uid: stored_runs.get(uid, stored.get(uid)))
     scoring._run_auto()
     return db
 
@@ -224,3 +227,25 @@ def test_auto_skips_users_without_profile_or_with_a_running_run(monkeypatch):
     ]
     db = _auto(monkeypatch, users, [_jobs(2)])
     assert db.runs == [] and db.upserts == []
+
+
+def test_auto_rereads_run_state_before_each_user(monkeypatch):
+    # Snapshot says idle, but the user pressed Score now meanwhile.
+    fresh = datetime.now(timezone.utc).isoformat()
+    user = {"id": "user-1", "profile_md": "# me", "gemini_api_key_encrypted": "enc", "score_run": None}
+    db = _auto(monkeypatch, [user], [_jobs(2)],
+               stored_runs={"user-1": {"status": "running", "updated_at": fresh}})
+    assert db.runs == [] and db.upserts == []
+
+
+def test_second_auto_trigger_is_ignored_while_one_runs(monkeypatch):
+    calls = []
+    monkeypatch.setattr(scoring, "_run_auto_locked", lambda: calls.append(1))
+    assert scoring._AUTO_LOCK.acquire(blocking=False)
+    try:
+        scoring._run_auto()
+    finally:
+        scoring._AUTO_LOCK.release()
+    assert calls == []
+    scoring._run_auto()
+    assert calls == [1]

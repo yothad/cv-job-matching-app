@@ -12,7 +12,7 @@ What gets pushed, per mapped profile:
   - the latest non-error score per apply_url from profiles/<name>/all_scores.jsonl
   - only for jobs still in the live `positions` catalog
   - only where the user has no row yet, or has one scored without a description
-    (the pipeline's score did read the description, so it's the better one)
+    while the pipeline's score did read one (so it's the better score)
 Upserts write only the scoring columns, so `applied` and `status` survive.
 The pipeline applies its own filters (profiles/<name>/score_config.json), not
 the user's webapp filters.
@@ -79,8 +79,11 @@ def build_rows(user: dict, scores: dict[str, dict], live: set[str], existing: di
     for url, rec in scores.items():
         if url not in live:
             continue
-        if url in existing and existing[url]:
-            continue  # already scored with a description - leave the user's score alone
+        if url in existing and (existing[url] or not rec.get("description")):
+            # Already scored with a description, or ours has none either - a
+            # re-push would gain nothing and re-stamp scored_at (re-badging old
+            # jobs as New on every collection).
+            continue
         rows.append({
             "user_id": user["id"],
             "apply_url": url,
