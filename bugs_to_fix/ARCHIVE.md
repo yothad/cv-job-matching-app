@@ -4,6 +4,7 @@ Wrapped bugs only. Active bugs live in `BUG_TRACKER.md`.
 
 | Slug | Title | Status | Severity |
 |---|---|---|---|
+| BUG_WEBAPP_STALE_JOBS_FROM_UNCOLLECTED_COMPANIES | Website keeps months-old jobs open when their company is no longer collected | ✅ Wrapped | P2 |
 | BUG_GEMINI_CALL_NO_TIMEOUT | Gemini calls have no HTTP timeout - a hung call stalls a scoring run indefinitely | ✅ Wrapped | P2 |
 | BUG_GEMINI_5XX_DROPS_JOBS | Gemini 5xx drops scoring batches instead of retrying; busy model wastes a call per batch | ✅ Wrapped | P2 |
 | BUG_SCORED_JOBS_UNBOUNDED_GROWTH | scored_jobs.json keeps closed positions forever | ✅ Wrapped | P3 |

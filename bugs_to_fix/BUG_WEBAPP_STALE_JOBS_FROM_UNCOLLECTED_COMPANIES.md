@@ -1,7 +1,7 @@
 # BUG: Website keeps months-old jobs open when their company is no longer collected
 
 ## Status
-🟢 Completed
+✅ Wrapped
 
 ## Severity
 P2
@@ -41,3 +41,4 @@ Several also carry a company label that no longer matches a collected board (e.g
 "Cardinalops" rows on the old pagayais Greenhouse board, "Astelia" rows on Team8's Comeet
 board), which is why the company rule never reached them either.
 
+Verified 2026-10-13 (CI run 38387091683): 46 closed, 0 open scored_jobs left outside the live catalog.
