@@ -22,10 +22,16 @@ location filter, auto-score scored the whole worldwide catalog (~2,600 non-Israe
 ## Dependencies
 - **Depends on:** —
 - **Blocks:** —
-- **Touches:** webapp/backend/routers/user.py, webapp/backend/tests/test_user_setup.py
+- **Touches:** webapp/backend/routers/user.py, webapp/backend/routers/scoring.py, webapp/backend/tests/test_user_setup.py, webapp/backend/tests/test_scoring_background.py, webapp/supabase/migrations/011_score_configs_unique_user.sql
 - **Spec files to update:** —
 
 ## Fix Notes
 `_save_filters()` updates the user's row and inserts it if none exists (same pattern as
 `_save_user_fields`), stamping `updated_at`. No migration needed. Regression tests cover
 the first save (insert) and later saves (update only).
+
+Review (career-night): update-then-insert isn't atomic, so two racing first saves could
+insert two rows and `.maybe_single()` would 500 forever. Both readers (`get_filters`,
+scoring's filter read) now take the newest row by `updated_at`. Durable fix, for Omer to
+paste in Supabase: `011_score_configs_unique_user.sql` (unique index on user_id).
+

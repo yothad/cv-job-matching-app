@@ -249,3 +249,13 @@ def test_second_auto_trigger_is_ignored_while_one_runs(monkeypatch):
     assert calls == []
     scoring._run_auto()
     assert calls == [1]
+
+
+def test_new_pending_uses_newest_filters_row_even_with_duplicates(monkeypatch):
+    # score_configs.user_id isn't unique; the newest row (first, ordered desc) wins.
+    db = _DB(reads={"score_configs": [{"location_terms": ["israel"]}, {"location_terms": []}],
+                    "scored_jobs": []})
+    monkeypatch.setattr(scoring, "supabase", db)
+    jobs = [{"apply_url": "https://x/il", "title": "DS", "company": "A", "location": "Tel Aviv, Israel"},
+            {"apply_url": "https://x/us", "title": "DS", "company": "B", "location": "San Francisco"}]
+    assert [j["apply_url"] for j in scoring._new_pending("user-1", jobs)] == ["https://x/il"]

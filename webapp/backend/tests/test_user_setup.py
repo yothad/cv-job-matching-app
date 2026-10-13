@@ -134,3 +134,10 @@ def test_filters_first_save_inserts_row(monkeypatch):
     calls = _save_filters(monkeypatch, [])
     assert [c[0] for c in calls] == ["update", "insert"]
     assert calls[1][1]["user_id"] == "user-1" and calls[1][1]["location_terms"] == ["israel"]
+
+
+def test_get_filters_tolerates_duplicate_rows(monkeypatch):
+    rows = [{"location_terms": ["israel"]}, {"location_terms": []}]
+    monkeypatch.setattr(user, "supabase", types.SimpleNamespace(table=lambda name: _Query(rows)))
+    monkeypatch.setattr(user, "require_user", lambda auth: "user-1")
+    assert user.get_filters(authorization="Bearer good") == {"location_terms": ["israel"]}

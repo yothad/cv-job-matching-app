@@ -137,7 +137,10 @@ def _reset_if_new_week(user: dict) -> dict:
 
 def _new_pending(user_id: str, all_jobs: list[dict]) -> list[dict]:
     """Catalog jobs this user hasn't scored yet that pass their filters."""
-    config_row = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id).maybe_single().execute(), "data", None) or {}
+    # Newest row wins: score_configs.user_id isn't unique, so a racing first save can leave two.
+    config_rows = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id)
+                          .order("updated_at", desc=True).limit(1).execute(), "data", None)
+    config_row = config_rows[0] if config_rows else {}
 
     scored_urls = _scored_urls(user_id)
 
