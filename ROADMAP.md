@@ -259,7 +259,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `in-progress` | S | — |
+| [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `completed` | S | — |
 | [SCORER_EVAL_HARNESS](future_devs/SCORER_EVAL_HARNESS_SPEC.md) | Human-labelled golden set + band accuracy / hard-filter recall + CI gate on `gemini_scorer.py` | `not-started` | S | SCORER_EVAL_HARNESS_CODE |
 
 ---
