@@ -13,7 +13,7 @@ import json
 import os
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -351,6 +351,22 @@ def _reconcile_status(jobs_by_key: dict, live: set[str], successful: set[str], t
 
 
 _CLOSED_CAP = 30
+_CLOSED_RETENTION_DAYS = 30
+
+
+def _prune_closed(jobs_by_key: dict, today: str, days: int = _CLOSED_RETENTION_DAYS) -> int:
+    """Drop closed, non-applied jobs whose closed_at is more than `days` ago, so
+    scored_jobs.json doesn't grow forever. Applied jobs are kept as history; a
+    pruned job that reopens is not rescored (all_scores.jsonl still has its key)."""
+    cutoff = (date.fromisoformat(today) - timedelta(days=days)).isoformat()
+    stale = [
+        k for k, j in jobs_by_key.items()
+        if j.get("status") == "closed" and not j.get("applied")
+        and j.get("closed_at") and j["closed_at"] < cutoff
+    ]
+    for k in stale:
+        del jobs_by_key[k]
+    return len(stale)
 
 
 def _write_digest(jobs_by_key: dict, out_path: Path) -> None:
@@ -513,6 +529,12 @@ def _score_one_profile(profile_dir: Path, jobs: list, args) -> None:
     synced = _sync_applied_from_digest(out_path, merged)
     if synced:
         print(f"[{name}] Synced {synced} applied position{'s' if synced != 1 else ''} from digest")
+
+    # After the applied sync, so a job just marked applied in digest.md is kept
+    if not args.dry_run:
+        pruned = _prune_closed(merged, date.today().isoformat())
+        if pruned:
+            print(f"[{name}] Pruned {pruned} closed position{'s' if pruned != 1 else ''} older than {_CLOSED_RETENTION_DAYS} days")
 
     _save_scored_jobs(store_path, merged)
     _write_digest(merged, out_path)
@@ -711,6 +733,12 @@ def _run_root_profile(jobs: list, args) -> None:
     synced = _sync_applied_from_digest(out_path, merged)
     if synced:
         print(f"[root] Synced {synced} applied position{'s' if synced != 1 else ''} from digest")
+
+    # After the applied sync, so a job just marked applied in digest.md is kept
+    if not args.dry_run:
+        pruned = _prune_closed(merged, date.today().isoformat())
+        if pruned:
+            print(f"[root] Pruned {pruned} closed position{'s' if pruned != 1 else ''} older than {_CLOSED_RETENTION_DAYS} days")
 
     _save_scored_jobs(store_path, merged)
     _write_digest(merged, out_path)

@@ -55,6 +55,8 @@ score.py  (daily, after collect_jobs.py)
   └─ a malformed item only fails that job; scorer-error results are not logged to
      all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)
+  └─ jobs gone from a successfully pulled company are marked closed; closed, non-applied jobs
+     are pruned from scored_jobs.json 30 days after closed_at (applied ones are kept as history)
   └─ exits non-zero if GEMINI_API_KEY is missing for any profile (so CI goes red)
 ```
 

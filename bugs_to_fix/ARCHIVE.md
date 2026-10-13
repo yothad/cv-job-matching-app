@@ -4,6 +4,7 @@ Wrapped bugs only. Active bugs live in `BUG_TRACKER.md`.
 
 | Slug | Title | Status | Severity |
 |---|---|---|---|
+| BUG_SCORED_JOBS_UNBOUNDED_GROWTH | scored_jobs.json keeps closed positions forever | ✅ Wrapped | P3 |
 | BUG_WEBAPP_CLOSED_JOBS_NEVER_CLOSE | Website digest never marks closed positions as closed | ✅ Wrapped | P1 |
 | BUG_VIOLA_GETRO_DUPES | Viola Getro board sends same 3 job titles to every portfolio company, burning Gemini quota on duplicates | ✅ Wrapped | P2 |
 | BUG_RENDER_JOBS_PATH | Scoring endpoint always 503 - new_jobs.json unreachable on Render (re-fixed 2026-10-12: reads Supabase `positions`) | ✅ Wrapped | P0 |
