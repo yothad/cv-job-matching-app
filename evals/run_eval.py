@@ -15,7 +15,6 @@ import hashlib
 import inspect
 import json
 import os
-import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -27,7 +26,7 @@ if str(ROOT) not in sys.path:
 from dotenv import load_dotenv  # noqa: E402
 
 from evals import metrics  # noqa: E402
-from matcher.gemini_scorer import build_batch_prompt, score_jobs_batch  # noqa: E402
+from matcher.gemini_scorer import MODEL, build_batch_prompt  # noqa: E402
 from score import _load_profile_config, _resolve_cvs, _score_jobs_batched  # noqa: E402
 
 PRIVATE_DIR = ROOT / "evals" / "private"
@@ -66,8 +65,7 @@ def load_golden(path: Path) -> list[dict]:
 
 
 def _model_name() -> str:
-    m = re.search(r'model="([^"]+)"', inspect.getsource(score_jobs_batch))
-    return m.group(1) if m else "unknown"
+    return MODEL
 
 
 def _prompt_hash(profile_md: str, cv_default: str, cv_lead: str) -> str:

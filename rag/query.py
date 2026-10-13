@@ -2,7 +2,7 @@
 """Answer natural-language questions about the job market using the RAG store.
 
 Embeds the question (gemini-embedding-001, 768 dims, RETRIEVAL_QUERY), retrieves
-the top-K chunks from rag/.chroma, and asks gemini-2.5-flash to answer from that
+the top-K chunks from rag/.chroma, and asks gemini-3.5-flash to answer from that
 context. Exposes answer_question() for the chat API layer.
 
 Usage:
@@ -89,7 +89,7 @@ def answer_question(question: str, history=None) -> dict:
     )
 
     _rpm_wait()
-    resp = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+    resp = client.models.generate_content(model="gemini-3.5-flash", contents=prompt)
     answer = (resp.text or "").strip()
 
     # Deduped source citations: company + job title (company records cite the profile).

@@ -114,7 +114,7 @@ def test_run_eval_baseline_then_regression(env, capsys):
     recorded = json.loads(base.read_text(encoding="utf-8"))
     assert recorded["metrics"]["band_accuracy"] == 1.0
     assert recorded["metrics"]["hard_filter_recall"] == 1.0
-    assert recorded["model"] == "gemini-2.5-flash"
+    assert recorded["model"] == gs.MODEL
 
     # same scores -> at baseline, exit 0; --runs 3 makes 3 scoring calls
     fake = FakeClient(good)

@@ -49,7 +49,7 @@ score.py  (daily, after collect_jobs.py)
   └─ reads new_jobs.json + profile.md + cv.md
   └─ cv_default / cv_lead in score_config.json may point at local-only files; if a
      path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
-  └─ sends each job to Gemini 2.5 Flash
+  └─ sends each job to Gemini 3.5 Flash (`MODEL` in matcher/gemini_scorer.py; 2.5 Flash 404s for new keys)
   └─ a malformed item only fails that job; scorer-error results are not logged to
      all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)

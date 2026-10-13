@@ -28,7 +28,7 @@ Pipeline (three independently-runnable scripts, three cadences):
 2. `collect_jobs.py` (daily) — hits each ATS REST API directly (18 ATS
    integrations: Comeet, Greenhouse, Lever, Workday, Ashby, etc.), filters by
    location, writes `new_jobs.json`.
-3. `score.py` (daily) — sends each job to Gemini 2.5 Flash, scores against
+3. `score.py` (daily) — sends each job to Gemini 3.5 Flash, scores against
    `profile.md` + `cv.md`, writes a ranked `digest.md`.
 
 There is also a multi-user web app layer (Next.js + FastAPI + Supabase, on

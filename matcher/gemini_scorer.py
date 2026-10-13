@@ -18,6 +18,10 @@ class QuotaExhaustedError(Exception):
 # Per-minute rate limiter (sliding window, thread-safe)
 # ---------------------------------------------------------------------------
 
+# Pinned, not "-latest": gemini-2.5-flash 404s for new keys (retired 2026-10) and the floating
+# aliases hit frequent 503s. Change the model here only - scorer, gaps and evals all read it.
+MODEL = "gemini-3.5-flash"
+
 _RPM_LIMIT = int(os.environ.get("GEMINI_RPM", "8"))
 _rpm_lock = threading.Lock()
 _rpm_timestamps: deque = deque()  # timestamps of recent calls (seconds)
@@ -95,7 +99,7 @@ def score_jobs_batch(jobs: list[dict], profile_md: str, cv_md: str, client) -> l
         _rpm_wait()
         try:
             resp = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model=MODEL,
                 contents=prompt,
                 config={"response_mime_type": "application/json"},
             )
@@ -209,7 +213,7 @@ def score_job(job: dict, profile_md: str, cv_md: str, client) -> dict:
         _rpm_wait()
         try:
             resp = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model=MODEL,
                 contents=prompt,
                 config={
                     "response_mime_type": "application/json",
