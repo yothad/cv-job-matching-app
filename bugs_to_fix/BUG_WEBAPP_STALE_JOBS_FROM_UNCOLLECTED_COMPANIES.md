@@ -22,12 +22,15 @@ which is about half of the visible digest.
 ## Dependencies
 - **Depends on:** —
 - **Blocks:** —
-- **Touches:** scripts/sync_positions.py, tests/test_sync_positions.py, CLAUDE.md
+- **Touches:** collect_jobs.py, scripts/sync_positions.py, tests/test_sync_positions.py, CLAUDE.md
 - **Spec files to update:** CLAUDE.md architecture section
 
 ## Fix Notes
 Safety net in `reconcile_scored_jobs`: an open job whose URL isn't live and whose
 `first_seen` is older than `STALE_AFTER_DAYS` (30) closes even if its company wasn't
-pulled. Applied only when the run saw live URLs (an empty collect never mass-closes).
+pulled. Applied only when the run saw live URLs (an empty collect never mass-closes), and never
+to a company whose pull raised this run: collect_jobs.py now writes `failed_companies`
+into live_positions.json (missing in older files = none failed), so a transient error
+keeps the "a failed pull never closes anything" rule. Review: career-night.
 A wrong close self-heals: the URL showing up live again reopens it. Takes effect on the
 next CI run.

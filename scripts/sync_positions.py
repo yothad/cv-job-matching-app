@@ -15,8 +15,9 @@ with a warning if the column isn't there yet) into the global `positions` table:
      failed pull never closes anything); a closed job whose URL is back reopens.
      Safety net: a job first seen more than STALE_AFTER_DAYS ago whose URL is
      not live closes even if its company wasn't pulled (a company dropped from
-     collection would otherwise keep its jobs open forever). If it was wrong,
-     the URL showing up again reopens it.
+     collection would otherwise keep its jobs open forever) - but never when
+     its company's pull raised this run. If it was wrong, the URL showing up
+     again reopens it.
 
 Runs automatically after collect_jobs.py in CI; safe to run locally too.
 
@@ -63,17 +64,18 @@ def _missing_description_column(resp: httpx.Response) -> bool:
     return resp.status_code == 400 and "description" in resp.text
 
 
-def _load_live() -> tuple[set[str], set[str]]:
-    """live_positions.json -> (live_urls, successful_companies lowercased)."""
+def _load_live() -> tuple[set[str], set[str], set[str]]:
+    """live_positions.json -> (live_urls, successful, failed companies lowercased)."""
     if not LIVE_POSITIONS_PATH.exists():
-        return set(), set()
+        return set(), set(), set()
     try:
         data = json.loads(LIVE_POSITIONS_PATH.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
-        return set(), set()
+        return set(), set(), set()
     live = {u.strip() for u in data.get("live_apply_urls", []) if u and u.strip()}
     successful = {c.lower() for c in data.get("successful_companies", []) if c}
-    return live, successful
+    failed = {c.lower() for c in data.get("failed_companies", []) if c}  # absent in older files
+    return live, successful, failed
 
 
 def _patch_ids(client: httpx.Client, base: str, auth_headers: dict, ids: list, body: dict) -> None:
@@ -90,7 +92,7 @@ def _patch_ids(client: httpx.Client, base: str, auth_headers: dict, ids: list, b
 
 def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, today: str) -> tuple[int, int]:
     """Stamp status/closed_at on scored_jobs. Returns (closed, reopened)."""
-    live, successful = _load_live()
+    live, successful, failed = _load_live()
     if not live and not successful:
         print("live_positions.json missing or empty - skipping scored_jobs liveness")
         return 0, 0
@@ -113,12 +115,13 @@ def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, to
             u = (r.get("apply_url") or "").strip()
             is_closed = r.get("status") == "closed"
             first_seen = (r.get("first_seen") or "")[:10]
+            company = (r.get("company") or "").lower()
             if u in live:
                 if is_closed:
                     to_reopen.append(r["id"])
             elif not is_closed and (
-                (r.get("company") or "").lower() in successful
-                or (stale_before and first_seen and first_seen < stale_before)
+                company in successful
+                or (stale_before and first_seen and first_seen < stale_before and company not in failed)
             ):
                 to_close.append(r["id"])
         if len(page) < PAGE_SIZE:

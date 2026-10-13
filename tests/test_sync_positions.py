@@ -119,3 +119,10 @@ def test_reconcile_age_rule_needs_live_urls(tmp_path, monkeypatch):
     live = {"live_apply_urls": [], "successful_companies": ["Acme"]}
     rows = [{"id": 1, "apply_url": "https://x/may", "company": "Dropped", "status": "open", "first_seen": "2026-05-02"}]
     assert _reconcile(tmp_path, monkeypatch, live, rows) == ((0, 0), [])
+
+
+def test_reconcile_age_rule_spares_companies_whose_pull_failed(tmp_path, monkeypatch):
+    live = {"live_apply_urls": ["https://x/live"], "successful_companies": ["Acme"],
+            "failed_companies": ["Flaky"]}
+    rows = [{"id": 1, "apply_url": "https://x/may", "company": "flaky", "status": "open", "first_seen": "2026-05-02"}]
+    assert _reconcile(tmp_path, monkeypatch, live, rows) == ((0, 0), [])

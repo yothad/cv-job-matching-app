@@ -68,6 +68,7 @@ def collect():
     all_jobs = []
     companies_with_jobs = 0
     successful_companies: list[str] = []
+    failed_companies: list[str] = []
     live_apply_urls: list[str] = []
 
     for entry in companies:
@@ -134,6 +135,7 @@ def collect():
 
         except Exception as e:
             entry["consecutive_failures"] = entry.get("consecutive_failures", 0) + 1
+            failed_companies.append(name)
             print(f"  {name}: ERROR — {e} (failures={entry['consecutive_failures']})")
 
     save_companies(companies)
@@ -143,6 +145,7 @@ def collect():
         {
             "generated_at": now_iso(),
             "successful_companies": successful_companies,
+            "failed_companies": failed_companies,
             "live_apply_urls": live_apply_urls,
         },
     )
