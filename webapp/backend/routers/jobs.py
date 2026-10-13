@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from auth import require_user
 from db.positions import fetch_positions, latest_sync_time
 from db.supabase_client import supabase
+from db.filters import load_filters, passes_filters
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
 
@@ -105,6 +106,11 @@ def list_jobs(authorization: str = Header(...)):
         .execute()
         .data
     )
+    # Flag (not drop) rows outside the saved Settings filters: the Digest hides
+    # them by default, e.g. jobs scored before a location filter was set.
+    cfg = load_filters(user_id)
+    for r in rows:
+        r["outside_filters"] = not passes_filters(r, cfg)
     return rows
 
 

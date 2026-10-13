@@ -107,14 +107,19 @@ type FilterPanelProps = {
   previewLoading: boolean
 }
 
+// Location accepts several places: "israel, tel aviv, herzliya" (commas or semicolons).
+function splitTerms(v: string): string[] {
+  return v.split(/[,;]/).map(t => t.trim()).filter(Boolean)
+}
+
 function FilterPanel({ locationInput, onLocationChange, skipTitles, onSkipTitlesChange, keepTitles, onKeepTitlesChange, skipCompanies, onSkipCompaniesChange, skipIndustries, onSkipIndustriesChange, preview, previewLoading }: FilterPanelProps) {
   return (
     <div className="space-y-4">
       <div>
         <label className="text-sm text-muted block mb-1">
-          Location filter <span title="Only score jobs whose location contains this text (e.g. 'israel')" className="text-subtle cursor-help">(?)</span>
+          Location filter <span title="Only score jobs whose location contains one of these, separated by commas (e.g. 'israel, tel aviv, herzliya')" className="text-subtle cursor-help">(?)</span>
         </label>
-        <input value={locationInput} onChange={e => onLocationChange(e.target.value)} placeholder="e.g. israel (leave blank for no filter)"
+        <input value={locationInput} onChange={e => onLocationChange(e.target.value)} placeholder="e.g. israel, tel aviv, herzliya (leave blank for no filter)"
           className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-border placeholder:text-subtle transition-colors focus:outline-none focus:border-accent" />
       </div>
       <div>
@@ -229,7 +234,7 @@ export default function SettingsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
-          location_terms: loc.trim() ? [loc.trim()] : [],
+          location_terms: splitTerms(loc),
           skip_title_terms: st,
           keep_title_terms: kt,
           skip_companies: sc,
@@ -277,7 +282,7 @@ export default function SettingsPage() {
     if (['profile', 'cv', 'filters', 'apikey', 'account'].includes(hashTab)) setActiveTab(hashTab)
     loadMe()
     api('/user/filters').then(r => r.json()).then(d => {
-      setLocationInput((d.location_terms ?? [])[0] ?? '')
+      setLocationInput((d.location_terms ?? []).join(', '))
       setSkipTitles(d.skip_title_terms ?? [])
       setKeepTitles(d.keep_title_terms ?? [])
       setSkipCompanies(d.skip_companies ?? [])
@@ -379,7 +384,7 @@ export default function SettingsPage() {
     const r = await api('/user/filters', {
       method: 'PATCH',
       body: JSON.stringify({
-        location_terms: locationInput.trim() ? [locationInput.trim()] : [],
+        location_terms: splitTerms(locationInput),
         skip_title_terms: skipTitles,
         keep_title_terms: keepTitles,
         skip_companies: skipCompanies,

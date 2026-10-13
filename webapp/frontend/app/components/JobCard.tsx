@@ -23,6 +23,7 @@ export type Job = {
   profile_version?: number
   status?: 'open' | 'closed'
   closed_at?: string
+  outside_filters?: boolean
 }
 
 export function timeAgo(iso: string): string {

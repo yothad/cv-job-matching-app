@@ -16,6 +16,7 @@ if "db.supabase_client" not in sys.modules:
     sys.modules["db.supabase_client"] = _stub
 
 from routers import user  # noqa: E402
+from db import filters  # noqa: E402
 
 
 class _Query:
@@ -138,6 +139,6 @@ def test_filters_first_save_inserts_row(monkeypatch):
 
 def test_get_filters_tolerates_duplicate_rows(monkeypatch):
     rows = [{"location_terms": ["israel"]}, {"location_terms": []}]
-    monkeypatch.setattr(user, "supabase", types.SimpleNamespace(table=lambda name: _Query(rows)))
+    monkeypatch.setattr(filters, "supabase", types.SimpleNamespace(table=lambda name: _Query(rows)))
     monkeypatch.setattr(user, "require_user", lambda auth: "user-1")
     assert user.get_filters(authorization="Bearer good") == {"location_terms": ["israel"]}

@@ -12,6 +12,7 @@ from cryptography.fernet import Fernet
 from auth import require_user
 from db.positions import fetch_positions
 from db.supabase_client import supabase
+from db.filters import load_filters, passes_filters
 
 router = APIRouter(prefix="/score", tags=["scoring"])
 
@@ -137,40 +138,10 @@ def _reset_if_new_week(user: dict) -> dict:
 
 def _new_pending(user_id: str, all_jobs: list[dict]) -> list[dict]:
     """Catalog jobs this user hasn't scored yet that pass their filters."""
-    # Newest row wins: score_configs.user_id isn't unique, so a racing first save can leave two.
-    config_rows = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id)
-                          .order("updated_at", desc=True).limit(1).execute(), "data", None)
-    config_row = config_rows[0] if config_rows else {}
-
+    cfg = load_filters(user_id)
     scored_urls = _scored_urls(user_id)
-
-    location_terms = [t.lower() for t in (config_row.get("location_terms") or [])]
-    skip_title = [t.lower() for t in (config_row.get("skip_title_terms") or [])]
-    keep_title = [t.lower() for t in (config_row.get("keep_title_terms") or [])]
-    skip_companies = [c.lower() for c in (config_row.get("skip_companies") or [])]
-    skip_industries = [i.lower() for i in (config_row.get("skip_industries") or [])]
-
-    pending = []
-    for job in all_jobs:
-        url = job.get("apply_url", "")
-        if url in scored_urls:
-            continue
-        title_lower = (job.get("title") or "").lower()
-        loc_lower = (job.get("location") or "").lower()
-        company_lower = (job.get("company") or "").lower()
-        desc_lower = (job.get("description") or "").lower()
-        if location_terms and not any(t in loc_lower for t in location_terms):
-            continue
-        if any(t in title_lower for t in skip_title):
-            continue
-        if keep_title and not any(t in title_lower for t in keep_title):
-            continue
-        if any(c in company_lower for c in skip_companies):
-            continue
-        if any(i in desc_lower or i in company_lower for i in skip_industries):
-            continue
-        pending.append(job)
-    return pending
+    return [j for j in all_jobs
+            if j.get("apply_url", "") not in scored_urls and passes_filters(j, cfg)]
 
 
 @router.get("/status")

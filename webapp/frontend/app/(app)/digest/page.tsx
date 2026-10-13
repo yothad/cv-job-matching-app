@@ -381,6 +381,7 @@ export default function DigestPage() {
   // overwrite it.
   const [viewLoaded, setViewLoaded] = useState(false)
   const [showApplied, setShowApplied] = useState(false)
+  const [showOutside, setShowOutside] = useState(false)
   // PREVIOUS last_seen_at (ms), captured once per page visit before it is
   // stamped to now. null = first visit / storage blocked: no banner, no badges.
   const [prevSeenAt, setPrevSeenAt] = useState<number | null>(null)
@@ -668,20 +669,24 @@ export default function DigestPage() {
     .filter(j => matchesMultiFilter(j.location, locationFilter))
     .filter(j => !onlyNew || isNewSince(j.scored_at, prevSeenAt))
     .sort(compareJobs(sortBy))
+  // Jobs outside the saved Settings filters (e.g. scored before a location filter
+  // was set) stay hidden unless asked for. Applied ones always show.
+  const hiddenByFilters = filtered.filter(j => j.outside_filters && !j.applied && j.status !== 'closed').length
+  const visible = showOutside ? filtered : filtered.filter(j => !j.outside_filters || j.applied)
 
   // Below-5 scores fall outside every band (bandFor would lump them into 5-6).
   const tierCounts = SCORE_BANDS.map(b => ({
     band: b,
-    count: filtered.filter(j => j.score >= 5 && bandFor(j.score) === b).length,
+    count: visible.filter(j => j.score >= 5 && bandFor(j.score) === b).length,
   }))
 
-  const openJobs = filtered.filter(j => (j.status ?? 'open') !== 'closed')
-  const closedJobs = filtered.filter(j => j.status === 'closed')
+  const openJobs = visible.filter(j => (j.status ?? 'open') !== 'closed')
+  const closedJobs = visible.filter(j => j.status === 'closed')
   const active = openJobs.filter(j => !j.applied)
   const applied = openJobs.filter(j => j.applied)
   // /jobs returns every score, so honour the min-score slider (not the text
   // filters) to keep the count meaningful when "show only new" is applied.
-  const newCount = jobs.filter(j => j.score >= minScore && j.status !== 'closed' && isNewSince(j.scored_at, prevSeenAt)).length
+  const newCount = jobs.filter(j => j.score >= minScore && j.status !== 'closed' && (showOutside || !j.outside_filters) && isNewSince(j.scored_at, prevSeenAt)).length
 
   function resetFilters() {
     setMinScore(5)
@@ -836,7 +841,7 @@ export default function DigestPage() {
         {/* Result count + per-tier summary */}
         {!loading && jobs.length > 0 && (
           <div className="flex items-center gap-3 flex-wrap text-xs text-subtle font-mono" aria-live="polite">
-            <span>Showing {filtered.length.toLocaleString()} of {jobs.length.toLocaleString()}</span>
+            <span>Showing {visible.length.toLocaleString()} of {jobs.length.toLocaleString()}</span>
             {tierCounts.map(({ band, count }) => (
               <span key={band.range} className="inline-flex items-center gap-1.5">
                 <span className={`${band.color} w-2 h-2 rounded-full inline-block`} aria-hidden="true" />
@@ -844,6 +849,17 @@ export default function DigestPage() {
               </span>
             ))}
           </div>
+        )}
+
+        {hiddenByFilters > 0 && (
+          <p className="text-sm text-subtle">
+            {showOutside
+              ? `Showing ${hiddenByFilters} job${hiddenByFilters !== 1 ? 's' : ''} outside your saved filters. `
+              : `${hiddenByFilters} job${hiddenByFilters !== 1 ? 's' : ''} hidden by your saved filters (Settings - Filters). `}
+            <button onClick={() => setShowOutside(v => !v)} className="text-muted hover:text-foreground underline underline-offset-2 decoration-border-subtle transition-colors">
+              {showOutside ? 'Hide them' : 'Show them'}
+            </button>
+          </p>
         )}
 
         {/* Job list */}

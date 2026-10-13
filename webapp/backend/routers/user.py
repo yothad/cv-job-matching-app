@@ -6,6 +6,7 @@ from datetime import datetime, timezone, date, timedelta
 from cryptography.fernet import Fernet
 from auth import require_user, require_user_and_email
 from db.supabase_client import supabase
+from db.filters import load_filters
 
 router = APIRouter(prefix="/user", tags=["user"])
 
@@ -43,14 +44,6 @@ def setup_user(body: SetupRequest, authorization: str = Header(...)):
     })
 
     return {"status": "ok"}
-
-
-def _latest_filters(user_id: str) -> dict | None:
-    """The user's score_configs row. Newest wins: without a unique constraint a
-    racing first save can leave two rows, and maybe_single() would 500 on that."""
-    rows = getattr(supabase.table("score_configs").select("*").eq("user_id", user_id)
-                   .order("updated_at", desc=True).limit(1).execute(), "data", None)
-    return rows[0] if rows else None
 
 
 def _save_filters(user_id: str, fields: dict) -> None:
@@ -165,8 +158,7 @@ def update_cv(body: CvUpdate, authorization: str = Header(...)):
 @router.get("/filters")
 def get_filters(authorization: str = Header(...)):
     user_id = require_user(authorization)
-    row = _latest_filters(user_id)
-    return row or {}
+    return load_filters(user_id)
 
 
 @router.patch("/filters")

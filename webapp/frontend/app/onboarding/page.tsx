@@ -298,7 +298,7 @@ export default function OnboardingPage() {
               skip_companies: f.skip_companies ?? [],
               skip_industries: f.skip_industries ?? [],
             })
-            setLocationInput((f.location_terms ?? [])[0] ?? '')
+            setLocationInput((f.location_terms ?? []).join(', '))
           }
         }
       } catch { /* backend unreachable - start fresh, never block */ }
@@ -366,7 +366,7 @@ export default function OnboardingPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({
-          location_terms: loc.trim() ? [loc.trim()] : [],
+          location_terms: loc.split(/[,;]/).map(t => t.trim()).filter(Boolean),
           skip_title_terms: st,
           keep_title_terms: kt,
           skip_companies: sc,
@@ -442,7 +442,7 @@ export default function OnboardingPage() {
       // Profile, CV and key were already saved step by step; only filters remain.
       const r = await authedFetch('/user/filters', {
         method: 'PATCH',
-        body: JSON.stringify({ ...filters, location_terms: locationInput.trim() ? [locationInput.trim()] : [] }),
+        body: JSON.stringify({ ...filters, location_terms: locationInput.split(/[,;]/).map(t => t.trim()).filter(Boolean) }),
       })
       if (!r.ok) throw new Error('Could not save your filters')
       setSetup(s => ({ ...s, filters_seen: true }))

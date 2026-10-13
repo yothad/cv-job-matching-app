@@ -18,6 +18,7 @@ if "db.supabase_client" not in sys.modules:
     sys.modules["db.supabase_client"] = _stub
 
 from routers import scoring  # noqa: E402
+from db import filters  # noqa: E402
 
 
 class _Quota(Exception):
@@ -256,6 +257,7 @@ def test_new_pending_uses_newest_filters_row_even_with_duplicates(monkeypatch):
     db = _DB(reads={"score_configs": [{"location_terms": ["israel"]}, {"location_terms": []}],
                     "scored_jobs": []})
     monkeypatch.setattr(scoring, "supabase", db)
+    monkeypatch.setattr(filters, "supabase", db)
     jobs = [{"apply_url": "https://x/il", "title": "DS", "company": "A", "location": "Tel Aviv, Israel"},
             {"apply_url": "https://x/us", "title": "DS", "company": "B", "location": "San Francisco"}]
     assert [j["apply_url"] for j in scoring._new_pending("user-1", jobs)] == ["https://x/il"]
