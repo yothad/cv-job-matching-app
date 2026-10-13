@@ -4,6 +4,7 @@ Wrapped bugs only. Active bugs live in `BUG_TRACKER.md`.
 
 | Slug | Title | Status | Severity |
 |---|---|---|---|
+| BUG_GEMINI_5XX_DROPS_JOBS | Gemini 5xx drops scoring batches instead of retrying; busy model wastes a call per batch | ✅ Wrapped | P2 |
 | BUG_SCORED_JOBS_UNBOUNDED_GROWTH | scored_jobs.json keeps closed positions forever | ✅ Wrapped | P3 |
 | BUG_WEBAPP_CLOSED_JOBS_NEVER_CLOSE | Website digest never marks closed positions as closed | ✅ Wrapped | P1 |
 | BUG_VIOLA_GETRO_DUPES | Viola Getro board sends same 3 job titles to every portfolio company, burning Gemini quota on duplicates | ✅ Wrapped | P2 |

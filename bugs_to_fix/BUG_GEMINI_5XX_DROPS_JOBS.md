@@ -1,7 +1,7 @@
 # BUG: Gemini 5xx drops scoring batches instead of retrying; busy model wastes a call per batch
 
 ## Status
-🟢 Completed
+✅ Wrapped
 
 ## Severity
 P2
