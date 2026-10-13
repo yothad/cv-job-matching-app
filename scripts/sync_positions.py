@@ -13,6 +13,10 @@ with a warning if the column isn't there yet) into the global `positions` table:
      with the same rule as score.py's _reconcile_status: a job closes only when
      its company pulled successfully this run and its apply_url is gone (a
      failed pull never closes anything); a closed job whose URL is back reopens.
+     Safety net: a job first seen more than STALE_AFTER_DAYS ago whose URL is
+     not live closes even if its company wasn't pulled (a company dropped from
+     collection would otherwise keep its jobs open forever). If it was wrong,
+     the URL showing up again reopens it.
 
 Runs automatically after collect_jobs.py in CI; safe to run locally too.
 
@@ -29,7 +33,7 @@ Env:
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import httpx
@@ -41,6 +45,7 @@ BATCH_SIZE = 250  # rows now carry multi-KB descriptions
 PAGE_SIZE = 1000  # PostgREST's default max rows per response
 ID_BATCH = 100    # ids per PATCH, keeps the id=in.(...) URL short
 TIMEOUT = 60.0
+STALE_AFTER_DAYS = 30  # unseen-and-old jobs close even when their company wasn't pulled
 
 
 def _upsert(client: httpx.Client, base: str, auth_headers: dict, batch: list[dict]) -> httpx.Response:
@@ -91,12 +96,14 @@ def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, to
         return 0, 0
 
     base = f"{url.rstrip('/')}/rest/v1/scored_jobs"
+    # Only trust "not live" for the age rule when this run actually saw live jobs.
+    stale_before = (date.fromisoformat(today) - timedelta(days=STALE_AFTER_DAYS)).isoformat() if live else ""
     to_close, to_reopen = [], []
     offset = 0
     while True:
         resp = client.get(
             base,
-            params={"select": "id,apply_url,company,status", "order": "id",
+            params={"select": "id,apply_url,company,status,first_seen", "order": "id",
                     "limit": PAGE_SIZE, "offset": offset},
             headers=auth_headers,
         )
@@ -105,10 +112,14 @@ def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, to
         for r in page:
             u = (r.get("apply_url") or "").strip()
             is_closed = r.get("status") == "closed"
+            first_seen = (r.get("first_seen") or "")[:10]
             if u in live:
                 if is_closed:
                     to_reopen.append(r["id"])
-            elif not is_closed and (r.get("company") or "").lower() in successful:
+            elif not is_closed and (
+                (r.get("company") or "").lower() in successful
+                or (stale_before and first_seen and first_seen < stale_before)
+            ):
                 to_close.append(r["id"])
         if len(page) < PAGE_SIZE:
             break

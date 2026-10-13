@@ -99,3 +99,23 @@ def test_reconcile_pages_through_all_rows(tmp_path, monkeypatch):
     result, patches = _reconcile(tmp_path, monkeypatch, live, rows)
     assert result == (5, 0)
     assert [p[0] for p in patches] == ["in.(0,1)", "in.(2,3)", "in.(4)"]
+
+
+def test_reconcile_closes_old_unseen_jobs_from_uncollected_companies(tmp_path, monkeypatch):
+    live = {"live_apply_urls": ["https://x/live"], "successful_companies": ["Acme"]}
+    rows = [
+        {"id": 1, "apply_url": "https://x/may", "company": "Dropped", "status": "open", "first_seen": "2026-05-02T08:00:00+00:00"},
+        {"id": 2, "apply_url": "https://x/recent", "company": "Dropped", "status": "open", "first_seen": "2026-10-01"},
+        {"id": 3, "apply_url": "https://x/nodate", "company": "Dropped", "status": "open", "first_seen": None},
+        {"id": 4, "apply_url": "https://x/live", "company": "Dropped", "status": "open", "first_seen": "2026-05-02"},
+    ]
+    result, patches = _reconcile(tmp_path, monkeypatch, live, rows)
+    assert result == (1, 0)
+    assert patches == [("in.(1)", {"status": "closed", "closed_at": "2026-10-13"})]
+
+
+def test_reconcile_age_rule_needs_live_urls(tmp_path, monkeypatch):
+    # A run where nothing came back live must not age-close everything.
+    live = {"live_apply_urls": [], "successful_companies": ["Acme"]}
+    rows = [{"id": 1, "apply_url": "https://x/may", "company": "Dropped", "status": "open", "first_seen": "2026-05-02"}]
+    assert _reconcile(tmp_path, monkeypatch, live, rows) == ((0, 0), [])

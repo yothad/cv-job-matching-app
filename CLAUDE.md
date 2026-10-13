@@ -68,7 +68,9 @@ between collect and score with `continue-on-error: true` - it mirrors new_jobs.j
 (incl. descriptions) into the webapp's shared Supabase `positions` table, which is
 also what the webapp's "Score now" endpoint reads. It then reconciles liveness on
 every user's Supabase `scored_jobs` from live_positions.json (same rule as score.py:
-close only if the company pulled OK and the URL is gone; reopen if it's back).
+close only if the company pulled OK and the URL is gone; reopen if it's back;
+as a safety net, a job first seen 30+ days ago whose URL isn't live closes even if
+its company wasn't pulled, e.g. a company dropped from collection).
 A Supabase outage must never block scoring.
 After score.py, two more `continue-on-error` side steps feed the webapp:
 `scripts/push_scores_to_webapp.py` copies the pipeline's scores into the webapp accounts mapped in
