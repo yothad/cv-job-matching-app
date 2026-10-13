@@ -32,9 +32,13 @@ _SERVER_CODES = {500, 502, 503, 504}
 # on it before falling back (3.5-flash 503'd on nearly every batch on 2026-10-13).
 _COOLDOWN_S = 120
 _cooldown_until: dict[str, float] = {}
+# Per-request timeout: a hung call must give up and fall through the cascade, not stall the run.
+_TIMEOUT_MS = int(float(os.environ.get("GEMINI_TIMEOUT_S", "60")) * 1000)
 
 
 def _status_code(e: Exception) -> int | None:
+    if "timeout" in type(e).__name__.lower() or "timed out" in str(e).lower():
+        return 504  # treat a client-side timeout like a gateway timeout: next model, then backoff
     code = getattr(e, "code", None)  # google.genai errors.APIError carries the HTTP status
     if isinstance(code, int):
         return code
@@ -49,6 +53,7 @@ def generate(client, contents, config=None):
     now = time.monotonic()
     ready = [m for m in MODELS if _cooldown_until.get(m, 0) <= now]
     order = ready + [m for m in MODELS if m not in ready]  # cooling models last, never dropped
+    config = {**(config or {}), "http_options": {"timeout": _TIMEOUT_MS}}
     last = None
     for i, model in enumerate(order):
         try:

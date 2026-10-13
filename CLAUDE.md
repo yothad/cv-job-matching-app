@@ -53,7 +53,8 @@ score.py  (daily, after collect_jobs.py)
      default gemini-3.5-flash then -lite, override with env GEMINI_MODELS): a 404/429/5xx on one
      model moves to the next, and a model that answered 429/5xx is tried last for 120s. 5xx is
      retried with backoff like 429; if it outlasts the retries, those jobs become scorer-error
-     (retried next run) rather than stopping the run. Pinned ids only; 2.5 Flash 404s for new keys
+     (retried next run) rather than stopping the run. Every call has a 60s timeout (env
+     GEMINI_TIMEOUT_S); a timeout counts as a 504. Pinned ids only; 2.5 Flash 404s for new keys
   └─ a malformed item only fails that job; scorer-error results are not logged to
      all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)

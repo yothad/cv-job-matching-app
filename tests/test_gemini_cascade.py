@@ -114,3 +114,30 @@ def test_transient_5xx_on_every_model_is_retried():
 def test_lasting_5xx_skips_the_jobs_instead_of_stopping_the_run():
     out = gs.score_jobs_batch(JOB, "p", "cv", _Client({"a": 500, "b": 503}))
     assert "scorer-error" in out[0]["flags"]  # not QuotaExhaustedError, which ends the whole run
+
+
+def test_every_call_carries_a_timeout():
+    seen = []
+
+    class C(_Client):
+        def generate_content(self, model, contents, config=None):
+            seen.append(config["http_options"]["timeout"])
+            return model
+
+    gs.generate(C({}), "p", {"response_mime_type": "application/json"})
+    assert seen == [gs._TIMEOUT_MS] and gs._TIMEOUT_MS > 0
+
+
+def test_timeout_falls_through_to_next_model():
+    class ReadTimeout(Exception):
+        pass
+
+    class C(_Client):
+        def generate_content(self, model, contents, config=None):
+            self.tried.append(model)
+            if model == "a":
+                raise ReadTimeout("The read operation timed out")
+            return model
+
+    c = C({})
+    assert gs.generate(c, "p") == "b" and c.tried == ["a", "b"]
