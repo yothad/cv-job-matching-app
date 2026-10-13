@@ -51,7 +51,7 @@ Tel Aviv metro area. Commute up to 60 minutes. Open to hybrid (2-3 days office).
 const PROFILE_SECTIONS_GUIDE = [
   { section: '## Who I am', why: 'Your seniority and specialty. This is how the AI learns what "senior" means for you.' },
   { section: "## What I'm looking for", why: 'Your targets in priority order. The AI ranks title fit against this list.' },
-  { section: '## Location', why: 'Commute and hybrid limits, so out-of-range roles never reach your digest.' },
+  { section: '## Location', why: 'Commute and hybrid limits, so out-of-range roles score low and stay out of your digest.' },
   { section: '## Strong fit signals', why: 'Explicit boosts. When the AI sees these in a posting, the score goes up.' },
   { section: '## Weak fit / skip', why: 'Explicit penalties. When these appear, the score goes down.' },
   { section: '## Dealbreakers', why: 'Hard zeroes. A job that hits one scores 0, whatever else it offers.' },

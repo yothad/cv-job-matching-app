@@ -31,8 +31,8 @@ export default function TermsPage() {
             <p>
               You may upload your CV and provide a Gemini API key to enable job scoring.
               These are stored securely in our database (Supabase) and are used solely to
-              power the features you explicitly invoke - such as scoring job listings against
-              your profile. We do not use your CV or API key for any other purpose.
+              power the features you explicitly invoke - scoring job listings against your
+              profile and the gap analysis on the Gaps page. We do not use your CV or API key for any other purpose.
             </p>
           </section>
 

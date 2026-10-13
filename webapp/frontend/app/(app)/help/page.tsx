@@ -5,7 +5,7 @@ import { SCORE_BANDS } from '@/lib/scoreBands'
 // Derived from the shared SCORE_BANDS so the numbers/labels here can't drift
 // from the digest legend and badge tooltips.
 const scoreBandsSummary =
-  `Score bands: ${SCORE_BANDS.map(b => `${b.range} - ${b.blurb}`).join(' ')} Jobs scoring below 5 never reach your digest.`
+  `Score bands: ${SCORE_BANDS.map(b => `${b.range} - ${b.blurb}`).join(' ')} Jobs scoring below 5 are hidden from your digest by default - lower the min score filter to see them.`
 
 const sections = [
   {
@@ -47,7 +47,7 @@ const sections = [
     content: [
       'Your Gemini API key is encrypted before it is stored in Supabase; your CV and profile sit in your account alongside it. None of it goes to any third party except Gemini, and only to score jobs and to run the gap analysis on the Gaps page. CareerWatch does not sell, share, or reuse your data for anything but running your matches.',
       'Your key is used for scoring calls, for the gap analysis that runs when you open the Gaps page, and for the key check you trigger from Settings. A scoring call sends your CV, your profile, and a batch of job descriptions to Gemini and gets scores back; a gap call sends your CV and profile, plus your top-scoring jobs, and gets back where they diverge. Nothing else.',
-      'You can export or permanently delete all your data at any time from Settings > Account. Deletion removes your CV, profile, API key, and every stored score.',
+      'You can export your scored jobs or permanently delete all your data at any time from Settings > Account. Deletion removes your CV, profile, API key, and every stored score.',
     ],
   },
   {
