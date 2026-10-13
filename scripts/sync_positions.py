@@ -13,7 +13,8 @@ with a warning if the column isn't there yet) into the global `positions` table:
      with the same rule as score.py's _reconcile_status: a job closes only when
      its company pulled successfully this run and its apply_url is gone (a
      failed pull never closes anything); a closed job whose URL is back reopens.
-     Safety net: a job first seen (or, lacking that, scored) more than STALE_AFTER_DAYS ago whose URL is
+     Safety net: a job first seen (or, lacking that, scored) more than
+     STALE_AFTER_DAYS ago whose URL is
      not live closes even if its company wasn't pulled (a company dropped from
      collection would otherwise keep its jobs open forever) - but never when
      its company's pull raised this run. If it was wrong, the URL showing up
