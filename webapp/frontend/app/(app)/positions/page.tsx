@@ -3,10 +3,15 @@
 import { useEffect, useState, useMemo } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { readCache, writeCache } from '@/lib/swrCache'
 import { useCountUp } from '@/hooks/useCountUp'
 import { DetailPanel } from '@/app/components/DetailPanel'
 
 const PAGE_SIZE = 50
+// SWR cache for the /jobs/positions list - bump the version when Position changes.
+// 4 days = the longest gap between collection runs (Thu -> Mon).
+const POSITIONS_CACHE_VERSION = 1
+const POSITIONS_CACHE_MAX_AGE_MS = 4 * 24 * 60 * 60 * 1000
 
 type Position = {
   company: string
@@ -81,14 +86,9 @@ function PositionDetailPanel({ position, onClose }: { position: Position; onClos
         <p className="cw-label text-subtle mb-2">Job description</p>
         <p className="text-sm text-subtle">
           The full description isn&apos;t stored in the shared catalog.{' '}
-          {position.apply_url ? (
-            <>
-              Open the posting via{' '}
-              <a href={position.apply_url} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">Go to posting</a>.
-            </>
-          ) : (
-            <>No application link is available for this position yet.</>
-          )}
+          {position.apply_url
+            ? 'Use the Go to posting button above to open the original posting.'
+            : 'No application link is available for this position yet.'}
         </p>
       </div>
     </DetailPanel>
@@ -98,23 +98,48 @@ function PositionDetailPanel({ position, onClose }: { position: Position; onClos
 export default function PositionsPage() {
   const [positions, setPositions] = useState<Position[]>([])
   const [loading, setLoading] = useState(true)
+  // While a cached list is on screen: 'updating' = background refetch in flight,
+  // 'failed' = refetch failed and the cached list stays. 'none' = live data.
+  const [cacheState, setCacheState] = useState<'none' | 'updating' | 'failed'>('none')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(0)
   const [detailPosition, setDetailPosition] = useState<Position | null>(null)
   const animatedTotal = useCountUp(loading ? 0 : positions.length)
 
-  useEffect(() => {
-    async function load() {
+  async function load() {
+    try {
       const { data: { session } } = await supabase.auth.getSession()
+      const userId = session?.user?.id ?? null
       const token = session?.access_token ?? ''
+      // Paint the last-seen list from the per-user cache, then revalidate.
+      const cached = readCache<Position[]>('positions', { userId, version: POSITIONS_CACHE_VERSION, maxAgeMs: POSITIONS_CACHE_MAX_AGE_MS })
+      if (Array.isArray(cached) && cached.length > 0) {
+        setPositions(cached)
+        setCacheState('updating')
+        setLoading(false)
+      }
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/positions`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      if (res.ok) setPositions(await res.json())
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data: Position[] = await res.json()
+      setPositions(data)
+      setCacheState('none')
+      writeCache('positions', data, { userId, version: POSITIONS_CACHE_VERSION })
+    } catch {
+      // Keep whatever is on screen (cached list or empty); only flag it if cached.
+      setCacheState(s => (s === 'none' ? 'none' : 'failed'))
+    } finally {
       setLoading(false)
     }
+  }
+
+  useEffect(() => { load() }, [])
+
+  function retryRefresh() {
+    setCacheState('updating')
     load()
-  }, [])
+  }
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -147,6 +172,15 @@ export default function PositionsPage() {
               </span>
             )}
           </h1>
+          {cacheState === 'updating' && (
+            <span className="text-xs text-subtle" aria-live="polite">Updating...</span>
+          )}
+          {cacheState === 'failed' && (
+            <span className="text-xs text-subtle" aria-live="polite">
+              Couldn&apos;t refresh - showing saved list.{' '}
+              <button onClick={retryRefresh} className="underline underline-offset-2 hover:text-foreground transition-colors">Retry</button>
+            </span>
+          )}
           <input
             value={search}
             onChange={e => handleSearch(e.target.value)}

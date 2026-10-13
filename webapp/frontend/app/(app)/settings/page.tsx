@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AlertTriangle, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { clearSwrCache } from '@/lib/swrCache'
 import { ACCEPT_ATTR, extractUploadText } from '@/lib/uploadFormats'
 
 type Tab = 'profile' | 'cv' | 'filters' | 'apikey' | 'account'
@@ -138,7 +139,7 @@ function FilterPanel({ locationInput, onLocationChange, skipTitles, onSkipTitles
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Skip these industries <span title="Jobs tagged with these industries are dropped before scoring" className="text-subtle cursor-help">(?)</span>
+          Skip these industries <span title="Jobs whose description or company name contains any of these terms are dropped before scoring" className="text-subtle cursor-help">(?)</span>
         </label>
         <p className="text-xs text-subtle mb-1">e.g. gaming, adtech, gambling</p>
         <TagInput tags={skipIndustries} onChange={onSkipIndustriesChange} placeholder="industry, press Enter" />
@@ -455,6 +456,7 @@ export default function SettingsPage() {
   async function deleteAccount() {
     await api('/user/account', { method: 'DELETE' })
     await supabase.auth.signOut()
+    clearSwrCache()
     router.push('/')
   }
 

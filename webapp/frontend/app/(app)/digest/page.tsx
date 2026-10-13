@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
+import { readCache, writeCache } from '@/lib/swrCache'
+import { takeLastSeen, isNewSince } from '@/lib/lastSeen'
 import { SCORE_BANDS, bandFor } from '@/lib/scoreBands'
 import { flagInfo } from '@/lib/flags'
 import GettingStartedChecklist from '@/app/components/GettingStartedChecklist'
@@ -105,6 +107,55 @@ function ScoreLegend() {
       </div>
     </div>
   )
+}
+
+type SortBy = 'score' | 'date' | 'company'
+const SORT_OPTIONS: { value: SortBy, label: string }[] = [
+  { value: 'score', label: 'Score (high to low)' },
+  { value: 'date', label: 'Date scored (newest)' },
+  { value: 'company', label: 'Company (A-Z)' },
+]
+
+// Digest view state (filters, sort, min score) persisted per browser so a
+// returning user keeps their view. Storage may be unavailable (private mode,
+// blocked site data) or hold a malformed value - both fall back to defaults.
+const VIEW_KEY = 'cw.digest.view.v1'
+const DEFAULT_VIEW = { minScore: 5, titleFilter: '', companyFilter: '', locationFilter: '', sortBy: 'score' as SortBy }
+type DigestView = typeof DEFAULT_VIEW
+
+function loadView(): DigestView {
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(VIEW_KEY) ?? 'null')
+    if (!raw || typeof raw !== 'object') return DEFAULT_VIEW
+    const str = (v: unknown, d: string) => typeof v === 'string' ? v : d
+    return {
+      minScore: Number.isInteger(raw.minScore) && raw.minScore >= 0 && raw.minScore <= 10 ? raw.minScore : DEFAULT_VIEW.minScore,
+      titleFilter: str(raw.titleFilter, ''),
+      companyFilter: str(raw.companyFilter, ''),
+      locationFilter: str(raw.locationFilter, ''),
+      sortBy: SORT_OPTIONS.some(o => o.value === raw.sortBy) ? raw.sortBy : DEFAULT_VIEW.sortBy,
+    }
+  } catch {
+    return DEFAULT_VIEW
+  }
+}
+
+function saveView(view: DigestView) {
+  try {
+    window.localStorage.setItem(VIEW_KEY, JSON.stringify(view))
+  } catch {
+    /* storage unavailable - the view just won't persist */
+  }
+}
+
+const scoredTime = (j: Job) => { const t = Date.parse(j.scored_at); return isNaN(t) ? 0 : t }
+
+function compareJobs(sortBy: SortBy) {
+  return (a: Job, b: Job) => {
+    if (sortBy === 'date') return scoredTime(b) - scoredTime(a) || b.score - a.score
+    if (sortBy === 'company') return a.company.localeCompare(b.company) || b.score - a.score
+    return b.score - a.score || scoredTime(b) - scoredTime(a)
+  }
 }
 
 function JobCardSkeleton() {
@@ -286,9 +337,20 @@ function ClosedJobCard({ job }: { job: Job }) {
   )
 }
 
+// SWR cache for the /jobs list. Bump JOBS_CACHE_VERSION when the Job row shape
+// changes. 4 days = the longest gap between collection runs (Thu -> Mon), so an
+// older cache certainly predates the latest collection and is not worth painting.
+const JOBS_CACHE_VERSION = 1
+const JOBS_CACHE_MAX_AGE_MS = 4 * 24 * 60 * 60 * 1000
+
 export default function DigestPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [loading, setLoading] = useState(true)
+  // While a cached list is on screen: 'updating' = background refetch in flight,
+  // 'failed' = refetch failed and the cached list stays. 'none' = live data.
+  const [cacheState, setCacheState] = useState<'none' | 'updating' | 'failed'>('none')
+  const [cacheUserId, setCacheUserId] = useState<string | null>(null)
+  const [jobsSynced, setJobsSynced] = useState(false)
   const [scoring, setScoring] = useState(false)
   const [scoreMsg, setScoreMsg] = useState('')
   const [runsUsed, setRunsUsed] = useState(0)
@@ -297,11 +359,23 @@ export default function DigestPage() {
   const [hasProfile, setHasProfile] = useState(false)
   const [hasCv, setHasCv] = useState(false)
   const [hasApiKey, setHasApiKey] = useState(false)
-  const [minScore, setMinScore] = useState(5)
-  const [titleFilter, setTitleFilter] = useState('')
-  const [companyFilter, setCompanyFilter] = useState('')
-  const [locationFilter, setLocationFilter] = useState('')
+  const [minScore, setMinScore] = useState(DEFAULT_VIEW.minScore)
+  const [titleFilter, setTitleFilter] = useState(DEFAULT_VIEW.titleFilter)
+  const [companyFilter, setCompanyFilter] = useState(DEFAULT_VIEW.companyFilter)
+  const [locationFilter, setLocationFilter] = useState(DEFAULT_VIEW.locationFilter)
+  const [sortBy, setSortBy] = useState<SortBy>(DEFAULT_VIEW.sortBy)
+  // Saved view is read after mount (not in the initial state) to avoid an SSR
+  // hydration mismatch; saving waits until it has been read so defaults never
+  // overwrite it.
+  const [viewLoaded, setViewLoaded] = useState(false)
   const [showApplied, setShowApplied] = useState(false)
+  // PREVIOUS last_seen_at (ms), captured once per page visit before it is
+  // stamped to now. null = first visit / storage blocked: no banner, no badges.
+  const [prevSeenAt, setPrevSeenAt] = useState<number | null>(null)
+  const lastSeenTaken = useRef(false)
+  // Not persisted in the saved view: on the next visit nothing is new, so a
+  // remembered "only new" would just show an empty list.
+  const [onlyNew, setOnlyNew] = useState(false)
   const [detailJobId, setDetailJobId] = useState<string | null>(null)
   const [detailDescription, setDetailDescription] = useState<string | null>(null)
   const [detailLoading, setDetailLoading] = useState(false)
@@ -321,12 +395,50 @@ export default function DigestPage() {
   }
 
   async function loadJobs() {
-    const token = await getToken()
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-    if (res.ok) setJobs(await res.json())
-    setLoading(false)
+    try {
+      const token = await getToken()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setJobs(await res.json())
+      setJobsSynced(true)
+      setCacheState('none')
+    } catch {
+      // Keep whatever is on screen (cached list or empty); only flag it if cached.
+      setCacheState(s => (s === 'none' ? 'none' : 'failed'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Paint the last-seen list from the per-user cache, then revalidate.
+  async function initialLoad() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const userId = session?.user?.id ?? null
+      setCacheUserId(userId)
+      // Once per visit (ref also guards a StrictMode double effect), so the
+      // cached paint and the revalidated list share the same baseline.
+      if (!lastSeenTaken.current) {
+        lastSeenTaken.current = true
+        setPrevSeenAt(takeLastSeen(userId))
+      }
+      const cached = readCache<Job[]>('jobs', { userId, version: JOBS_CACHE_VERSION, maxAgeMs: JOBS_CACHE_MAX_AGE_MS })
+      if (Array.isArray(cached) && cached.length > 0) {
+        setJobs(cached)
+        setCacheState('updating')
+        setLoading(false)
+      }
+    } catch {
+      /* no session / no cache - skeleton path */
+    }
+    await loadJobs()
+  }
+
+  function retryRefresh() {
+    setCacheState('updating')
+    loadJobs()
   }
 
   async function loadStats() {
@@ -353,16 +465,36 @@ export default function DigestPage() {
       setRunsUsed(d.scoring_runs_this_week ?? 0)
       setRunLimitResetsOn(d.run_limit_resets_on ?? null)
       setCurrentProfileVersion(d.profile_version ?? 1)
-      setHasProfile(!!(d.profile_md && String(d.profile_md).trim()))
-      setHasCv(!!(d.cv_text && String(d.cv_text).trim()))
-      setHasApiKey(d.has_api_key === true)
+      setHasProfile(d.setup?.profile === true)
+      setHasCv(d.setup?.cv === true)
+      setHasApiKey(d.setup?.api_key === true)
       setUserLoaded(true)
     } catch {
       /* network error - keep the checklist hidden rather than show it wrong */
     }
   }
 
-  useEffect(() => { loadJobs(); loadUser(); loadStats() }, [])
+  useEffect(() => { initialLoad(); loadUser(); loadStats() }, [])
+
+  // Persist the list only once it is live, so a failed refresh never re-stamps
+  // stale cached data as fresh. Also catches applied toggles and score reloads.
+  useEffect(() => {
+    if (jobsSynced) writeCache('jobs', jobs, { userId: cacheUserId, version: JOBS_CACHE_VERSION })
+  }, [jobsSynced, jobs, cacheUserId])
+
+  useEffect(() => {
+    const v = loadView()
+    setMinScore(v.minScore)
+    setTitleFilter(v.titleFilter)
+    setCompanyFilter(v.companyFilter)
+    setLocationFilter(v.locationFilter)
+    setSortBy(v.sortBy)
+    setViewLoaded(true)
+  }, [])
+
+  useEffect(() => {
+    if (viewLoaded) saveView({ minScore, titleFilter, companyFilter, locationFilter, sortBy })
+  }, [viewLoaded, minScore, titleFilter, companyFilter, locationFilter, sortBy])
 
   async function triggerScoring() {
     setScoring(true)
@@ -435,17 +567,30 @@ export default function DigestPage() {
     .filter(j => matchesMultiFilter(j.title, titleFilter))
     .filter(j => matchesMultiFilter(j.company, companyFilter))
     .filter(j => matchesMultiFilter(j.location, locationFilter))
+    .filter(j => !onlyNew || isNewSince(j.scored_at, prevSeenAt))
+    .sort(compareJobs(sortBy))
+
+  // Below-5 scores fall outside every band (bandFor would lump them into 5-6).
+  const tierCounts = SCORE_BANDS.map(b => ({
+    band: b,
+    count: filtered.filter(j => j.score >= 5 && bandFor(j.score) === b).length,
+  }))
 
   const openJobs = filtered.filter(j => (j.status ?? 'open') !== 'closed')
   const closedJobs = filtered.filter(j => j.status === 'closed')
   const active = openJobs.filter(j => !j.applied)
   const applied = openJobs.filter(j => j.applied)
+  // /jobs returns every score, so honour the min-score slider (not the text
+  // filters) to keep the count meaningful when "show only new" is applied.
+  const newCount = jobs.filter(j => j.score >= minScore && j.status !== 'closed' && isNewSince(j.scored_at, prevSeenAt)).length
 
   function resetFilters() {
     setMinScore(5)
     setTitleFilter('')
     setCompanyFilter('')
     setLocationFilter('')
+    setSortBy(DEFAULT_VIEW.sortBy)
+    setOnlyNew(false)
   }
 
   const lastScoredIso = stats?.last_scored_at
@@ -492,6 +637,15 @@ export default function DigestPage() {
             </span>
           )}
           {!scoring && scoreMsg && <span className="text-sm text-muted">{scoreMsg}</span>}
+          {cacheState === 'updating' && (
+            <span className="text-xs text-subtle" aria-live="polite">Updating...</span>
+          )}
+          {cacheState === 'failed' && (
+            <span className="text-xs text-subtle" aria-live="polite">
+              Couldn&apos;t refresh - showing saved results.{' '}
+              <button onClick={retryRefresh} className="underline underline-offset-2 hover:text-foreground transition-colors">Retry</button>
+            </span>
+          )}
           {runsUsed >= 2 && (
             <span className="text-xs text-subtle" title="2 scoring runs per week. The limit resets at the start of the week (Monday).">
               Run limit reached - {resetWording(runLimitResetsOn)}
@@ -522,15 +676,37 @@ export default function DigestPage() {
           hasJobs={jobs.length > 0}
         />}
 
+        {/* New since last visit (suppressed on first visit - see lib/lastSeen.ts) */}
+        {!loading && newCount > 0 && (
+          <div className="flex items-center justify-between gap-3 flex-wrap px-4 py-2.5 rounded-xl border border-accent/25 bg-accent/10 text-sm" aria-live="polite">
+            <span className="text-foreground">
+              {newCount.toLocaleString()} new since your last visit
+            </span>
+            <button onClick={() => setOnlyNew(v => !v)} aria-pressed={onlyNew}
+              className="text-accent hover:text-accent-hover underline underline-offset-2 transition-colors">
+              {onlyNew ? 'Show all' : 'Show only new'}
+            </button>
+          </div>
+        )}
+
         {/* Score legend */}
         <ScoreLegend />
 
         {/* Filters */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <label className="text-sm text-muted">Min score:</label>
-            <input type="range" min={0} max={10} value={minScore} onChange={e => setMinScore(+e.target.value)} className="w-24 accent-accent" />
-            <span className="text-sm w-4 text-foreground font-medium tabular-nums">{minScore}</span>
+          <div className="flex items-center gap-x-4 gap-y-2 flex-wrap">
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-muted">Min score:</label>
+              <input type="range" min={0} max={10} value={minScore} onChange={e => setMinScore(+e.target.value)} className="w-24 accent-accent" />
+              <span className="text-sm w-4 text-foreground font-medium tabular-nums">{minScore}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <label htmlFor="digest-sort" className="text-sm text-muted">Sort:</label>
+              <select id="digest-sort" value={sortBy} onChange={e => setSortBy(e.target.value as SortBy)}
+                className="px-2 py-1 bg-surface-raised rounded-lg border border-border-subtle text-sm focus:outline-none focus:border-accent transition-colors">
+                {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+              </select>
+            </div>
           </div>
           <div className="flex gap-2 flex-wrap">
             <input value={titleFilter} onChange={e => setTitleFilter(e.target.value)}
@@ -544,6 +720,19 @@ export default function DigestPage() {
               className="flex-1 min-w-[160px] px-3 py-1.5 bg-surface-raised rounded-lg border border-border-subtle text-sm placeholder:text-subtle focus:outline-none focus:border-accent transition-colors" />
           </div>
         </div>
+
+        {/* Result count + per-tier summary */}
+        {!loading && jobs.length > 0 && (
+          <div className="flex items-center gap-3 flex-wrap text-xs text-subtle font-mono" aria-live="polite">
+            <span>Showing {filtered.length.toLocaleString()} of {jobs.length.toLocaleString()}</span>
+            {tierCounts.map(({ band, count }) => (
+              <span key={band.range} className="inline-flex items-center gap-1.5">
+                <span className={`${band.color} w-2 h-2 rounded-full inline-block`} aria-hidden="true" />
+                {band.range}: {count}
+              </span>
+            ))}
+          </div>
+        )}
 
         {/* Job list */}
         {loading && (
@@ -559,7 +748,7 @@ export default function DigestPage() {
             onResetFilters={resetFilters}
           />
         )}
-        {!loading && active.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} />)}
+        {!loading && active.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} isNew={isNewSince(job.scored_at, prevSeenAt)} />)}
 
         {/* Applied section */}
         {applied.length > 0 && (
@@ -567,7 +756,7 @@ export default function DigestPage() {
             <button onClick={() => setShowApplied(v => !v)} className="text-sm text-muted hover:text-foreground py-2 underline underline-offset-2 decoration-border-subtle transition-colors">
               {showApplied ? `Hide ${applied.length} applied` : `Show ${applied.length} applied`}
             </button>
-            {showApplied && applied.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} />)}
+            {showApplied && applied.map(job => <JobCard key={job.id} job={job} onToggleApplied={toggleApplied} currentProfileVersion={currentProfileVersion} onOpen={openDetail} isNew={isNewSince(job.scored_at, prevSeenAt)} />)}
           </div>
         )}
 

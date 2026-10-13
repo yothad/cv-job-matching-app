@@ -154,8 +154,8 @@ First-time-user comprehension, digest trust, the job-seeker workspace, and the a
 | [WEBAPP_APPLICATION_TRACKER](future_devs/WEBAPP_APPLICATION_TRACKER_SPEC.md) | Application status tracker (saved/applied/interviewing/...) | `not-started` | M | WEBAPP_JOBSEEKER_WORKFLOW |
 | [WEBAPP_POSITIONS_MARK_APPLIED](future_devs/WEBAPP_POSITIONS_MARK_APPLIED_SPEC.md) | Mark-applied on Positions (shared catalog) — needs per-user overlay; confirm scope first | `not-started` | S | WEBAPP_POSITIONS_CATALOG_SYNC |
 | [WEBAPP_HIDE_DISMISS_JOBS](future_devs/WEBAPP_HIDE_DISMISS_JOBS_SPEC.md) | Hide / dismiss irrelevant jobs | `not-started` | S | WEBAPP_JOBSEEKER_WORKFLOW |
-| [WEBAPP_NEW_SINCE_LAST_VISIT](future_devs/WEBAPP_NEW_SINCE_LAST_VISIT_SPEC.md) | "New since last visit" badges + filter | `not-started` | S | WEBAPP_JOBSEEKER_WORKFLOW |
-| [WEBAPP_DIGEST_SORT_PERSIST](future_devs/WEBAPP_DIGEST_SORT_PERSIST_SPEC.md) | Sort controls + persist filter/sort view + counts | `not-started` | S | WEBAPP_JOBSEEKER_WORKFLOW |
+| [WEBAPP_NEW_SINCE_LAST_VISIT](future_devs/WEBAPP_NEW_SINCE_LAST_VISIT_SPEC.md) | "New since last visit" badges + filter | `completed` | S | WEBAPP_JOBSEEKER_WORKFLOW |
+| [WEBAPP_DIGEST_SORT_PERSIST](future_devs/WEBAPP_DIGEST_SORT_PERSIST_SPEC.md) | Sort controls + persist filter/sort view + counts | `completed` | S | WEBAPP_JOBSEEKER_WORKFLOW |
 
 ### Epic: App shell & account UX
 
@@ -171,9 +171,9 @@ First-time-user comprehension, digest trust, the job-seeker workspace, and the a
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [WEBAPP_COPY_POLISH](future_devs/WEBAPP_COPY_POLISH_SPEC.md) | Voice/clarity pass on onboarding + landing + help + profile.md notes (Fable) | `not-started` | S | — |
-| [WEBAPP_INSTANT_LOAD_SWR](future_devs/WEBAPP_INSTANT_LOAD_SWR_SPEC.md) | Instant load — SWR localStorage cache on Digest + Positions + keep-warm ping to kill Render cold start | `not-started` | S | — |
-| [WEBAPP_FIRST_LOGIN_JOURNEY](future_devs/WEBAPP_FIRST_LOGIN_JOURNEY_SPEC.md) | First-login journey - redirect new users to a short welcome + resumable guided setup (profile, CV, API key, filters) | `not-started` | S | - |
+| [WEBAPP_COPY_POLISH](future_devs/WEBAPP_COPY_POLISH_SPEC.md) | Voice/clarity pass on onboarding + landing + help + profile.md notes (Fable) | `completed` | S | — |
+| [WEBAPP_INSTANT_LOAD_SWR](future_devs/WEBAPP_INSTANT_LOAD_SWR_SPEC.md) | Instant load — SWR localStorage cache on Digest + Positions + keep-warm ping to kill Render cold start | `completed` | S | — |
+| [WEBAPP_FIRST_LOGIN_JOURNEY](future_devs/WEBAPP_FIRST_LOGIN_JOURNEY_SPEC.md) | First-login journey - redirect new users to a short welcome + resumable guided setup (profile, CV, API key, filters) | `completed` | S | - |
 | [WEBAPP_MULTI_PROFILE](future_devs/WEBAPP_MULTI_PROFILE_SPEC.md) | Multiple named profiles per user (own profile text, CV, filters, scores) with a profile switcher | `not-started` | L | WEBAPP_FIRST_LOGIN_JOURNEY |
 
 > Bug: [BUG_LANDING_DEAD_GITHUB_LINKS](bugs_to_fix/BUG_LANDING_DEAD_GITHUB_LINKS.md) — dead `href="#"` GitHub links on landing (filed in `bugs_to_fix/`).
@@ -240,7 +240,7 @@ enable server-side `fallbacks` to `claude-opus-4-8` for cyber-content refusals.
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [PIPELINE_FAILURE_RESILIENCE](future_devs/PIPELINE_FAILURE_RESILIENCE_SPEC.md) | Diagnose + harden intermittent collect/score/refresh failures | `not-started` | M | — |
+| [PIPELINE_FAILURE_RESILIENCE](future_devs/PIPELINE_FAILURE_RESILIENCE_SPEC.md) | Diagnose + harden intermittent collect/score/refresh failures | `completed` | M | — |
 
 ---
 
@@ -259,7 +259,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Slug | Title | Status | Effort | Depends on |
 |---|---|---|---|---|
-| [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `not-started` | S | — |
+| [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `completed` | S | — |
 | [SCORER_EVAL_HARNESS](future_devs/SCORER_EVAL_HARNESS_SPEC.md) | Human-labelled golden set + band accuracy / hard-filter recall + CI gate on `gemini_scorer.py` | `not-started` | S | SCORER_EVAL_HARNESS_CODE |
 
 ---

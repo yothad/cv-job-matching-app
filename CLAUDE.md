@@ -31,8 +31,9 @@ refresh_companies.py  (weekly)
   └─ merges big_companies.yml (manually maintained, never auto-discovered)
   └─ for new VC companies: discovers careers URL + detects ATS
   └─ for stale VC entries (30d+ since last_verified_at, or consecutive_failures >= 3): re-verifies
+     (a re-verify that finds no usable ATS keeps the cached working config - never downgrades to unknown)
   └─ big_companies.yml entries are NEVER re-verified automatically - edit the YAML to update
-  └─ writes to companies.json (merge, never overwrite)
+  └─ writes to companies.json (merge, never overwrite; atomic write-then-rename)
 
 collect_jobs.py  (daily)
   └─ reads companies.json
@@ -41,12 +42,18 @@ collect_jobs.py  (daily)
   └─ writes new_jobs.json
   └─ NEVER does careers discovery - that's refresh's job
   └─ on failure: increment consecutive_failures, continue with next company
+     (only a puller exception counts; most pullers still return [] on HTTP errors, which looks like 0 jobs)
+  └─ companies.json / new_jobs.json / live_positions.json are written atomically
 
 score.py  (daily, after collect_jobs.py)
   └─ reads new_jobs.json + profile.md + cv.md
   └─ cv_default / cv_lead in score_config.json may point at local-only files; if a
      path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
-  └─ sends each job to Gemini 2.5 Flash
+  └─ sends each job to Gemini via an ordered model cascade (`MODELS` in matcher/gemini_scorer.py,
+     default gemini-3.5-flash then -lite, override with env GEMINI_MODELS): a 404/429/5xx on one
+     model moves to the next. Pinned ids only; 2.5 Flash 404s for keys created after 2026-10
+  └─ a malformed item only fails that job; scorer-error results are not logged to
+     all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)
   └─ exits non-zero if GEMINI_API_KEY is missing for any profile (so CI goes red)
 ```
@@ -266,10 +273,11 @@ Both must pass with no errors.
 `matcher/gemini_scorer.py` produces the number the entire digest is ranked by, and it is
 currently unmeasured. Before changing the scoring prompt, rubric, batch size, or model:
 
-1. If `evals/` does not exist yet, the change you are about to make is unmeasurable — say so
-   to the user and offer `future_devs/SCORER_EVAL_HARNESS_SPEC.md` (P13) first. Do not
-   silently proceed and do not claim the change is an improvement.
-2. If `evals/` exists, run `uv run python evals/run_eval.py --baseline evals/baseline.json`
+1. If there is no baseline yet (`evals/private/baseline.json`, gitignored - see `evals/README.md`),
+   the change you are about to make is unmeasurable — say so to the user and offer the labelling
+   workflow (`future_devs/SCORER_EVAL_HARNESS_SPEC.md`, P13) first. Do not silently proceed and
+   do not claim the change is an improvement.
+2. If a baseline exists, run `uv run python evals/run_eval.py --baseline`
    before and after. Report both numbers. A change that moves band accuracy or hard-filter
    recall down is a regression regardless of how much better the new prompt reads.
 

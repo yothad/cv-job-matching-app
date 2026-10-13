@@ -4,7 +4,7 @@ from typing import List, Optional
 import os
 from datetime import datetime, timezone, date, timedelta
 from cryptography.fernet import Fernet
-from auth import require_user
+from auth import require_user, require_user_and_email
 from db.supabase_client import supabase
 
 router = APIRouter(prefix="/user", tags=["user"])
@@ -46,14 +46,30 @@ def setup_user(body: SetupRequest, authorization: str = Header(...)):
     return {"status": "ok"}
 
 
+def derive_setup(row: dict, filters_seen: bool) -> dict:
+    """Onboarding state from existing fields only - booleans, never the values.
+
+    complete = profile AND api_key; CV and filters are recommended, not required.
+    filters_seen = a score_configs row exists (written by the wizard's filter step
+    or Settings).
+    """
+    def present(k):
+        v = row.get(k)
+        return bool(v.strip()) if isinstance(v, str) else bool(v)
+    profile, cv, api_key = present("profile_md"), present("cv_text"), present("gemini_api_key_encrypted")
+    return {"profile": profile, "cv": cv, "api_key": api_key, "filters_seen": filters_seen, "complete": profile and api_key}
+
+
 @router.get("/me")
 def get_me(authorization: str = Header(...)):
     user_id = require_user(authorization)
     row = getattr(supabase.table("users").select(
         "scoring_runs_this_week,last_week_reset,profile_md,cv_text,profile_version,profile_updated_at,cv_updated_at,gemini_api_key_encrypted"
     ).eq("id", user_id).maybe_single().execute(), "data", None)
+    filters_row = getattr(supabase.table("score_configs").select("user_id").eq("user_id", user_id).limit(1).execute(), "data", None)
     if not row:
-        return {}
+        return {"setup": derive_setup({}, bool(filters_row))}
+    setup = derive_setup(row, bool(filters_row))
     has_api_key = bool(row.get("gemini_api_key_encrypted"))
     api_key_last4 = None
     if has_api_key and FERNET_KEY:
@@ -73,6 +89,7 @@ def get_me(authorization: str = Header(...)):
     today = date.today()
     days_until_monday = (7 - today.weekday()) % 7 or 7
     row["run_limit_resets_on"] = (today + timedelta(days=days_until_monday)).isoformat()
+    row["setup"] = setup
     return row
 
 
@@ -93,21 +110,35 @@ class ApiKeyUpdate(BaseModel):
     gemini_api_key: str
 
 
+def _save_user_fields(user_id: str, email: str | None, fields: dict) -> None:
+    """Update the users row; insert it only if none exists yet (onboarding may save first).
+
+    Not upsert: users.email is NOT NULL, and Postgres checks that on the proposed
+    insert row before ON CONFLICT, so an upsert without email fails even for existing users.
+    """
+    res = supabase.table("users").update(fields).eq("id", user_id).execute()
+    if getattr(res, "data", None):
+        return
+    if not email:
+        return  # no email from the verified session - cannot insert; keep the old no-op behaviour
+    supabase.table("users").insert({"id": user_id, "email": email, **fields}).execute()
+
+
 @router.patch("/profile")
 def update_profile(body: ProfileUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     current = getattr(supabase.table("users").select("profile_version").eq("id", user_id).maybe_single().execute(), "data", None)
     new_version = ((current or {}).get("profile_version") or 1) + 1
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now}).eq("id", user_id).execute()
+    _save_user_fields(user_id, email, {"profile_md": body.profile_md, "profile_version": new_version, "profile_updated_at": now})
     return {"status": "ok", "profile_version": new_version, "profile_updated_at": now}
 
 
 @router.patch("/cv")
 def update_cv(body: CvUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     now = datetime.now(timezone.utc).isoformat()
-    supabase.table("users").update({"cv_text": body.cv_text, "cv_updated_at": now}).eq("id", user_id).execute()
+    _save_user_fields(user_id, email, {"cv_text": body.cv_text, "cv_updated_at": now})
     return {"status": "ok", "cv_updated_at": now}
 
 
@@ -130,11 +161,11 @@ def update_filters(body: FiltersUpdate, authorization: str = Header(...)):
 
 @router.patch("/apikey")
 def update_apikey(body: ApiKeyUpdate, authorization: str = Header(...)):
-    user_id = require_user(authorization)
+    user_id, email = require_user_and_email(authorization)
     fernet_key = os.environ.get("FERNET_KEY", "")
     f = Fernet(fernet_key.encode())
     encrypted = f.encrypt(body.gemini_api_key.encode()).decode()
-    supabase.table("users").update({"gemini_api_key_encrypted": encrypted}).eq("id", user_id).execute()
+    _save_user_fields(user_id, email, {"gemini_api_key_encrypted": encrypted})
     return {"status": "ok"}
 
 

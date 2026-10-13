@@ -1,7 +1,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P7 |
-| **Status** | `not-started` |
+| **Status** | `completed` |
 | **Effort** | S |
 | **Epic** | WEBAPP_JOBSEEKER_WORKFLOW |
 | **Depends on** | — |
@@ -34,3 +34,11 @@ Returning users can't tell what's new since they last looked - core to a recurri
 5. Storage blocked (private window) - the digest still renders, just without badges.
 6. `npm run build` passes; `uv run python3 -m pytest tests/ -v` passes.
 7. `uv run python score.py --dry-run` passes.
+
+## Night run 2026-10-12
+Shipped unattended (gate: pytest, score.py --dry-run, frontend build green; `node --test webapp/frontend/tests/*.mjs` 13/13; review pass).
+Morning QA (browser):
+1. Put an older `cw.digest.lastSeen.v1:<uid>` value in localStorage and load /digest - "New" badges, "N new since your last visit" banner, "Show only new" changes "Showing X of Y"; reload - badges gone.
+2. First visit (key removed) - no banner, no badges. Private window - digest renders, no console error.
+3. Leaving the digest and coming back within the app counts as a new visit. Decide whether it should be per session instead.
+Open questions: jobs scored via "Score now" during a visit show as New again on the next visit; "Show only new" is not persisted; the banner count ignores the text filters.

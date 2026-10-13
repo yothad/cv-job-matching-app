@@ -30,8 +30,9 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">How we use your data</h2>
             <p>
-              Your CV and API key are used only to score job listings on your behalf.
-              Your CV is sent to the Gemini API (using your own key) during scoring runs.
+              Your CV and API key are used only to score job listings on your behalf and to
+              run the gap analysis on the Gaps page. Your CV and profile are sent to the Gemini
+              API (using your own key) during scoring runs and when you open the Gaps page.
               We do not sell, share, or otherwise transfer your data to any third party
               beyond the Gemini API calls you explicitly trigger.
             </p>
@@ -49,8 +50,8 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">Export</h2>
             <p>
-              You can export your stored data (CV, settings, scored jobs) at any time from
-              the Settings page.
+              You can export your scored jobs at any time from the Settings page. Your CV,
+              profile and filters stay visible and editable in Settings.
             </p>
           </section>
 

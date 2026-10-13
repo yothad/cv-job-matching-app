@@ -28,3 +28,6 @@ Thumbs.db
 
 # Claude Code runtime
 .claude/scheduled_tasks.lock
+
+# Scorer eval private data (personal labels, sheets, baseline - repo is public)
+evals/private/

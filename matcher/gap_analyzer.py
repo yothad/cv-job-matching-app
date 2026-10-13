@@ -2,14 +2,16 @@ import json
 import re
 import time
 
+from matcher.gemini_scorer import generate
+
 
 def _call_gemini(client, prompt: str) -> dict:
     backoff = [4, 8, 16, 32]
     last_exc = None
     for attempt in range(5):
         try:
-            resp = client.models.generate_content(
-                model="gemini-2.5-flash",
+            resp = generate(
+                client,
                 contents=prompt,
                 config={"response_mime_type": "application/json"},
             )

@@ -50,7 +50,7 @@ Implementation: `matcher/gemini_scorer.py` (`build_batch_prompt`, `score_jobs_ba
 ```
 Flag vocabulary is supplied by example: `location-unclear`, `lead-path-implied`, `management-gap`, `wrong-domain`, `dealbreaker-location`, `title-laundering`, `llm-not-security`.
 
-**Model:** `gemini-2.5-flash` with `response_mime_type: application/json`. The structured MIME type reduces fencing issues, but the parser defensively strips markdown code fences (```` ``` ````) before `json.loads()` as a fallback.
+**Model:** cascade `gemini-3.5-flash` -> `gemini-3.5-flash-lite` (`MODELS`, env `GEMINI_MODELS`; a 404/429/5xx moves to the next model; switched from `gemini-2.5-flash` on 2026-10-13 because 2.5 Flash 404s for new API keys; not yet measured by the eval harness, so scores before and after the switch are not directly comparable) with `response_mime_type: application/json`. The structured MIME type reduces fencing issues, but the parser defensively strips markdown code fences (```` ``` ````) before `json.loads()` as a fallback.
 
 **Rate limiting:** sliding-window RPM limiter (default 8 RPM) implemented in `_rpm_wait()`. Quota errors (429 / RESOURCE_EXHAUSTED) retry up to 5 times with exponential back-off; after 5 failures a `QuotaExhaustedError` is raised and the run stops with partial results.
 

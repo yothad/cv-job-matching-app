@@ -49,14 +49,14 @@ Tel Aviv metro area. Commute up to 60 minutes. Open to hybrid (2-3 days office).
 0-2: Dealbreaker domain, pure data engineering, relocation required, or no ML in the role`
 
 const PROFILE_SECTIONS_GUIDE = [
-  { section: '## Who I am', why: 'Sets seniority and specialization - the AI uses this to calibrate what "senior" means for you.' },
-  { section: "## What I'm looking for", why: 'Priority-ordered targets - the AI uses this to rank title fit.' },
-  { section: '## Location', why: 'Commute and hybrid preferences - prevents surfacing out-of-range roles.' },
-  { section: '## Strong fit signals', why: 'Explicit boosts - the AI looks for these in the JD to raise the score.' },
-  { section: '## Weak fit / skip', why: 'Explicit penalties - the AI lowers the score when these appear.' },
-  { section: '## Dealbreakers', why: 'Hard zeroes - the AI scores these 0 regardless of everything else.' },
-  { section: '## Notes for the matcher', why: 'Nuances that are easy to get wrong - e.g. partial signals that look like gaps.' },
-  { section: '## Scoring rubric', why: 'Explicit score bands - without this the AI invents its own rubric, which is less reliable.' },
+  { section: '## Who I am', why: 'Your seniority and specialty. This is how the AI learns what "senior" means for you.' },
+  { section: "## What I'm looking for", why: 'Your targets in priority order. The AI ranks title fit against this list.' },
+  { section: '## Location', why: 'Commute and hybrid limits, so out-of-range roles score low and stay out of your digest.' },
+  { section: '## Strong fit signals', why: 'Explicit boosts. When the AI sees these in a posting, the score goes up.' },
+  { section: '## Weak fit / skip', why: 'Explicit penalties. When these appear, the score goes down.' },
+  { section: '## Dealbreakers', why: 'Hard zeroes. A job that hits one scores 0, whatever else it offers.' },
+  { section: '## Notes for the matcher', why: 'Nuances that are easy to misread, like partial experience that looks like a gap.' },
+  { section: '## Scoring rubric', why: 'Your own score bands. Without them the AI invents its own, and those drift from run to run.' },
 ]
 
 function checkProfileCompleteness(md: string): string[] {
@@ -78,7 +78,7 @@ function ProfileExampleGuidance() {
         </div>
       )}
       <button type="button" aria-expanded={showGuide} onClick={() => setShowGuide(v => !v)} className="inline-flex items-center gap-1 text-sm text-accent hover:text-accent-hover transition-colors">
-        {showGuide ? <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" /> : <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />} Required sections guide
+        {showGuide ? <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" /> : <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />} What each section does
       </button>
       {showGuide && (
         <div className="bg-surface-raised rounded-lg p-4 border border-subtle space-y-2">
@@ -179,50 +179,71 @@ function FilterPanel({ locationInput, onLocationChange, skipTitles, onSkipTitles
     <div className="space-y-4">
       <div>
         <label className="text-sm text-muted block mb-1">
-          Location filter <span title="Only score jobs whose location contains this text (e.g. 'israel')" className="text-subtle cursor-help">(?)</span>
+          Location filter <span title="Only jobs whose location contains this text get scored (e.g. 'israel'). Leave blank to score every location." className="text-subtle cursor-help">(?)</span>
         </label>
-        <input value={locationInput} onChange={e => onLocationChange(e.target.value)} placeholder="e.g. israel (leave blank for no filter)"
+        <input value={locationInput} onChange={e => onLocationChange(e.target.value)} placeholder="e.g. israel - leave blank to score every location"
           className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Skip jobs whose title contains... <span title="Jobs with these words in the title are dropped before scoring (e.g. data engineer, analyst)" className="text-subtle cursor-help">(?)</span>
+          Skip jobs whose title contains... <span title="Jobs with any of these words in the title are dropped before scoring, so they never spend your quota or your attention (e.g. data engineer, analyst)" className="text-subtle cursor-help">(?)</span>
         </label>
         <p className="text-xs text-subtle mb-1">e.g. data engineer, analyst, bi developer</p>
-        <TagInput tags={skipTitles} onChange={onSkipTitlesChange} placeholder="add term, press Enter" />
+        <TagInput tags={skipTitles} onChange={onSkipTitlesChange} placeholder="Type a term, press Enter" />
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Only score jobs whose title contains at least one of... <span title="Leave blank to score all titles. Add terms to score only matching titles (e.g. data scientist, ml engineer)" className="text-subtle cursor-help">(?)</span>
+          Only score jobs whose title contains at least one of... <span title="Leave blank to score every title. Add terms and only titles containing one of them get scored (e.g. data scientist, ml engineer)" className="text-subtle cursor-help">(?)</span>
         </label>
-        <p className="text-xs text-subtle mb-1">Leave blank to score all titles</p>
-        <TagInput tags={keepTitles} onChange={onKeepTitlesChange} placeholder="add term, press Enter" />
+        <p className="text-xs text-subtle mb-1">Leave blank to score every title</p>
+        <TagInput tags={keepTitles} onChange={onKeepTitlesChange} placeholder="Type a term, press Enter" />
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Skip these companies <span title="Jobs from these companies are dropped before scoring" className="text-subtle cursor-help">(?)</span>
+          Skip these companies <span title="Jobs from these companies are dropped before scoring - useful for your current employer or places you have already ruled out" className="text-subtle cursor-help">(?)</span>
         </label>
-        <TagInput tags={skipCompanies} onChange={onSkipCompaniesChange} placeholder="company name, press Enter" />
+        <TagInput tags={skipCompanies} onChange={onSkipCompaniesChange} placeholder="Company name, press Enter" />
       </div>
       <div>
         <label className="text-sm text-muted block mb-1">
-          Skip these industries <span title="Jobs tagged with these industries are dropped before scoring" className="text-subtle cursor-help">(?)</span>
+          Skip these industries <span title="Jobs whose description or company name contains any of these terms are dropped before scoring" className="text-subtle cursor-help">(?)</span>
         </label>
         <p className="text-xs text-subtle mb-1">e.g. gaming, adtech, gambling</p>
-        <TagInput tags={skipIndustries} onChange={onSkipIndustriesChange} placeholder="industry, press Enter" />
+        <TagInput tags={skipIndustries} onChange={onSkipIndustriesChange} placeholder="Industry, press Enter" />
       </div>
       <div className="text-sm text-muted bg-surface-raised border border-subtle rounded-lg px-3 py-2">
         {previewLoading ? 'Calculating preview...' :
           preview === null ? '' :
-          preview.empty ? 'No collected jobs yet - run the pipeline first.' :
-          `With these filters, ${preview.passing} of today's ${preview.total} collected jobs will be sent for scoring.`
+          preview.empty ? 'No jobs collected yet - the preview will work after the next collection run.' :
+          `With these filters, ${preview.passing} of the ${preview.total} jobs collected so far will be sent for scoring.`
         }
       </div>
     </div>
   )
 }
 
+const WELCOMED_KEY = 'cw.onboarding.welcomed.v1'
+const STEP_KEYS = ['profile', 'cv', 'api_key', 'filters_seen'] as const
+type Setup = Record<(typeof STEP_KEYS)[number], boolean>
+
+async function authedFetch(path: string, init: RequestInit = {}) {
+  const { data: { session } } = await supabase.auth.getSession()
+  const token = session?.access_token
+  if (!token) throw new Error('Not authenticated')
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}${path}`, {
+    ...init,
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, ...init.headers },
+  })
+}
+
 export default function OnboardingPage() {
+  // 'loading' until /user/me answers; a failed lookup still opens the wizard.
+  const [phase, setPhase] = useState<'loading' | 'welcome' | 'wizard' | 'allset'>('loading')
+  const [setup, setSetup] = useState<Setup>({ profile: false, cv: false, api_key: false, filters_seen: false })
+  const [savedProfileMd, setSavedProfileMd] = useState('')
+  const [savedCvText, setSavedCvText] = useState('')
+  const [stepSaving, setStepSaving] = useState(false)
+  const [stepError, setStepError] = useState('')
   const [step, setStep] = useState(1)
   const [profileMd, setProfileMd] = useState('')
   const [cvText, setCvText] = useState('')
@@ -249,6 +270,92 @@ export default function OnboardingPage() {
   const [filterPreviewLoading, setFilterPreviewLoading] = useState(false)
   const [scoringStage, setScoringStage] = useState<'idle' | 'scoring' | 'done'>('idle')
   const [scoredCount, setScoredCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    async function load() {
+      // ?step=N comes from the Digest checklist and skips the welcome.
+      const requested = Number(new URLSearchParams(window.location.search).get('step'))
+      let welcomed = false
+      try { welcomed = localStorage.getItem(WELCOMED_KEY) === '1' } catch { /* storage blocked */ }
+      let s = setup
+      try {
+        const r = await authedFetch('/user/me')
+        if (r.ok) {
+          const d = await r.json()
+          if (d.setup) s = { profile: !!d.setup.profile, cv: !!d.setup.cv, api_key: !!d.setup.api_key, filters_seen: !!d.setup.filters_seen }
+          if (d.setup?.complete) { setSetup(s); setPhase('allset'); return }
+          if (typeof d.profile_md === 'string') { setProfileMd(d.profile_md); setSavedProfileMd(d.profile_md) }
+          if (typeof d.cv_text === 'string') { setCvText(d.cv_text); setSavedCvText(d.cv_text) }
+        }
+        if (s.filters_seen) {
+          const fr = await authedFetch('/user/filters')
+          const f = fr.ok ? await fr.json() : null
+          if (f && f.user_id) {
+            setFilters({
+              location_terms: f.location_terms ?? [],
+              skip_title_terms: f.skip_title_terms ?? [],
+              keep_title_terms: f.keep_title_terms ?? [],
+              skip_companies: f.skip_companies ?? [],
+              skip_industries: f.skip_industries ?? [],
+            })
+            setLocationInput((f.location_terms ?? [])[0] ?? '')
+          }
+        }
+      } catch { /* backend unreachable - start fresh, never block */ }
+      setSetup(s)
+      const firstIncomplete = STEP_KEYS.findIndex(k => !s[k]) + 1
+      setStep(requested >= 1 && requested <= 4 ? requested : firstIncomplete || 4)
+      setPhase(welcomed || requested ? 'wizard' : 'welcome')
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function startJourney() {
+    try { localStorage.setItem(WELCOMED_KEY, '1') } catch { /* storage blocked */ }
+    setPhase('wizard')
+  }
+
+  // Each step saves on Next, so closing the tab mid-way loses nothing.
+  async function saveAndGo(next: number, save?: () => Promise<Partial<Setup> | void>) {
+    setStepError('')
+    if (save) {
+      setStepSaving(true)
+      try {
+        const marked = await save()
+        if (marked) setSetup(s => ({ ...s, ...marked }))
+      } catch {
+        setStepError('Could not save this step - check your connection and try again.')
+        setStepSaving(false)
+        return
+      }
+      setStepSaving(false)
+    }
+    setStep(next)
+  }
+
+  async function patch(path: string, body: unknown) {
+    const r = await authedFetch(path, { method: 'PATCH', body: JSON.stringify(body) })
+    if (!r.ok) throw new Error(`HTTP ${r.status}`)
+  }
+
+  function saveProfile() {
+    return saveAndGo(2, profileMd.trim() && profileMd !== savedProfileMd
+      ? async () => { await patch('/user/profile', { profile_md: profileMd }); setSavedProfileMd(profileMd); return { profile: true } }
+      : undefined)
+  }
+
+  function saveCv() {
+    return saveAndGo(3, cvText.trim() && cvText !== savedCvText
+      ? async () => { await patch('/user/cv', { cv_text: cvText }); setSavedCvText(cvText); return { cv: true } }
+      : undefined)
+  }
+
+  function saveKey() {
+    return saveAndGo(4, geminiKey.trim()
+      ? async () => { await patch('/user/apikey', { gemini_api_key: geminiKey.trim() }); setGeminiKey(''); return { api_key: true } }
+      : undefined)
+  }
 
   async function fetchFilterPreview(loc: string, st: string[], kt: string[], sc: string[], si: string[]) {
     setFilterPreviewLoading(true)
@@ -292,7 +399,7 @@ export default function OnboardingPage() {
       const d = await r.json()
       setKeyTestResult(r.ok ? 'Key works!' : (d.detail ?? 'Test failed'))
     } catch {
-      setKeyTestResult('Test failed - check your connection')
+      setKeyTestResult('Test failed - check your connection and try again.')
     } finally {
       setKeyTesting(false)
     }
@@ -321,7 +428,7 @@ export default function OnboardingPage() {
       setProfileSkipWarned(true)
       return
     }
-    setStep(2)
+    saveProfile()
   }
 
   async function finish() {
@@ -332,17 +439,13 @@ export default function OnboardingPage() {
       const token = session?.access_token
       if (!token) throw new Error('Not authenticated')
 
-      const effectiveFilters = {
-        ...filters,
-        location_terms: locationInput.trim() ? [locationInput.trim()] : [],
-      }
-
-      const r = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/setup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ profile_md: profileMd, cv_text: cvText, gemini_api_key: geminiKey, filters: effectiveFilters }),
+      // Profile, CV and key were already saved step by step; only filters remain.
+      const r = await authedFetch('/user/filters', {
+        method: 'PATCH',
+        body: JSON.stringify({ ...filters, location_terms: locationInput.trim() ? [locationInput.trim()] : [] }),
       })
-      if (!r.ok) throw new Error('Setup failed')
+      if (!r.ok) throw new Error('Could not save your filters')
+      setSetup(s => ({ ...s, filters_seen: true }))
 
       // Trigger the first scan and wait for the result so we can show a count
       // instead of redirecting silently.
@@ -369,6 +472,43 @@ export default function OnboardingPage() {
   }
 
   const steps = ['Profile', 'CV', 'API Key', 'Filters']
+  const doneCount = STEP_KEYS.filter(k => setup[k]).length
+
+  if (phase === 'loading') {
+    return <div className="min-h-screen bg-background" aria-busy="true" />
+  }
+
+  if (phase === 'welcome' || phase === 'allset') {
+    return (
+      <div className="relative min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-center px-4 py-12">
+        <ThemeToggle className="absolute top-4 right-4 z-10" />
+        <div className="bg-surface border border-border rounded-2xl p-8 w-full max-w-xl shadow-2xl shadow-black/20 space-y-5">
+          {phase === 'welcome' ? (
+            <>
+              <h1 className="font-display text-3xl">Welcome to CareerWatch</h1>
+              <ul className="space-y-2 text-sm text-muted list-disc list-inside">
+                <li>CareerWatch tracks open roles at 100+ Israeli cyber, fraud and fintech companies and scores every one of them against your profile - not a generic keyword list.</li>
+                <li>Scoring needs three things from you: a profile (what you want), your CV (what you have done) and a free Gemini API key, so scoring runs on your own quota at no cost.</li>
+                <li>Setup takes about five minutes. Every step saves as you go, so you can close the tab and pick up exactly where you left off.</li>
+              </ul>
+              <div className="flex justify-end">
+                <button onClick={startJourney} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">Get started</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="font-display text-3xl">You&apos;re all set</h1>
+              <p className="text-sm text-muted">Your profile and Gemini key are saved{setup.cv ? '' : ' - add your CV in Settings and every score gets sharper'}. You can change anything in Settings.</p>
+              <div className="flex flex-wrap gap-3 justify-end">
+                <a href="/settings" className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">Open Settings</a>
+                <a href="/digest" className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">Go to my digest</a>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="relative min-h-screen bg-background text-foreground font-sans flex flex-col items-center justify-center px-4 py-12 overflow-hidden">
@@ -388,14 +528,14 @@ export default function OnboardingPage() {
         }
       `}</style>
       {/* Progress */}
-      <div className="relative flex items-center gap-2 sm:gap-3 mb-4" aria-label={`Step ${step} of ${steps.length}`}>
+      <div className="relative flex items-center gap-2 sm:gap-3 mb-4" aria-label={`Step ${step} of ${steps.length}, ${doneCount} of ${steps.length} done`}>
         {steps.map((label, i) => {
-          const done = i + 1 < step
+          const done = setup[STEP_KEYS[i]] && i + 1 !== step
           const current = i + 1 === step
           return (
             <div key={label} className="flex items-center gap-2 sm:gap-3">
               {i > 0 && (
-                <div className={`h-px w-4 sm:w-8 transition-colors duration-300 ${i + 1 <= step ? 'bg-accent' : 'bg-border-subtle'}`} />
+                <div className={`h-px w-4 sm:w-8 transition-colors duration-300 ${setup[STEP_KEYS[i - 1]] ? 'bg-accent' : 'bg-border-subtle'}`} />
               )}
               <div className="flex items-center gap-2">
                 <div
@@ -418,26 +558,28 @@ export default function OnboardingPage() {
       </div>
 
       {/* Orientation intro */}
+      <p className="relative font-mono text-xs text-subtle mb-2">{doneCount} of {steps.length} done</p>
       <p className="relative text-sm text-muted mb-6 text-center max-w-lg">
-        Set up in 4 steps - Profile, CV, API key, and Filters - then we run your first scan and show you a ranked digest.
+        Four steps - Profile, CV, API key, Filters - then we run your first scan and open your ranked digest. Profile and API key are required; CV and filters make the scores sharper. Each step saves when you click Next.
       </p>
 
       <div className="relative bg-surface border border-border rounded-2xl p-8 w-full max-w-2xl shadow-2xl shadow-black/20">
+        {stepError && <p role="alert" className="text-danger text-sm mb-4">{stepError}</p>}
 
         {/* Step 1 */}
         {step === 1 && (
           <div className="space-y-4 onboarding-step-in">
             <div>
-              <h2 className="font-display text-3xl">Set up your profile <span className="font-sans text-sm text-subtle">(optional)</span></h2>
-              <p className="text-sm text-subtle mt-1">Your profile tells the AI what to look for - without it, scoring is generic.</p>
+              <h2 className="font-display text-3xl">Set up your profile</h2>
+              <p className="text-sm text-subtle mt-1">Your profile tells the AI what a great role looks like for you. Without it, every score is a guess.</p>
             </div>
-            <p className="text-muted text-sm">Describe your target roles, domains, location, and dealbreakers. You can skip this and add it later in Settings.</p>
+            <p className="text-muted text-sm">Describe the roles you want, the domains you care about, where you can work, and what you will never accept. You can skip for now and finish in Settings, but scoring will not run until a profile exists.</p>
 
             <ProfileExampleGuidance />
 
             {/* Path A: Upload */}
             <div>
-              <label className="text-sm text-muted block mb-1">Upload an existing profile (.md, .txt, .pdf, .docx, .doc)</label>
+              <label className="text-sm text-muted block mb-1">Upload a profile you already have (.md, .txt, .pdf, .docx, .doc)</label>
               <input
                 type="file"
                 accept={ACCEPT_ATTR}
@@ -449,8 +591,8 @@ export default function OnboardingPage() {
 
             {/* Path B: Generate with AI */}
             <div className="space-y-2 bg-surface-raised rounded-xl p-4 border border-subtle">
-              <p className="text-sm font-medium text-foreground">Or generate one with AI</p>
-              <p className="text-xs text-muted mb-2">Step 1 - Copy this prompt. Step 2 - Paste into ChatGPT, Claude, or any LLM and answer its questions. Step 3 - Paste the result below.</p>
+              <p className="text-sm font-medium text-foreground">Or build one with an AI assistant</p>
+              <p className="text-xs text-muted mb-2">1. Copy this prompt. 2. Paste it into ChatGPT, Claude or any chatbot and answer its questions. 3. Paste the finished profile below.</p>
               <div className="relative">
                 <textarea readOnly value={PROFILE_PROMPT} rows={8} className="w-full bg-surface text-muted font-mono text-xs p-3 rounded-lg border border-border resize-none focus:outline-none" />
                 <button onClick={copyPrompt} className="absolute top-2 right-2 px-2 py-1 bg-surface-raised border border-subtle hover:bg-border-subtle text-xs rounded-md transition-colors">
@@ -460,26 +602,26 @@ export default function OnboardingPage() {
             </div>
 
             <textarea value={profileMd} onChange={e => { setProfileMd(e.target.value); if (e.target.value.trim()) setProfileSkipWarned(false) }} rows={8}
-              placeholder="Paste the LLM output here (or your profile.md content)..."
+              placeholder="Paste the generated profile here, or write your own in Markdown..."
               className="w-full bg-surface-raised text-foreground p-3 rounded-lg border border-subtle placeholder:text-subtle transition-colors resize-none focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
 
             {(() => {
               const missing = checkProfileCompleteness(profileMd)
               return missing.length > 0 && profileMd.trim() ? (
                 <div className="text-xs text-warning bg-warning/10 border border-warning/30 rounded-lg p-2">
-                  Missing sections: {missing.join(', ')}
+                  Missing sections: {missing.join(', ')} - the AI scores best when all eight are present.
                 </div>
               ) : null
             })()}
 
             {profileSkipWarned && !profileMd.trim() && (
               <div className="bg-warning/10 border border-warning/40 rounded-lg p-3 text-warning text-sm">
-                Without a profile the AI scores all jobs generically - you&apos;ll likely see an empty or irrelevant digest until you add one in Settings.
+                Without a profile the AI has nothing to match against, and scoring will not run until you add one in Settings. Click Skip again to continue anyway.
               </div>
             )}
 
             <div className="flex justify-end">
-              <button onClick={handleStep1Next} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">{profileMd.trim() ? 'Next ->' : 'Skip ->'}</button>
+              <button onClick={handleStep1Next} disabled={stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : profileMd.trim() ? 'Next ->' : 'Skip ->'}</button>
             </div>
           </div>
         )}
@@ -489,11 +631,11 @@ export default function OnboardingPage() {
           <div className="space-y-4 onboarding-step-in">
             <div>
               <h2 className="font-display text-3xl">Upload your CV <span className="font-sans text-sm text-subtle">(optional)</span></h2>
-              <p className="text-sm text-subtle mt-1">Your CV is the ground truth of what you&apos;ve done - it sharpens every score.</p>
+              <p className="text-sm text-subtle mt-1">Your CV is the ground truth for what you have actually done. It turns a hopeful score into an honest one.</p>
             </div>
-            <p className="text-muted text-sm">Your CV is used verbatim in scoring prompts. You can skip this and add it later in Settings.</p>
+            <p className="text-muted text-sm">The AI reads your CV, word for word, next to every job it scores. Skip for now if you like and add it later in Settings.</p>
             <div>
-              <label className="text-sm text-muted block mb-1">Upload CV (.md, .txt, .pdf, .docx, .doc)</label>
+              <label className="text-sm text-muted block mb-1">Upload your CV (.md, .txt, .pdf, .docx, .doc)</label>
               <input
                 type="file"
                 accept={ACCEPT_ATTR}
@@ -508,7 +650,7 @@ export default function OnboardingPage() {
                     const text = await extractUploadText(file, token, process.env.NEXT_PUBLIC_API_URL!)
                     setCvText(text)
                   } catch (err: unknown) {
-                    setPdfError(err instanceof Error ? err.message : 'Could not extract text - please paste manually')
+                    setPdfError(err instanceof Error ? err.message : 'Could not extract text - paste it below instead.')
                   } finally {
                     setPdfLoading(false)
                     e.target.value = ''
@@ -518,15 +660,15 @@ export default function OnboardingPage() {
               />
               {pdfLoading && <p className="text-sm text-muted mt-1">Extracting text...</p>}
               {pdfError && <p className="text-sm text-danger mt-1">{pdfError}</p>}
-              <p className="text-xs text-subtle mt-1">Or paste text directly below</p>
+              <p className="text-xs text-subtle mt-1">Or paste the text below</p>
             </div>
             <textarea value={cvText} onChange={e => setCvText(e.target.value)} rows={12} placeholder="Paste your CV text here..." className="w-full bg-surface-raised text-foreground p-3 rounded-lg border border-subtle placeholder:text-subtle transition-colors resize-none focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             {!cvText.trim() && (
-              <p className="text-xs text-subtle">Scoring quality drops without a CV - the AI has less context about your background.</p>
+              <p className="text-xs text-subtle">Without a CV the AI knows what you want but not what you have done, so scores lean on your profile alone.</p>
             )}
             <div className="flex justify-between">
               <button onClick={() => setStep(1)} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">&lt;- Back</button>
-              <button onClick={() => setStep(3)} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors rounded-lg font-medium">{cvText.trim() ? 'Next ->' : 'Skip ->'}</button>
+              <button onClick={saveCv} disabled={stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : cvText.trim() ? 'Next ->' : 'Skip ->'}</button>
             </div>
           </div>
         )}
@@ -536,11 +678,11 @@ export default function OnboardingPage() {
           <div className="space-y-4 onboarding-step-in">
             <div>
               <h2 className="font-display text-3xl">Your Gemini API key</h2>
-              <p className="text-sm text-subtle mt-1">Scoring runs on your own free Gemini quota - your data never leaves your key.</p>
+              <p className="text-sm text-subtle mt-1">Scoring runs on your own free Gemini quota. Your key, your calls, nothing to pay.</p>
             </div>
-            <p className="text-muted text-sm">Used only for scoring. Never logged or shared.</p>
-            <p className="text-sm text-accent">It&apos;s fully free - Google&apos;s Gemini API has a free tier that&apos;s plenty for scoring jobs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
-            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder="Paste your Gemini API key" className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
+            <p className="text-muted text-sm">The key is encrypted before it is stored and used for two things: scoring jobs for you, and the gap analysis on the Gaps page. It is never logged or shared.</p>
+            <p className="text-sm text-accent">It costs nothing - Google&apos;s Gemini API has a free tier, and that is all CareerWatch needs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
+            <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder={setup.api_key ? 'A key is already saved - paste a new one to replace it' : 'Paste your Gemini API key'} className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             <div className="flex items-center gap-3">
               <button onClick={testKeyInline} disabled={!geminiKey.trim() || keyTesting}
                 className="px-4 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors disabled:opacity-40 rounded-lg text-sm">
@@ -557,17 +699,17 @@ export default function OnboardingPage() {
             </button>
             {showKeyHelp && (
               <ol className="text-sm text-muted space-y-1 list-decimal list-inside bg-surface-raised border border-subtle p-4 rounded-lg">
-                <li>Go to <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" className="text-accent underline">Google AI Studio</a></li>
+                <li>Open <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer" className="text-accent underline">Google AI Studio</a></li>
                 <li>Sign in with your Google account</li>
-                <li>Click &quot;Get API key&quot; then &quot;Create API key&quot;</li>
-                <li>Copy and paste the key here</li>
-                <li>The free tier is enough to get started (quota resets daily)</li>
+                <li>Click &quot;Get API key&quot;, then &quot;Create API key&quot;</li>
+                <li>Copy the key and paste it above</li>
+                <li>The free tier is enough to get started, and the quota resets daily</li>
               </ol>
             )}
-            <p className="text-xs text-subtle">We never score jobs without your key. If you delete it, scoring stops.</p>
+            <p className="text-xs text-subtle">Scoring only ever runs with your key. Delete it in Settings and scoring stops.</p>
             <div className="flex justify-between">
               <button onClick={() => setStep(2)} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors rounded-lg">&lt;- Back</button>
-              <button onClick={() => setStep(4)} disabled={!geminiKey.trim()} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">Next -&gt;</button>
+              <button onClick={saveKey} disabled={(!geminiKey.trim() && !setup.api_key) || stepSaving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">{stepSaving ? 'Saving...' : 'Next ->'}</button>
             </div>
           </div>
         )}
@@ -576,8 +718,8 @@ export default function OnboardingPage() {
         {step === 4 && (
           <div className="space-y-4 onboarding-step-in">
             <div>
-              <h2 className="font-display text-3xl">Configure filters</h2>
-              <p className="text-sm text-subtle mt-1">Filters drop the noise before scoring - saves you reading irrelevant results.</p>
+              <h2 className="font-display text-3xl">Set your filters</h2>
+              <p className="text-sm text-subtle mt-1">Filters drop the obvious misses before scoring, so your quota and your attention go to jobs that could actually fit.</p>
             </div>
 
             <FilterPanel
@@ -610,8 +752,8 @@ export default function OnboardingPage() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted w-16">Key</span>
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-score-high" />
-                <span className="text-score-high">Set</span>
+                <span aria-hidden="true" className={`w-1.5 h-1.5 rounded-full ${setup.api_key ? 'bg-score-high' : 'bg-warning'}`} />
+                <span className={setup.api_key ? 'text-score-high' : 'text-warning'}>{setup.api_key ? 'Set' : 'Missing - required'}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-muted w-16">Location</span>
@@ -634,18 +776,18 @@ export default function OnboardingPage() {
             {scoringStage === 'done' && (
               <div className="flex items-center gap-2 text-sm text-score-high bg-score-high/10 border border-score-high/30 rounded-lg px-3 py-2">
                 {scoredCount === null
-                  ? 'Setup complete - taking you to your digest...'
-                  : `Scored ${scoredCount} new jobs - taking you to your digest...`}
+                  ? 'Setup complete - opening your digest...'
+                  : `Scored ${scoredCount} jobs - opening your digest...`}
               </div>
             )}
 
             <div className="flex justify-between">
               <button onClick={() => setStep(3)} disabled={saving} className="px-6 py-2 border border-subtle text-muted hover:text-foreground hover:bg-surface-raised transition-colors disabled:opacity-40 rounded-lg">&lt;- Back</button>
-              <button onClick={finish} disabled={saving} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">
+              <button onClick={finish} disabled={saving || !setup.api_key} className="px-6 py-2 bg-accent hover:bg-accent-hover text-accent-foreground transition-colors disabled:opacity-40 rounded-lg font-medium">
                 {scoringStage === 'scoring' ? 'Scoring...' : saving ? 'Starting...' : 'Start my first scan'}
               </button>
             </div>
-            <p className="text-xs text-subtle text-right">Your first scan runs now - we will show the result before opening your digest.</p>
+            <p className="text-xs text-subtle text-right">Your first scan runs right now. You will see the result before your digest opens.</p>
           </div>
         )}
       </div>

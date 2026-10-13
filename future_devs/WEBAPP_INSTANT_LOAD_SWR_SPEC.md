@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P7 (Standalone) |
-| **Status** | `not-started` |
+| **Status** | `completed` |
 | **Effort** | S |
 | **Epic** | — |
 | **Depends on** | — |
@@ -66,3 +66,13 @@ Result: on any repeat visit the user sees real data with zero skeleton; on a fir
 4. **Version + freshness guards.** Hand-edit a cache entry to an old `v` (or a `savedAt` older than the ceiling) and reload - the page ignores it and shows the skeleton, not malformed rows. Corrupt the JSON and reload - no crash, falls back to skeleton.
 5. **No cross-account bleed.** Sign in as user A (populate cache), sign out, sign in as user B in the same browser. User B does not see user A's cached list.
 6. **Keep-warm works.** Trigger `keep-warm.yml` manually (workflow_dispatch) and confirm a `200` from `/health`. After the backend has been idle past its spin-down window, confirm (via timing) that a request during active-cron hours returns fast, i.e. the service was already awake.
+
+## Night run 2026-10-12
+Shipped unattended (gate: pytest, score.py --dry-run, frontend build green; `node --test webapp/frontend/tests/swrCache.test.mjs` 8/8; review pass).
+Needs Omer: set the repo **variable** `BACKEND_URL` (backend base URL, no `/health`); until then keep-warm.yml is a green no-op. Then run "Keep Backend Warm" via workflow_dispatch and check for `GET /health -> 200`.
+Morning QA (browser):
+1. Repeat visit on /digest and /positions - no skeleton, "Updating..." clears; block the API and reload - cached list stays, "Couldn't refresh ... Retry" shows.
+2. Cache guards: set `v` to 0, make `savedAt` too old or in the future, or corrupt `cw:swr:jobs:<uid>` - skeleton shows and the entry is removed.
+3. Cross-account: A signs out (Nav and delete-account), B signs in - no A data. Known minor: a /positions fetch still in flight at sign-out can re-write A's own key (not a cross-user leak).
+4. Digest sort + persisted view still restore on a cache-hit render.
+Open questions: cache age limit is 4 days (spec example 24h); cron is UTC 03:00-20:59, which shifts by an hour in winter; Render free-tier hours are about 560/750 a month.

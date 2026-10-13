@@ -5,58 +5,58 @@ import { SCORE_BANDS } from '@/lib/scoreBands'
 // Derived from the shared SCORE_BANDS so the numbers/labels here can't drift
 // from the digest legend and badge tooltips.
 const scoreBandsSummary =
-  `Score bands: ${SCORE_BANDS.map(b => `${b.range} - ${b.blurb}`).join(' ')} Jobs below 5 are filtered out before they reach your digest.`
+  `Score bands: ${SCORE_BANDS.map(b => `${b.range} - ${b.blurb}`).join(' ')} Jobs scoring below 5 are hidden from your digest by default - lower the min score filter to see them.`
 
 const sections = [
   {
     id: 'how-it-works',
     heading: 'How it works',
     content: [
-      'CareerWatch monitors job boards at Israeli cyber and fintech companies daily, pulling new postings directly from each company\'s ATS. Once new jobs are collected, the scoring engine compares each posting against your CV and profile using Gemini AI and produces a ranked digest.',
-      'The pipeline runs in three stages: company refresh (weekly, to discover new companies and re-verify stale entries), job collection (daily), and scoring (up to twice a week per user). You always see the most recently scored batch in your Digest.',
+      'CareerWatch pulls new postings straight from the ATS of each tracked Israeli cyber, fraud and fintech company. When you run a scoring pass, Gemini reads every new posting next to your CV and profile and produces a ranked digest.',
+      'Three stages, three cadences: the company list is refreshed weekly (new companies discovered, stale entries re-verified), jobs are collected twice a week (Monday and Thursday), and scoring runs when you click "Score now", up to twice a week. Your Digest always shows the latest scored batch.',
     ],
   },
   {
     id: 'scoring',
     heading: 'How scoring works',
     content: [
-      'Each job is scored from 0 to 10 by Gemini AI based on how well it matches your profile and CV. The model reads the full job description alongside your background, stated preferences, and any dealbreakers you listed.',
+      'Gemini scores each job from 0 to 10 for how well it fits your profile and CV. It reads the full job description next to your background, your stated preferences, and every dealbreaker you listed.',
       scoreBandsSummary,
-      'Scores are relative to your profile, not absolute. A 7 for you means something different than a 7 for someone with a different background. The more specific your profile, the more precise the scores.',
+      'Scores are relative to your profile, not absolute. A 7 for you means something different from a 7 for someone with a different background. The more specific your profile, the sharper the scores.',
     ],
   },
   {
     id: 'flags',
     heading: 'What the flags mean',
     content: [
-      'Flags are short tags attached to each scored job that explain why a score landed where it did. Examples: "team-lead signal" means the posting shows signs of a leadership track; "IC-heavy" means the role looks like an individual-contributor track with limited lead scope; "location mismatch" means the office is outside your stated commute radius.',
-      'Positive flags (green) reinforce the score. Caution flags (yellow or gray) explain gaps or trade-offs. Reading the flags takes about three seconds and tells you whether a 7 is worth your time today.',
+      'Flags are short tags on each scored job that explain why the score landed where it did. "Lead path implied" means the posting hints at a route to a lead role; "Management gap" means it asks for more people-management than your profile shows; "Out of commute range" means the office sits outside the radius you set.',
+      'Positive flags reinforce the score. Caution flags name the gap or trade-off. Reading them takes a few seconds and tells you whether a 7 is worth your time today. Hover any flag, or open "What do these tags mean?", for the full list.',
     ],
   },
   {
     id: 'cadence',
     heading: 'Collection cadence and run limits',
     content: [
-      'Jobs are collected daily from each company\'s ATS. Scoring runs up to twice a week per user to keep Gemini API costs manageable. This means your digest may be one or two days behind the very latest postings - but it will never be more than a few days stale.',
-      'The collection step is fast and runs on our side; you do not need to trigger it. Scoring is triggered automatically on the backend after collection completes.',
+      'Jobs are collected twice a week, on Monday and Thursday mornings (UTC). Scoring runs up to twice a week per user, which keeps the load on your free Gemini quota small. So a fresh digest can trail the very newest postings by a few days.',
+      'Collection runs on our side; there is nothing for you to trigger. Scoring is yours to start: open your Digest and click "Score now" after a collection to score what is new.',
     ],
   },
   {
     id: 'data-privacy',
     heading: 'Data and privacy',
     content: [
-      'Your CV and Gemini API key are stored encrypted in Supabase. They are never sent to any third party except Gemini (for scoring only). We do not sell, share, or use your data for any purpose other than running the job-matching pipeline on your behalf.',
-      'Your Gemini API key is used solely to make scoring calls - each call sends your CV, your profile, and one job description to Gemini and returns a score. Nothing else.',
-      'You can export or permanently delete all your data at any time from Settings > Account. Deletion removes your CV, profile, API key, and all stored job scores.',
+      'Your Gemini API key is encrypted before it is stored in Supabase; your CV and profile sit in your account alongside it. None of it goes to any third party except Gemini, and only to score jobs and to run the gap analysis on the Gaps page. CareerWatch does not sell, share, or reuse your data for anything but running your matches.',
+      'Your key is used for scoring calls, for the gap analysis that runs when you open the Gaps page, and for the key check you trigger from Settings. A scoring call sends your CV, your profile, and a batch of job descriptions to Gemini and gets scores back; a gap call sends your CV and profile, plus your top-scoring jobs, and gets back where they diverge. Nothing else.',
+      'You can export your scored jobs or permanently delete all your data at any time from Settings > Account. Deletion removes your CV, profile, API key, and every stored score.',
     ],
   },
   {
     id: 'improve',
     heading: 'How to improve your results',
     content: [
-      'The single highest-leverage change you can make is sharpening your profile. A vague profile produces vague scores. A profile that names your exact role target, lists your dealbreakers, and describes what a 9/10 role looks like for you produces scores you can act on.',
-      'Specifically: state the seniority level you want (e.g. "Team Lead, not IC"), name the domains you want to stay in (e.g. "fraud detection or cloud security ML"), and list at least one or two hard dealbreakers (e.g. "no consulting", "no pure infra roles"). The more the model knows what you will say no to, the better it can surface the yeses.',
-      'You can update your profile in Settings > Profile. Changes take effect on the next scoring run.',
+      'The single highest-leverage change is sharpening your profile. A vague profile produces vague scores. A profile that names your exact target role, lists your dealbreakers, and describes what a 9/10 looks like for you produces scores you can act on.',
+      'Concretely: state the seniority you want (e.g. "Team Lead, not IC"), name the domains you want to stay in (e.g. "fraud detection or cloud security ML"), and list at least one or two hard dealbreakers (e.g. "no consulting", "no pure infra roles"). The more the model knows what you will say no to, the better it surfaces the yeses.',
+      'Update your profile in Settings > Profile. Changes apply on your next scoring run.',
     ],
   },
 ]

@@ -12,6 +12,11 @@ from db.supabase_client import supabase
 
 def require_user(authorization: str | None) -> str:
     """Return the signed-in user's id, or raise HTTPException(401)."""
+    return require_user_and_email(authorization)[0]
+
+
+def require_user_and_email(authorization: str | None) -> tuple[str, str | None]:
+    """Same check as require_user, plus the verified user's email (None if absent)."""
     if not authorization:
         raise HTTPException(status_code=401, detail="Not signed in")
     token = authorization.removeprefix("Bearer ").strip()
@@ -25,4 +30,4 @@ def require_user(authorization: str | None) -> str:
     user = getattr(resp, "user", None)
     if not user or not getattr(user, "id", None):
         raise HTTPException(status_code=401, detail="Session expired - please sign in again")
-    return user.id
+    return user.id, getattr(user, "email", None)

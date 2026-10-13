@@ -45,7 +45,14 @@ Single persona: a job-seeking professional (primarily technical — data scienti
 
 ### 3. Onboarding Flow (first-time user, 4 steps)
 
-**Step 1 — Generate your profile (optional)**
+**First-login journey (WEBAPP_FIRST_LOGIN_JOURNEY):**
+- `GET /user/me` returns a derived `setup` object `{ profile, cv, api_key, filters_seen, complete }` (booleans only, from existing fields; `filters_seen` = a `score_configs` row exists). `complete` = profile AND api_key; CV and filters are recommended, not required. A user with no `users` row gets `{ setup: {...all false} }`.
+- `/auth/callback` sends a user whose `setup.complete` is false to `/onboarding`, everyone else to `/digest`. Any failure (no session, backend down, 5s timeout) falls back to `/digest`. Email/password sign-in navigates through `/auth/callback` (no `code`) so it gets the same routing.
+- No middleware redirect from `/digest` to `/onboarding` - the app is never blocked; an incomplete user can browse everything and the Digest checklist links each open item to `/onboarding?step=N` (to Settings once setup is complete).
+- `/onboarding` opens with a 3-bullet welcome (once per browser, localStorage `cw.onboarding.welcomed.v1`; skipped by `?step=N` deep links), then resumes the wizard at the first incomplete step, prefilled with the saved profile/CV/filters, showing "N of 4 done". Each step saves on Next (`PATCH /user/profile`, `/user/cv`, `/user/apikey`; filters on finish via `PATCH /user/filters`), so leaving mid-way loses nothing. These PATCH endpoints upsert the `users` row so a brand-new user's first step persists.
+- A user whose setup is already complete sees a "You're all set" card with links to Settings and the Digest instead of the wizard.
+
+**Step 1 — Generate your profile (required to finish setup, skippable)**
 - Explanation: "Your profile tells the AI what you're looking for. The best way to create it is to use an AI assistant."
 - Optional: the user can skip and add a profile later in Settings. The Next button reads "Skip ->" when the field is empty and "Next ->" once filled. (Note: scoring still requires a profile, so a skipped profile means no results until one is added.)
 - A copyable prompt block:
@@ -136,6 +143,22 @@ selects explicit columns so descriptions never bloat the list payload.
 - Filter by date scored
 - Search by company or title
 
+**Instant load (stale-while-revalidate cache):** Digest (`/jobs` list) and
+Positions (`/jobs/positions` list) paint the last-seen list from `localStorage`
+on mount, then refetch in the background (`webapp/frontend/lib/swrCache.ts`).
+- Key `cw:swr:<jobs|positions>:<supabase user id>`, value
+  `{ v, savedAt, userId, data }`. No session user id -> no cache read.
+- Discarded (and removed) on version mismatch, `userId` mismatch, age over the
+  ceiling (4 days = the longest gap between collection runs, Thu -> Mon), a
+  future `savedAt`, or unparseable JSON. Bump `JOBS_CACHE_VERSION` /
+  `POSITIONS_CACHE_VERSION` in the page whenever the row shape changes.
+- Cache hit: no skeleton, a quiet "Updating..." while the refetch runs; on
+  failure the cached list stays with "Couldn't refresh - ... Retry". Cold cache:
+  skeleton as before. Written only from live data, so a failed refresh never
+  re-stamps stale data as fresh. `/user/me` and `/jobs/stats` stay live-only.
+- All `cw:swr:` keys are cleared on sign-out (nav + delete account).
+- Node unit test: `node --test webapp/frontend/tests/swrCache.test.mjs`.
+
 ---
 
 ### 4b. Positions (`/positions`)
@@ -203,6 +226,7 @@ Tabs: **Profile** | **CV** | **Filters** | **API Key** | **Account**
 | `refresh_companies.py` | Every 2 weeks | GitHub Actions cron |
 | `collect_jobs.py` | Mon + Thu | GitHub Actions cron |
 | `score.py` | User-triggered | Web server (async job) |
+| Backend keep-warm (`GET /health`) | Every 10 min, 03:00-20:59 UTC | GitHub Actions cron (`keep-warm.yml`, repo variable `BACKEND_URL`; no-op while unset, never fails the run) |
 
 **Scoring rate limit:** 2 runs per user per week. Enforced server-side. Shown clearly in the UI.
 

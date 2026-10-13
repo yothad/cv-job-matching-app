@@ -7,6 +7,7 @@ Run: uv run python collect_jobs.py
 """
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -27,9 +28,19 @@ def load_companies() -> list[dict]:
         return json.load(f)
 
 
+def _write_json_atomic(path: Path, obj) -> None:
+    """Write-then-rename so a crash mid-dump never leaves a truncated state file."""
+    tmp = path.with_name(path.name + ".tmp")
+    try:
+        with tmp.open("w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 def save_companies(entries: list[dict]) -> None:
-    with COMPANIES_FILE.open("w", encoding="utf-8") as f:
-        json.dump(entries, f, ensure_ascii=False, indent=2)
+    _write_json_atomic(COMPANIES_FILE, entries)
 
 
 LIVE_POSITIONS_FILE = Path("live_positions.json")
@@ -127,17 +138,14 @@ def collect():
 
     save_companies(companies)
 
-    with LIVE_POSITIONS_FILE.open("w", encoding="utf-8") as f:
-        json.dump(
-            {
-                "generated_at": now_iso(),
-                "successful_companies": successful_companies,
-                "live_apply_urls": live_apply_urls,
-            },
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+    _write_json_atomic(
+        LIVE_POSITIONS_FILE,
+        {
+            "generated_at": now_iso(),
+            "successful_companies": successful_companies,
+            "live_apply_urls": live_apply_urls,
+        },
+    )
     print(f"Live positions: {len(live_apply_urls)} URLs across {len(successful_companies)} successful companies")
 
     before = len(all_jobs)
@@ -160,8 +168,7 @@ def collect():
         url = (job.get("apply_url") or "").strip()
         job["first_seen"] = first_seen_lookup.get(url, today) if url else today
 
-    with JOBS_FILE.open("w", encoding="utf-8") as f:
-        json.dump(all_jobs, f, ensure_ascii=False, indent=2)
+    _write_json_atomic(JOBS_FILE, all_jobs)
 
     print(f"\nTotal: {len(all_jobs)} jobs across {companies_with_jobs} companies")
     print(f"Saved to {JOBS_FILE}")

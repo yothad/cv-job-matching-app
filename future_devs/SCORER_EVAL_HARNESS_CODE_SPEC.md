@@ -1,7 +1,7 @@
 | Field | Value |
 |---|---|
 | **Phase** | P13 |
-| **Status** | `not-started` |
+| **Status** | `completed` |
 | **Effort** | S |
 | **Epic** | — |
 | **Depends on** | — |
@@ -33,3 +33,7 @@ Code half of `SCORER_EVAL_HARNESS` (read that spec first - it defines the metric
 2. `uv run python evals/make_labelling_sheet.py --n 20` writes a CSV under `evals/private/` and `git status` shows nothing new to commit there.
 3. `uv run python evals/run_eval.py --help` documents `--runs`, `--baseline`, `--write-baseline`, and the golden-set path flag.
 4. Full `pytest tests/` and `score.py --dry-run` still pass.
+
+## Night run 2026-10-12 (finished 2026-10-13)
+Parked overnight after two review rounds found false-PASS paths in the baseline gate; finished the next morning (2381976) and passed a third review. pytest 105 passed + 1 strict xfail; no Gemini calls.
+Next (Omer): `uv run python evals/make_labelling_sheet.py`, label it, `--import`, then `uv run python evals/run_eval.py --runs 3 --write-baseline` with a real key; tune the tolerances and fill in `reason`.

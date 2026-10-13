@@ -29,6 +29,21 @@ vocabulary and structure — capability vs regression evals, the three grader ty
 specific to this pipeline. Note what it does *not* provide: a runnable harness. That is
 this task's actual work.
 
+## Code shipped (SCORER_EVAL_HARNESS_CODE)
+
+`evals/metrics.py`, `evals/run_eval.py` (`--golden`, `--profile`, `--runs`, `--baseline`,
+`--write-baseline`), `evals/make_labelling_sheet.py` (make + `--import`), `evals/README.md`,
+`tests/test_evals.py` (fake client). Confusion bands are 9-10 / 7-8 / 5-6 / 0-4 and hard-filter
+flags are `dealbreaker-location` / `non-ds`. Because the repo is public, the golden set, sheet and
+baseline default to the gitignored `evals/private/` instead of being committed (overrides the
+"Committed to the repo" lines below). Remaining here: label, record the baseline, CI gate, docs.
+Exit codes: 0 pass, 1 gate failed (regression or more than 10% scorer errors), 2 bad input (empty
+golden set, `--runs` < 1, missing key, malformed or unmeasured baseline). A failed run never writes a baseline.
+Model: the ordered cascade `MODELS` in `matcher/gemini_scorer.py` (default `gemini-3.5-flash,gemini-3.5-flash-lite`,
+env `GEMINI_MODELS`). 2.5 Flash was retired for new keys and the switch shipped on 2026-10-13 without a baseline
+at Omer's call. `run_eval.py` records the whole cascade, since a fallback model may score some jobs; a
+baseline taken under one cascade is only comparable to runs under the same one.
+
 ## Behaviour
 
 ### `evals/golden_set.jsonl` (human-labelled, the ground truth)
@@ -53,6 +68,12 @@ this task's actual work.
 - **Run each job 3× and report pass@1 vs pass@3** (ECC's pass@k). Gemini at default
   temperature is not deterministic; a 1-point band wobble must be distinguishable from a
   real regression before anyone trusts the gate.
+- `score_jobs_batch` returns `flags: ["scorer-error"]` (score 0) for a failed call or a
+  malformed / missing item (per-item since PIPELINE_FAILURE_RESILIENCE). Count those
+  separately and exclude them from band accuracy / MAE - they are infra noise, not scoring.
+  But the run fails (exit 1) when more than 10% of results are `scorer-error`
+  (`--max-error-share` / `tolerance.scorer_error_share`), and a baseline metric that comes
+  back `n/a` counts as a regression - a dead model must never make the gate pass.
 
 ### `evals/baseline.json`
 - The committed current-performance record: metric values, model name, prompt hash, date.

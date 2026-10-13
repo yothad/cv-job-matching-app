@@ -126,6 +126,10 @@ Fields:
 
 Tags input implementation: simple comma-separated input with inline pill display. When user presses comma or Enter, add tag. Click X on pill to remove. No external library.
 
+### Resume behaviour (superseded by WEBAPP_FIRST_LOGIN_JOURNEY)
+
+The single `POST /user/setup` at the end is no longer used by the wizard. Each step now saves on Next (`PATCH /user/profile`, `/user/cv`, `/user/apikey`; filters via `PATCH /user/filters` on finish), and re-opening `/onboarding` resumes at the first incomplete step from `GET /user/me`'s derived `setup` object. A complete user sees a "You're all set" card instead of the wizard. The snippet below is the original design, kept for history.
+
 ### On "Start scoring →"
 
 ```ts
