@@ -9,6 +9,10 @@ with a warning if the column isn't there yet) into the global `positions` table:
   1. Upsert every current role, stamping this run's `synced_at`.
   2. Delete any row left with an older `synced_at` (i.e. no longer in the
      snapshot), so the table always mirrors the latest live set.
+  3. Reconcile liveness on every user's `scored_jobs` from live_positions.json,
+     with the same rule as score.py's _reconcile_status: a job closes only when
+     its company pulled successfully this run and its apply_url is gone (a
+     failed pull never closes anything); a closed job whose URL is back reopens.
 
 Runs automatically after collect_jobs.py in CI; safe to run locally too.
 
@@ -20,6 +24,7 @@ runnable.
 Env:
   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY  - required to do anything (else skip)
   NEW_JOBS_PATH                            - optional override for new_jobs.json
+  LIVE_POSITIONS_PATH                      - optional override for live_positions.json
 """
 import json
 import os
@@ -31,7 +36,10 @@ import httpx
 
 REPO_ROOT = Path(__file__).parent.parent
 NEW_JOBS_PATH = Path(os.environ.get("NEW_JOBS_PATH") or REPO_ROOT / "new_jobs.json")
+LIVE_POSITIONS_PATH = Path(os.environ.get("LIVE_POSITIONS_PATH") or REPO_ROOT / "live_positions.json")
 BATCH_SIZE = 250  # rows now carry multi-KB descriptions
+PAGE_SIZE = 1000  # PostgREST's default max rows per response
+ID_BATCH = 100    # ids per PATCH, keeps the id=in.(...) URL short
 TIMEOUT = 60.0
 
 
@@ -48,6 +56,68 @@ def _missing_description_column(resp: httpx.Response) -> bool:
     """PostgREST answers 400 (PGRST204 "Could not find the 'description'
     column") when the payload has a column the table lacks."""
     return resp.status_code == 400 and "description" in resp.text
+
+
+def _load_live() -> tuple[set[str], set[str]]:
+    """live_positions.json -> (live_urls, successful_companies lowercased)."""
+    if not LIVE_POSITIONS_PATH.exists():
+        return set(), set()
+    try:
+        data = json.loads(LIVE_POSITIONS_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return set(), set()
+    live = {u.strip() for u in data.get("live_apply_urls", []) if u and u.strip()}
+    successful = {c.lower() for c in data.get("successful_companies", []) if c}
+    return live, successful
+
+
+def _patch_ids(client: httpx.Client, base: str, auth_headers: dict, ids: list, body: dict) -> None:
+    for i in range(0, len(ids), ID_BATCH):
+        chunk = ids[i:i + ID_BATCH]
+        resp = client.patch(
+            base,
+            params={"id": f"in.({','.join(str(x) for x in chunk)})"},
+            headers={**auth_headers, "Prefer": "return=minimal"},
+            content=json.dumps(body),
+        )
+        resp.raise_for_status()
+
+
+def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, today: str) -> tuple[int, int]:
+    """Stamp status/closed_at on scored_jobs. Returns (closed, reopened)."""
+    live, successful = _load_live()
+    if not live and not successful:
+        print("live_positions.json missing or empty - skipping scored_jobs liveness")
+        return 0, 0
+
+    base = f"{url.rstrip('/')}/rest/v1/scored_jobs"
+    to_close, to_reopen = [], []
+    offset = 0
+    while True:
+        resp = client.get(
+            base,
+            params={"select": "id,apply_url,company,status", "order": "id",
+                    "limit": PAGE_SIZE, "offset": offset},
+            headers=auth_headers,
+        )
+        resp.raise_for_status()
+        page = resp.json()
+        for r in page:
+            u = (r.get("apply_url") or "").strip()
+            is_closed = r.get("status") == "closed"
+            if u in live:
+                if is_closed:
+                    to_reopen.append(r["id"])
+            elif not is_closed and (r.get("company") or "").lower() in successful:
+                to_close.append(r["id"])
+        if len(page) < PAGE_SIZE:
+            break
+        offset += PAGE_SIZE
+
+    _patch_ids(client, base, auth_headers, to_close, {"status": "closed", "closed_at": today})
+    _patch_ids(client, base, auth_headers, to_reopen, {"status": "open", "closed_at": None})
+    print(f"scored_jobs liveness: {len(to_close)} closed, {len(to_reopen)} reopened")
+    return len(to_close), len(to_reopen)
 
 
 def main() -> None:
@@ -119,6 +189,8 @@ def main() -> None:
         )
         resp.raise_for_status()
         pruned = len(resp.json()) if resp.content else 0
+
+        reconcile_scored_jobs(client, url, auth_headers, run_ts[:10])
 
     print(f"Pruned {pruned} stale positions. Catalog now reflects {len(rows)} live roles.")
 

@@ -61,8 +61,10 @@ score.py  (daily, after collect_jobs.py)
 In CI (`.github/workflows/collect-and-score.yml`) `scripts/sync_positions.py` runs
 between collect and score with `continue-on-error: true` - it mirrors new_jobs.json
 (incl. descriptions) into the webapp's shared Supabase `positions` table, which is
-also what the webapp's "Score now" endpoint reads. A Supabase outage must never
-block scoring.
+also what the webapp's "Score now" endpoint reads. It then reconciles liveness on
+every user's Supabase `scored_jobs` from live_positions.json (same rule as score.py:
+close only if the company pulled OK and the URL is gone; reopen if it's back).
+A Supabase outage must never block scoring.
 
 ## Two sources of companies
 
