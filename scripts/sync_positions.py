@@ -13,7 +13,7 @@ with a warning if the column isn't there yet) into the global `positions` table:
      with the same rule as score.py's _reconcile_status: a job closes only when
      its company pulled successfully this run and its apply_url is gone (a
      failed pull never closes anything); a closed job whose URL is back reopens.
-     Safety net: a job first seen more than STALE_AFTER_DAYS ago whose URL is
+     Safety net: a job first seen (or, lacking that, scored) more than STALE_AFTER_DAYS ago whose URL is
      not live closes even if its company wasn't pulled (a company dropped from
      collection would otherwise keep its jobs open forever) - but never when
      its company's pull raised this run. If it was wrong, the URL showing up
@@ -105,7 +105,7 @@ def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, to
     while True:
         resp = client.get(
             base,
-            params={"select": "id,apply_url,company,status,first_seen", "order": "id",
+            params={"select": "id,apply_url,company,status,first_seen,scored_at", "order": "id",
                     "limit": PAGE_SIZE, "offset": offset},
             headers=auth_headers,
         )
@@ -114,7 +114,8 @@ def reconcile_scored_jobs(client: httpx.Client, url: str, auth_headers: dict, to
         for r in page:
             u = (r.get("apply_url") or "").strip()
             is_closed = r.get("status") == "closed"
-            first_seen = (r.get("first_seen") or "")[:10]
+            # Rows from before first_seen existed only carry scored_at.
+            first_seen = (r.get("first_seen") or r.get("scored_at") or "")[:10]
             company = (r.get("company") or "").lower()
             if u in live:
                 if is_closed:

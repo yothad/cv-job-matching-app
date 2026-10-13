@@ -34,3 +34,10 @@ into live_positions.json (missing in older files = none failed), so a transient 
 keeps the "a failed pull never closes anything" rule. Review: career-night.
 A wrong close self-heals: the URL showing up live again reopens it. Takes effect on the
 next CI run.
+
+Follow-up (same day): the first CI run closed only 1 row - all 31 legacy rows have
+`first_seen = null` (they predate the column), so the age rule fell back to scored_at.
+Several also carry a company label that no longer matches a collected board (e.g.
+"Cardinalops" rows on the old pagayais Greenhouse board, "Astelia" rows on Team8's Comeet
+board), which is why the company rule never reached them either.
+

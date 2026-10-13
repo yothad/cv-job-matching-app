@@ -108,10 +108,12 @@ def test_reconcile_closes_old_unseen_jobs_from_uncollected_companies(tmp_path, m
         {"id": 2, "apply_url": "https://x/recent", "company": "Dropped", "status": "open", "first_seen": "2026-10-01"},
         {"id": 3, "apply_url": "https://x/nodate", "company": "Dropped", "status": "open", "first_seen": None},
         {"id": 4, "apply_url": "https://x/live", "company": "Dropped", "status": "open", "first_seen": "2026-05-02"},
+        {"id": 5, "apply_url": "https://x/legacy", "company": "Dropped", "status": "open", "first_seen": None, "scored_at": "2026-05-20T09:00:00+00:00"},
+        {"id": 6, "apply_url": "https://x/legacy-new", "company": "Dropped", "status": "open", "first_seen": None, "scored_at": "2026-10-12T09:00:00+00:00"},
     ]
     result, patches = _reconcile(tmp_path, monkeypatch, live, rows)
-    assert result == (1, 0)
-    assert patches == [("in.(1)", {"status": "closed", "closed_at": "2026-10-13"})]
+    assert result == (2, 0)
+    assert patches == [("in.(1,5)", {"status": "closed", "closed_at": "2026-10-13"})]
 
 
 def test_reconcile_age_rule_needs_live_urls(tmp_path, monkeypatch):
