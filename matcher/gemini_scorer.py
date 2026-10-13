@@ -18,9 +18,40 @@ class QuotaExhaustedError(Exception):
 # Per-minute rate limiter (sliding window, thread-safe)
 # ---------------------------------------------------------------------------
 
-# Pinned, not "-latest": gemini-2.5-flash 404s for new keys (retired 2026-10) and the floating
-# aliases hit frequent 503s. Change the model here only - scorer, gaps and evals all read it.
-MODEL = "gemini-3.5-flash"
+# Ordered model cascade (borrowed from PowerME's GeminiApiClient). Which model ids a key can use
+# depends on its Google project - gemini-2.5-flash 404s for keys created after 2026-10 - so a
+# model-specific failure (gone, busy, rate-limited, server error) moves on to the next model
+# instead of failing the job. Pinned ids only: the floating "-latest" aliases hung or 503'd.
+# Override without a code change via GEMINI_MODELS (comma list) on Render / GitHub Actions.
+MODELS = [m.strip() for m in os.environ.get("GEMINI_MODELS", "gemini-3.5-flash,gemini-3.5-flash-lite").split(",")
+          if m.strip()]
+
+_NEXT_MODEL_CODES = {404, 429, 500, 502, 503, 504}
+
+
+def _status_code(e: Exception) -> int | None:
+    code = getattr(e, "code", None)  # google.genai errors.APIError carries the HTTP status
+    if isinstance(code, int):
+        return code
+    m = re.match(r"\s*(\d{3})\b", str(e))
+    return int(m.group(1)) if m else None
+
+
+def generate(client, contents, config=None):
+    """client.models.generate_content over the MODELS cascade. Advances to the next model on a
+    model-specific failure; anything else (bad key, bad request) is raised at once. When every
+    model fails, the last error is raised so the callers' 429 backoff still applies."""
+    last = None
+    for i, model in enumerate(MODELS):
+        try:
+            return client.models.generate_content(model=model, contents=contents, config=config)
+        except Exception as e:
+            if _status_code(e) not in _NEXT_MODEL_CODES:
+                raise
+            last = e
+            if i + 1 < len(MODELS):
+                print(f"[gemini] {model} failed ({_status_code(e)}) - trying {MODELS[i + 1]}")
+    raise last
 
 _RPM_LIMIT = int(os.environ.get("GEMINI_RPM", "8"))
 _rpm_lock = threading.Lock()
@@ -98,8 +129,8 @@ def score_jobs_batch(jobs: list[dict], profile_md: str, cv_md: str, client) -> l
     for attempt in range(5):
         _rpm_wait()
         try:
-            resp = client.models.generate_content(
-                model=MODEL,
+            resp = generate(
+                client,
                 contents=prompt,
                 config={"response_mime_type": "application/json"},
             )
@@ -212,8 +243,8 @@ def score_job(job: dict, profile_md: str, cv_md: str, client) -> dict:
     for attempt in range(5):
         _rpm_wait()
         try:
-            resp = client.models.generate_content(
-                model=MODEL,
+            resp = generate(
+                client,
                 contents=prompt,
                 config={
                     "response_mime_type": "application/json",

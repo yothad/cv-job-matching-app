@@ -39,9 +39,10 @@ baseline default to the gitignored `evals/private/` instead of being committed (
 "Committed to the repo" lines below). Remaining here: label, record the baseline, CI gate, docs.
 Exit codes: 0 pass, 1 gate failed (regression or more than 10% scorer errors), 2 bad input (empty
 golden set, `--runs` < 1, missing key, malformed or unmeasured baseline). A failed run never writes a baseline.
-Model: `matcher/gemini_scorer.py` `MODEL` (now `gemini-3.5-flash`; 2.5 Flash was retired for new keys on
-2026-10-13 and the switch shipped without a baseline at Omer's call). The first baseline measures 3.5 Flash;
-`run_eval.py` records `MODEL` in it.
+Model: the ordered cascade `MODELS` in `matcher/gemini_scorer.py` (default `gemini-3.5-flash,gemini-3.5-flash-lite`,
+env `GEMINI_MODELS`). 2.5 Flash was retired for new keys and the switch shipped on 2026-10-13 without a baseline
+at Omer's call. `run_eval.py` records the whole cascade, since a fallback model may score some jobs; a
+baseline taken under one cascade is only comparable to runs under the same one.
 
 ## Behaviour
 

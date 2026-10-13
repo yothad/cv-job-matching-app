@@ -2,7 +2,7 @@ import json
 import re
 import time
 
-from matcher.gemini_scorer import MODEL
+from matcher.gemini_scorer import generate
 
 
 def _call_gemini(client, prompt: str) -> dict:
@@ -10,8 +10,8 @@ def _call_gemini(client, prompt: str) -> dict:
     last_exc = None
     for attempt in range(5):
         try:
-            resp = client.models.generate_content(
-                model=MODEL,
+            resp = generate(
+                client,
                 contents=prompt,
                 config={"response_mime_type": "application/json"},
             )
