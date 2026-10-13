@@ -26,6 +26,9 @@ class _Client:
 @pytest.fixture(autouse=True)
 def two_models(monkeypatch):
     monkeypatch.setattr(gs, "MODELS", ["a", "b"])
+    monkeypatch.setattr(gs, "_cooldown_until", {})
+    monkeypatch.setattr(gs, "_rpm_wait", lambda: None)
+    monkeypatch.setattr(gs.time, "sleep", lambda s: None)
 
 
 @pytest.mark.parametrize("code", [404, 429, 503])
@@ -71,3 +74,43 @@ def test_scorer_uses_fallback_model_for_new_keys(monkeypatch):
     c = C({})
     out = gs.score_jobs_batch([{"title": "DS", "company": "X", "location": "TLV", "description": ""}], "p", "cv", c)
     assert out[0]["score"] == 8 and c.tried == ["a", "b"]
+
+
+def test_busy_model_is_skipped_during_cooldown():
+    c = _Client({"a": 503})
+    assert gs.generate(c, "p") == "b"
+    c.fail = {}  # "a" recovered, but it is still cooling down
+    c.tried = []
+    assert gs.generate(c, "p") == "b"
+    assert c.tried == ["b"]  # no wasted call on the busy model
+
+
+def test_cooling_models_are_still_tried_last():
+    gs._cooldown_until.update({"a": gs.time.monotonic() + 999, "b": gs.time.monotonic() + 999})
+    c = _Client({})
+    assert gs.generate(c, "p") == "a"  # never dropped, just moved to the back
+
+
+class _Resp:
+    text = '[{"score": 7, "reasoning": "ok", "flags": []}]'
+
+
+JOB = [{"title": "DS", "company": "X", "location": "TLV", "description": ""}]
+
+
+def test_transient_5xx_on_every_model_is_retried():
+    class C(_Client):
+        calls = 0
+
+        def generate_content(self, model, contents, config=None):
+            C.calls += 1
+            if C.calls <= 2:  # first attempt: both models 500
+                raise _Err(500)
+            return _Resp()
+
+    assert gs.score_jobs_batch(JOB, "p", "cv", C({}))[0]["score"] == 7
+
+
+def test_lasting_5xx_skips_the_jobs_instead_of_stopping_the_run():
+    out = gs.score_jobs_batch(JOB, "p", "cv", _Client({"a": 500, "b": 503}))
+    assert "scorer-error" in out[0]["flags"]  # not QuotaExhaustedError, which ends the whole run

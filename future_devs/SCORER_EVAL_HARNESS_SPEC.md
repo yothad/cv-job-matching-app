@@ -42,7 +42,9 @@ golden set, `--runs` < 1, missing key, malformed or unmeasured baseline). A fail
 Model: the ordered cascade `MODELS` in `matcher/gemini_scorer.py` (default `gemini-3.5-flash,gemini-3.5-flash-lite`,
 env `GEMINI_MODELS`). 2.5 Flash was retired for new keys and the switch shipped on 2026-10-13 without a baseline
 at Omer's call. `run_eval.py` records the whole cascade, since a fallback model may score some jobs; a
-baseline taken under one cascade is only comparable to runs under the same one.
+baseline taken under one cascade is only comparable to runs under the same one. Retry policy
+(BUG_GEMINI_5XX_DROPS_JOBS: 5xx backoff, 120s cooldown on a busy model) changes which model scores a
+job but not the prompt or model set, so it needs no new baseline.
 
 ## Behaviour
 

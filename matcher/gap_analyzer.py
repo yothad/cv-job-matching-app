@@ -2,7 +2,7 @@ import json
 import re
 import time
 
-from matcher.gemini_scorer import generate
+from matcher.gemini_scorer import _is_retryable, generate
 
 
 def _call_gemini(client, prompt: str) -> dict:
@@ -24,7 +24,7 @@ def _call_gemini(client, prompt: str) -> dict:
         except Exception as e:
             last_exc = e
             err = str(e)
-            is_quota = "429" in err or "RESOURCE_EXHAUSTED" in err or "quota" in err.lower()
+            is_quota = _is_retryable(e)
             if not is_quota:
                 raise
             if attempt < 4:
@@ -35,7 +35,7 @@ def _call_gemini(client, prompt: str) -> dict:
                     if 1 <= val <= 120:
                         retry_delay = val
                 time.sleep(retry_delay or backoff[attempt])
-    raise RuntimeError(f"Gemini quota exhausted after 5 attempts: {last_exc}")
+    raise RuntimeError(f"Gemini unavailable after 5 attempts: {last_exc}")
 
 
 def analyze_profile_cv_gap(profile_md: str, cv_md: str, client) -> dict:

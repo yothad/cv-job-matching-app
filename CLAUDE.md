@@ -51,7 +51,9 @@ score.py  (daily, after collect_jobs.py)
      path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
   └─ sends each job to Gemini via an ordered model cascade (`MODELS` in matcher/gemini_scorer.py,
      default gemini-3.5-flash then -lite, override with env GEMINI_MODELS): a 404/429/5xx on one
-     model moves to the next. Pinned ids only; 2.5 Flash 404s for keys created after 2026-10
+     model moves to the next, and a model that answered 429/5xx is tried last for 120s. 5xx is
+     retried with backoff like 429; if it outlasts the retries, those jobs become scorer-error
+     (retried next run) rather than stopping the run. Pinned ids only; 2.5 Flash 404s for new keys
   └─ a malformed item only fails that job; scorer-error results are not logged to
      all_scores.jsonl (retried next run) and never overwrite a score on --rescore
   └─ writes digest.md grouped by score tier (9-10, 7-8, 5-6)

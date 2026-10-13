@@ -27,6 +27,11 @@ MODELS = [m.strip() for m in os.environ.get("GEMINI_MODELS", "gemini-3.5-flash,g
           if m.strip()]
 
 _NEXT_MODEL_CODES = {404, 429, 500, 502, 503, 504}
+_SERVER_CODES = {500, 502, 503, 504}
+# A model that just returned busy/5xx is skipped for a while, so every batch does not spend a call
+# on it before falling back (3.5-flash 503'd on nearly every batch on 2026-10-13).
+_COOLDOWN_S = 120
+_cooldown_until: dict[str, float] = {}
 
 
 def _status_code(e: Exception) -> int | None:
@@ -41,17 +46,30 @@ def generate(client, contents, config=None):
     """client.models.generate_content over the MODELS cascade. Advances to the next model on a
     model-specific failure; anything else (bad key, bad request) is raised at once. When every
     model fails, the last error is raised so the callers' 429 backoff still applies."""
+    now = time.monotonic()
+    ready = [m for m in MODELS if _cooldown_until.get(m, 0) <= now]
+    order = ready + [m for m in MODELS if m not in ready]  # cooling models last, never dropped
     last = None
-    for i, model in enumerate(MODELS):
+    for i, model in enumerate(order):
         try:
             return client.models.generate_content(model=model, contents=contents, config=config)
         except Exception as e:
-            if _status_code(e) not in _NEXT_MODEL_CODES:
+            code = _status_code(e)
+            if code not in _NEXT_MODEL_CODES:
                 raise
             last = e
-            if i + 1 < len(MODELS):
-                print(f"[gemini] {model} failed ({_status_code(e)}) - trying {MODELS[i + 1]}")
+            if code in _SERVER_CODES or code == 429:
+                _cooldown_until[model] = time.monotonic() + _COOLDOWN_S
+            if i + 1 < len(order):
+                print(f"[gemini] {model} failed ({code}) - trying {order[i + 1]}")
     raise last
+
+
+def _is_retryable(e: Exception) -> bool:
+    """429 / quota, or a transient Gemini server error (5xx) - worth a backoff and another try."""
+    s = str(e)
+    return (_status_code(e) in _SERVER_CODES or "429" in s or "RESOURCE_EXHAUSTED" in s
+            or "quota" in s.lower() or "rate" in s.lower())
 
 _RPM_LIMIT = int(os.environ.get("GEMINI_RPM", "8"))
 _rpm_lock = threading.Lock()
@@ -162,12 +180,8 @@ def score_jobs_batch(jobs: list[dict], profile_md: str, cv_md: str, client) -> l
         except Exception as e:
             last_exc = e
             err_str = str(e)
-            is_429 = (
-                "429" in err_str
-                or "RESOURCE_EXHAUSTED" in err_str
-                or "quota" in err_str.lower()
-                or "rate" in err_str.lower()
-            )
+            is_server = _status_code(e) in _SERVER_CODES
+            is_429 = _is_retryable(e)
             if not is_429:
                 fallback = {"score": 0, "reasoning": f"scorer error: {e}", "flags": ["scorer-error"]}
                 return [fallback] * len(jobs)
@@ -181,8 +195,12 @@ def score_jobs_batch(jobs: list[dict], profile_md: str, cv_md: str, client) -> l
 
             if attempt < 4:
                 wait = retry_delay if retry_delay else backoff_seconds[attempt]
-                print(f"[scorer] 429 RESOURCE_EXHAUSTED on attempt {attempt + 1}/5 - waiting {wait}s before retry...")
+                kind = "Gemini server error" if is_server else "429 RESOURCE_EXHAUSTED"
+                print(f"[scorer] {kind} on attempt {attempt + 1}/5 - waiting {wait}s before retry...")
                 time.sleep(wait)
+            elif is_server:
+                # a Gemini outage, not quota: skip these jobs (retried next run), keep the run going
+                return [{"score": 0, "reasoning": f"scorer error: {e}", "flags": ["scorer-error"]}] * len(jobs)
             else:
                 raise QuotaExhaustedError(
                     f"Gemini quota exhausted after 5 attempts. Last error: {last_exc}"
@@ -266,12 +284,8 @@ def score_job(job: dict, profile_md: str, cv_md: str, client) -> dict:
             last_exc = e
             err_str = str(e)
             # Detect quota / rate-limit errors
-            is_429 = (
-                "429" in err_str
-                or "RESOURCE_EXHAUSTED" in err_str
-                or "quota" in err_str.lower()
-                or "rate" in err_str.lower()
-            )
+            is_server = _status_code(e) in _SERVER_CODES
+            is_429 = _is_retryable(e)
             if not is_429:
                 # Non-quota error - per-job problem, return score=0 immediately
                 return {"score": 0, "reasoning": f"scorer error: {e}", "flags": ["scorer-error"]}
@@ -288,8 +302,11 @@ def score_job(job: dict, profile_md: str, cv_md: str, client) -> dict:
 
             if attempt < 4:
                 wait = retry_delay if retry_delay else backoff_seconds[attempt]
-                print(f"[scorer] 429 RESOURCE_EXHAUSTED on attempt {attempt + 1}/5 - waiting {wait}s before retry...")
+                kind = "Gemini server error" if is_server else "429 RESOURCE_EXHAUSTED"
+                print(f"[scorer] {kind} on attempt {attempt + 1}/5 - waiting {wait}s before retry...")
                 time.sleep(wait)
+            elif is_server:
+                return {"score": 0, "reasoning": f"scorer error: {e}", "flags": ["scorer-error"]}
             else:
                 # Final attempt also failed with quota error
                 raise QuotaExhaustedError(

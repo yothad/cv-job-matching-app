@@ -1,7 +1,7 @@
 # BUG: Gemini 5xx drops scoring batches instead of retrying; busy model wastes a call per batch
 
 ## Status
-🔵 Open
+🟢 Completed
 
 ## Severity
 P2
@@ -37,4 +37,11 @@ model-order policy only.
 - **Owner split (2026-10-13):** the careers-day session owns `webapp/backend/routers/scoring.py` (background scoring, re-score rows without descriptions). This bug must not touch it.
 
 ## Fix Notes
-<!-- populated after fix -->
+- `generate()` orders the cascade by cooldown: a model that answered 429/5xx is tried last for
+  `_COOLDOWN_S` (120s) and is never dropped. Saves the wasted call on a busy `gemini-3.5-flash`.
+- `_is_retryable()`: 429/quota or 5xx. `score_jobs_batch` / `score_job` back off and retry 5xx like
+  429. If 5xx is still failing on the last attempt, the jobs return as `scorer-error` (not saved,
+  retried next run) instead of raising `QuotaExhaustedError`, which would end the whole Score now run.
+- `gap_analyzer._call_gemini` uses the same retry rule.
+- Tests (`tests/test_gemini_cascade.py`): cooldown skips the busy model, cooling models are still
+  tried last, transient 5xx on every model is retried, lasting 5xx yields scorer-error not a stop.
