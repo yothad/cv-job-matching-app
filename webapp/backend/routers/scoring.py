@@ -28,7 +28,7 @@ RUN_CAP = int(os.environ.get("SCORE_RUN_CAP", "200"))
 # A "running" run that hasn't written progress for this long died with its
 # process (e.g. a Render restart) - treat it as interrupted, never as busy.
 STALE_AFTER = timedelta(minutes=10)
-IN_CHUNK = 100  # urls per PostgREST in.() filter
+IN_CHUNK = 50  # urls per PostgREST in.() filter (~84 chars each) - keeps the URL well under gateway limits
 
 
 class ScoreRequest(BaseModel):
@@ -328,8 +328,9 @@ def _score_pending(
         return  # nothing scored - don't consume a weekly run
 
     # A weekly run is used when a "new" run clears the backlog; capped runs
-    # (remaining > 0) can be continued for free.
-    if not rescore and run["remaining"] == 0:
+    # (remaining > 0) and runs that stopped early (quota / failed batch) can be
+    # continued for free.
+    if not rescore and run["remaining"] == 0 and not stopped_early:
         supabase.table("users").update({"scoring_runs_this_week": runs_used + 1}).eq("id", user_id).execute()
     run["status"] = "done"
     if errors:

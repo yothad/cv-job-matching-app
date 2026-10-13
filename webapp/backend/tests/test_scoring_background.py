@@ -124,6 +124,17 @@ def test_quota_exhaustion_stops_the_run(monkeypatch):
     assert run["scored"] == 2 and run["failed"] == 4 and run["status"] == "done"
 
 
+def test_run_that_stops_early_does_not_use_a_weekly_run(monkeypatch):
+    def results(i, b):
+        if i == 1:
+            raise _Quota("quota")
+        return _ok(b)
+    db, run = _run(monkeypatch, _jobs(6), results)
+    assert db.user_updates == []
+    db, run = _run(monkeypatch, _jobs(6), lambda i, b: _ok(b) if i == 0 else _err(b))
+    assert db.user_updates == []
+
+
 def test_crash_marks_run_failed(monkeypatch):
     def results(i, b):
         raise RuntimeError("boom secret-key")

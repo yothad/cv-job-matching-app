@@ -362,6 +362,9 @@ export default function DigestPage() {
   // earlier visit never re-announces its result on page load.
   const watchingRun = useRef(false)
   const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Set on unmount so an in-flight status fetch never re-arms the poll or
+  // touches state after the user has left the page.
+  const unmounted = useRef(false)
   const [runsUsed, setRunsUsed] = useState(0)
   const [runLimitResetsOn, setRunLimitResetsOn] = useState<string | null>(null)
   const [currentProfileVersion, setCurrentProfileVersion] = useState(1)
@@ -535,6 +538,7 @@ export default function DigestPage() {
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data: { run: ScoreRun | null; rescore_available?: number } = await res.json()
+      if (unmounted.current) return
       setRescoreAvailable(data.rescore_available ?? 0)
       const run = data.run
       if (run?.status === 'running') {
@@ -553,19 +557,25 @@ export default function DigestPage() {
         await loadStats()
       }
     } catch {
+      if (unmounted.current) return
       if (watchingRun.current) {
         // Transient network blip while a run is going - keep polling.
         pollTimer.current = setTimeout(() => pollScoreStatus(tick + 1), 5000)
         return
       }
     }
+    if (unmounted.current) return
     setScoring(false)
     setScoreProgress(null)
   }
 
   useEffect(() => {
+    unmounted.current = false
     pollScoreStatus()
-    return () => { if (pollTimer.current) clearTimeout(pollTimer.current) }
+    return () => {
+      unmounted.current = true
+      if (pollTimer.current) clearTimeout(pollTimer.current)
+    }
   }, [])
 
   async function triggerScoring(mode: 'new' | 'rescore' = 'new') {
@@ -580,6 +590,7 @@ export default function DigestPage() {
         body: JSON.stringify({ mode }),
       })
       const data = await res.json().catch(() => ({}))
+      if (unmounted.current) return
       if (res.ok && data.started) {
         watchingRun.current = true
         setScoreProgress({ scored: 0, total: data.run?.total ?? 0 })
