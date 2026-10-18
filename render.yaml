@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: careerwatch-api
+    name: cv-job-matching-api
     env: python
     region: oregon
     plan: free
@@ -20,7 +20,7 @@ services:
         value: /opt/render/project/src/companies.json
 
   - type: web
-    name: careerwatch-frontend
+    name: cv-job-matching-web
     env: node
     region: oregon
     plan: free

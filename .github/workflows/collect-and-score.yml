@@ -59,10 +59,11 @@ jobs:
         continue-on-error: true
         env:
           AUTO_SCORE_SECRET: ${{ secrets.AUTO_SCORE_SECRET }}
+          BACKEND_URL: ${{ vars.BACKEND_URL }}
         run: |
-          if [ -z "$AUTO_SCORE_SECRET" ]; then echo "AUTO_SCORE_SECRET not set - skipping"; exit 0; fi
+          if [ -z "$AUTO_SCORE_SECRET" ] || [ -z "$BACKEND_URL" ]; then echo "AUTO_SCORE_SECRET or BACKEND_URL not set - skipping"; exit 0; fi
           curl -fsS --retry 4 --retry-delay 30 --retry-all-errors --max-time 90 \
-            -X POST https://careerwatch-api.onrender.com/score/auto \
+            -X POST "${BACKEND_URL%/}/score/auto" \
             -H "X-Cron-Secret: $AUTO_SCORE_SECRET"
 
       - name: Commit updated outputs

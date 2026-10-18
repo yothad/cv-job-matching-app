@@ -202,7 +202,7 @@ export default function LandingPage() {
             Get started free
           </Link>
           <a
-            href="https://github.com/Omer-Hedvat/careers-watch"
+            href="https://github.com/yothad/cv-job-matching-app"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-surface hover:bg-surface-raised border border-border-subtle rounded-lg font-semibold transition-[background-color,transform] motion-safe:hover:-translate-y-0.5"
@@ -333,7 +333,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-border bg-background text-center text-subtle text-sm">
         CareerWatch &middot; Built by Omer Hedvat &middot;{' '}
-        <a href="https://github.com/Omer-Hedvat/careers-watch" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+        <a href="https://github.com/yothad/cv-job-matching-app" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
           GitHub
         </a>
       </footer>
