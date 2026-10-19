@@ -485,9 +485,9 @@ export default function OnboardingPage() {
         <div className="bg-surface border border-border rounded-2xl p-8 w-full max-w-xl shadow-2xl shadow-black/20 space-y-5">
           {phase === 'welcome' ? (
             <>
-              <h1 className="font-display text-3xl">Welcome to CareerWatch</h1>
+              <h1 className="font-display text-3xl">Welcome to CV-Job Matching</h1>
               <ul className="space-y-2 text-sm text-muted list-disc list-inside">
-                <li>CareerWatch tracks open roles at 100+ Israeli cyber, fraud and fintech companies and scores every one of them against your profile - not a generic keyword list.</li>
+                <li>CV-Job Matching tracks open roles at 100+ Israeli cyber, fraud and fintech companies and scores every one of them against your profile - not a generic keyword list.</li>
                 <li>Scoring needs three things from you: a profile (what you want), your CV (what you have done) and a free Gemini API key, so scoring runs on your own quota at no cost.</li>
                 <li>Setup takes about five minutes. Every step saves as you go, so you can close the tab and pick up exactly where you left off.</li>
               </ul>
@@ -681,7 +681,7 @@ export default function OnboardingPage() {
               <p className="text-sm text-subtle mt-1">Scoring runs on your own free Gemini quota. Your key, your calls, nothing to pay.</p>
             </div>
             <p className="text-muted text-sm">The key is encrypted before it is stored and used for two things: scoring jobs for you, and the gap analysis on the Gaps page. It is never logged or shared.</p>
-            <p className="text-sm text-accent">It costs nothing - Google&apos;s Gemini API has a free tier, and that is all CareerWatch needs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
+            <p className="text-sm text-accent">It costs nothing - Google&apos;s Gemini API has a free tier, and that is all CV-Job Matching needs. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="underline">Get your free key here</a>.</p>
             <input type="password" value={geminiKey} onChange={e => { setGeminiKey(e.target.value); setKeyTestResult('') }} placeholder={setup.api_key ? 'A key is already saved - paste a new one to replace it' : 'Paste your Gemini API key'} className="w-full bg-surface-raised text-foreground px-3 py-2 rounded-lg border border-subtle placeholder:text-subtle transition-colors focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent" />
             <div className="flex items-center gap-3">
               <button onClick={testKeyInline} disabled={!geminiKey.trim() || keyTesting}

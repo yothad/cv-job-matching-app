@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import { clearSwrCache } from '@/lib/swrCache'
+import { Logo } from '@/app/components/Logo'
 import { ThemeToggle } from '@/app/components/ThemeToggle'
 
 const NAV_LINKS = [
@@ -39,8 +40,8 @@ export default function Nav() {
     <header className="border-b border-border bg-background/85 backdrop-blur-md sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
         {/* Brand */}
-        <Link href="/digest" className="font-display text-xl tracking-tight text-foreground shrink-0">
-          Career<em className="italic text-accent">Watch</em>
+        <Link href="/digest" aria-label="CV-Job Matching home" className="shrink-0 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+          <Logo size="sm" />
         </Link>
 
         {/* Desktop nav */}

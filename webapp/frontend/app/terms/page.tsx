@@ -14,14 +14,14 @@ export default function TermsPage() {
           Back
         </Link>
 
-        <p className="cw-label text-accent mb-2">CareerWatch</p>
+        <p className="cw-label text-accent mb-2">CV-Job Matching</p>
         <h1 className="font-display text-4xl sm:text-5xl text-foreground mb-10">Terms of Service</h1>
 
         <div className="space-y-6 text-muted text-sm leading-relaxed">
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">Personal-use software</h2>
             <p>
-              CareerWatch is personal-use software designed to help you track job opportunities.
+              CV-Job Matching is personal-use software designed to help you track job opportunities.
               It is provided as-is, without warranties of any kind. Use it at your own discretion.
             </p>
           </section>
@@ -39,9 +39,9 @@ export default function TermsPage() {
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">Third-party services</h2>
             <p>
-              CareerWatch integrates with Google Gemini (for AI-based job scoring) using the
+              CV-Job Matching integrates with Google Gemini (for AI-based job scoring) using the
               API key you supply. Requests to Gemini are made on your behalf and are governed
-              by Google&apos;s terms of service. CareerWatch does not store responses beyond
+              by Google&apos;s terms of service. CV-Job Matching does not store responses beyond
               what is needed to display your digest.
             </p>
           </section>
@@ -57,7 +57,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">Changes</h2>
             <p>
-              These terms may be updated over time. Continued use of CareerWatch after
+              These terms may be updated over time. Continued use of CV-Job Matching after
               changes constitutes acceptance of the updated terms.
             </p>
           </section>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /*
-  CareerWatch "Market Terminal" theme.
+  CV-Job Matching "Market Terminal" theme.
 
   Tokens are raw RGB triples (not hex) so Tailwind opacity modifiers
   (bg-accent/10, shadow-accent/20, ...) compose correctly via <alpha-value>.
@@ -13,26 +13,26 @@
 */
 
 :root {
-  /* Surfaces - warm ink */
-  --color-bg: 11 10 7;
-  --color-surface: 20 17 11;
-  --color-surface-raised: 31 26 17;
+  /* Surfaces - deep violet ink */
+  --color-bg: 10 9 18;
+  --color-surface: 18 16 31;
+  --color-surface-raised: 28 25 46;
 
   /* Borders */
-  --color-border: 40 34 22;
-  --color-border-subtle: 63 54 36;
+  --color-border: 40 36 64;
+  --color-border-subtle: 62 56 94;
 
-  /* Text - warm off-white ramp.
+  /* Text - cool off-white ramp.
      subtle is lightened from 116/107/88 so caption/meta text clears WCAG AA
      (>=4.5:1) on both surface and surface-raised, while staying below muted. */
-  --color-text: 244 239 228;
-  --color-text-muted: 168 158 137;
-  --color-text-subtle: 142 132 110;
+  --color-text: 241 238 250;
+  --color-text-muted: 170 164 196;
+  --color-text-subtle: 143 137 170;
 
-  /* Accent - terminal amber */
-  --color-accent: 255 178 36;
-  --color-accent-hover: 255 197 90;
-  --color-accent-foreground: 36 23 3;
+  /* Accent - brand violet (pairs with the pink in the logo) */
+  --color-accent: 192 132 252;
+  --color-accent-hover: 216 180 254;
+  --color-accent-foreground: 26 9 46;
 
   /* Score bands - single source of truth consumed via lib/scoreBands.ts.
      Must stay mutually distinguishable and hold white badge text in BOTH themes. */
@@ -55,26 +55,26 @@
 }
 
 [data-theme="light"] {
-  /* Surfaces - warm paper */
-  --color-bg: 247 243 234;
-  --color-surface: 253 251 245;
-  --color-surface-raised: 238 232 218;
+  /* Surfaces - cool lilac paper */
+  --color-bg: 248 246 253;
+  --color-surface: 255 255 255;
+  --color-surface-raised: 240 236 250;
 
   /* Borders */
-  --color-border: 227 220 202;
-  --color-border-subtle: 202 193 168;
+  --color-border: 228 222 243;
+  --color-border-subtle: 204 196 228;
 
   /* Text - ink ramp.
      subtle is darkened from 150/141/119 so caption/meta text clears WCAG AA
      (>=4.5:1) on both paper surfaces. */
-  --color-text: 32 27 16;
-  --color-text-muted: 109 100 80;
-  --color-text-subtle: 110 102 84;
+  --color-text: 25 20 42;
+  --color-text-muted: 98 91 122;
+  --color-text-subtle: 102 95 126;
 
-  /* Accent - deep amber, AA on paper */
-  --color-accent: 173 87 6;
-  --color-accent-hover: 140 68 4;
-  --color-accent-foreground: 253 246 233;
+  /* Accent - deep violet, AA on paper */
+  --color-accent: 124 58 237;
+  --color-accent-hover: 109 40 217;
+  --color-accent-foreground: 255 255 255;
 
   --color-score-high: 4 120 87;
   --color-score-mid: 29 78 216;

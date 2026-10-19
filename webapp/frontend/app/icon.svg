@@ -1,10 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <!-- briefcase body -->
-  <rect x="3" y="13" width="26" height="17" rx="3" fill="#2563EB"/>
-  <!-- handle -->
-  <path d="M12 13V10c0-2.2 1.8-4 4-4s4 1.8 4 4v3" stroke="#1d4ed8" stroke-width="3" stroke-linecap="round"/>
-  <!-- center divider band -->
-  <rect x="3" y="20.5" width="26" height="1.5" fill="rgba(255,255,255,0.25)"/>
-  <!-- clasp -->
-  <rect x="13.5" y="18" width="5" height="5" rx="1" fill="#1d4ed8"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="g" x1="4" y1="2" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6D28D9"/>
+      <stop offset="0.5" stop-color="#DB2777"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <clipPath id="c"><circle cx="19" cy="24" r="9.5"/></clipPath>
+  </defs>
+  <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#g)"/>
+  <circle cx="29" cy="24" r="9.5" fill="#fff" clip-path="url(#c)"/>
+  <circle cx="19" cy="24" r="9.5" stroke="#fff" stroke-width="3.5"/>
+  <circle cx="29" cy="24" r="9.5" stroke="#fff" stroke-width="3.5"/>
 </svg>

@@ -24,13 +24,13 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CareerWatch",
+  title: "CV-Job Matching",
   description: "AI-powered job matching for your career search",
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "CareerWatch",
+    title: "CV-Job Matching",
     description: "AI-powered job matching for your career search",
     type: "website",
   },

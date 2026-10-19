@@ -12,7 +12,7 @@ const sections = [
     id: 'how-it-works',
     heading: 'How it works',
     content: [
-      'CareerWatch pulls new postings straight from the ATS of each tracked Israeli cyber, fraud and fintech company. When you run a scoring pass, Gemini reads every new posting next to your CV and profile and produces a ranked digest.',
+      'CV-Job Matching pulls new postings straight from the ATS of each tracked Israeli cyber, fraud and fintech company. When you run a scoring pass, Gemini reads every new posting next to your CV and profile and produces a ranked digest.',
       'Three stages, three cadences: the company list is refreshed weekly (new companies discovered, stale entries re-verified), jobs are collected twice a week (Monday and Thursday), and new jobs are scored automatically right after each collection. You can also click "Score now", up to twice a week. Your Digest always shows the latest scored batch.',
     ],
   },
@@ -45,7 +45,7 @@ const sections = [
     id: 'data-privacy',
     heading: 'Data and privacy',
     content: [
-      'Your Gemini API key is encrypted before it is stored in Supabase; your CV and profile sit in your account alongside it. None of it goes to any third party except Gemini, and only to score jobs and to run the gap analysis on the Gaps page. CareerWatch does not sell, share, or reuse your data for anything but running your matches.',
+      'Your Gemini API key is encrypted before it is stored in Supabase; your CV and profile sit in your account alongside it. None of it goes to any third party except Gemini, and only to score jobs and to run the gap analysis on the Gaps page. CV-Job Matching does not sell, share, or reuse your data for anything but running your matches.',
       'Your key is used for scoring calls, for the gap analysis that runs when you open the Gaps page, and for the key check you trigger from Settings. A scoring call sends your CV, your profile, and a batch of job descriptions to Gemini and gets scores back; a gap call sends your CV and profile, plus your top-scoring jobs, and gets back where they diverge. Nothing else.',
       'You can export your scored jobs or permanently delete all your data at any time from Settings > Account. Deletion removes your CV, profile, API key, and every stored score.',
     ],
@@ -77,7 +77,7 @@ export default function HelpPage() {
         {/* Page title */}
         <h1 className="font-display text-4xl tracking-tight text-foreground mb-2">Help & FAQ</h1>
         <p className="text-muted mb-10 text-sm">
-          Everything you need to get the most out of CareerWatch.
+          Everything you need to get the most out of CV-Job Matching.
         </p>
 
         {/* Quick-jump links */}

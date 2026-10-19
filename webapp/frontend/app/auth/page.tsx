@@ -6,10 +6,11 @@ import Link from 'next/link'
 import { ArrowLeft, Mail } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import { ThemeToggle } from '@/app/components/ThemeToggle'
+import { Logo } from '@/app/components/Logo'
 
 type View = 'login' | 'signup' | 'forgot' | 'check-email'
 
-// Shared page chrome: instrument-grid backdrop + amber signal glow behind a
+// Shared page chrome: instrument-grid backdrop + violet/pink signal glow behind a
 // single centered card, so every auth view feels like one surface.
 function AuthShell({ children }: { children: React.ReactNode }) {
   return (
@@ -17,6 +18,7 @@ function AuthShell({ children }: { children: React.ReactNode }) {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 cw-grid [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,black,transparent)]" />
         <div className="absolute left-1/2 top-[-16rem] -translate-x-1/2 w-[46rem] h-[32rem] rounded-full bg-accent/10 blur-3xl" />
+        <div className="absolute right-[-8rem] bottom-[-10rem] w-[30rem] h-[24rem] rounded-full bg-pink-500/[0.08] blur-3xl" />
         <div className="absolute inset-0 cw-grain opacity-[0.05]" />
       </div>
       <ThemeToggle className="absolute top-4 right-4 z-10" />
@@ -80,7 +82,7 @@ export default function AuthPage() {
     'w-full px-3.5 py-2.5 bg-surface-raised text-foreground placeholder:text-subtle rounded-lg border border-border focus:outline-none focus:border-accent transition-colors'
 
   const primaryBtnClass =
-    'w-full py-2.5 bg-accent hover:bg-accent-hover text-accent-foreground rounded-lg font-semibold disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
+    'w-full py-2.5 bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white rounded-lg font-semibold disabled:opacity-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-surface'
 
   // --- Check-email confirmation screen ---
   if (view === 'check-email') {
@@ -150,7 +152,7 @@ export default function AuthPage() {
       </Link>
 
       <p className="cw-label text-accent mb-1">Job market terminal</p>
-      <h1 className="font-display text-4xl text-foreground mb-6">CareerWatch</h1>
+      <h1 className="mb-6"><Logo size="lg" /></h1>
 
       <div className="flex mb-6 border-b border-border">
         {(['login', 'signup'] as const).map(t => (

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { JobCard, type Job } from '@/app/components/JobCard'
 import { ThemeToggle } from '@/app/components/ThemeToggle'
+import { Logo, LogoMark, Wordmark } from '@/app/components/Logo'
 
 const FAQ_ITEMS = [
   {
@@ -16,11 +17,11 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is it really free?',
-    a: 'Yes. CareerWatch is free and open source. You bring your own Google Gemini API key, and its free tier is enough to run scoring.',
+    a: 'Yes. CV-Job Matching is free and open source. You bring your own Google Gemini API key, and its free tier is enough to run scoring.',
   },
   {
     q: 'Do you store my CV or API key?',
-    a: 'Both live in your account and nowhere else. The API key is encrypted before it is saved. Your CV and profile go to Gemini for two things: scoring your jobs, and the gap analysis that runs when you open the Gaps page. CareerWatch never logs them, never trains anything on them, and never hands them to anyone else. You can export or delete everything from Settings > Account.',
+    a: 'Both live in your account and nowhere else. The API key is encrypted before it is saved. Your CV and profile go to Gemini for two things: scoring your jobs, and the gap analysis that runs when you open the Gaps page. CV-Job Matching never logs them, never trains anything on them, and never hands them to anyone else. You can export or delete everything from Settings > Account.',
   },
   {
     q: 'Can I use it if I\'m not a data scientist?',
@@ -167,26 +168,25 @@ export default function LandingPage() {
 
       {/* Top bar - wordmark + theme toggle */}
       <header className="absolute top-0 inset-x-0 z-10 flex items-center justify-between px-5 sm:px-8 py-4">
-        <span className="font-display text-xl tracking-tight select-none">
-          Career<em className="not-italic font-display italic text-accent">Watch</em>
-        </span>
+        <Logo size="sm" className="select-none" />
         <ThemeToggle />
       </header>
 
       {/* Hero */}
       <main className="relative flex-1 flex flex-col items-center justify-center px-4 text-center py-28 sm:py-36 overflow-hidden">
-        {/* Signal backdrop: instrument grid + drifting amber glows + grain,
+        {/* Signal backdrop: instrument grid + drifting violet/pink glows + grain,
             purely decorative */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 cw-grid [mask-image:radial-gradient(ellipse_75%_70%_at_50%_35%,black,transparent)]" />
           <div className="cw-drift absolute left-1/2 top-[-16rem] w-[56rem] h-[38rem] rounded-full bg-accent/[0.13] blur-3xl" />
-          <div className="absolute left-[12%] bottom-[-10rem] w-[30rem] h-[24rem] rounded-full bg-accent/[0.05] blur-3xl" />
+          <div className="absolute left-[12%] bottom-[-10rem] w-[30rem] h-[24rem] rounded-full bg-pink-500/[0.10] blur-3xl" />
           <div className="absolute inset-0 cw-grain opacity-[0.06]" />
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
         </div>
 
-        <h1 className="cw-rise relative font-display font-normal text-6xl sm:text-7xl md:text-8xl mb-6 tracking-tight leading-none">
-          Career<em className="italic text-accent">Watch</em>
+        <h1 className="cw-rise relative mb-7 flex flex-col items-center gap-6">
+          <LogoMark size={84} className="drop-shadow-[0_14px_36px_rgba(219,39,119,0.35)]" />
+          <Wordmark className="text-4xl sm:text-6xl md:text-7xl" />
         </h1>
         <p className="cw-rise relative text-xl sm:text-2xl text-foreground/85 mb-3 max-w-xl leading-snug" style={{ animationDelay: '80ms' }}>
           The right roles, found for you. AI-scored job matching for tech professionals in Israel.
@@ -197,7 +197,7 @@ export default function LandingPage() {
         <div className="cw-rise relative flex gap-4 flex-wrap justify-center" style={{ animationDelay: '240ms' }}>
           <Link
             href="/auth"
-            className="px-6 py-3 bg-accent hover:bg-accent-hover text-accent-foreground rounded-lg font-semibold shadow-lg shadow-accent/25 hover:shadow-accent/35 transition-[background-color,box-shadow,transform] motion-safe:hover:-translate-y-0.5"
+            className="px-6 py-3 bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white rounded-lg font-semibold shadow-lg shadow-pink-500/25 hover:shadow-pink-500/40 transition-[background-color,box-shadow,transform] motion-safe:hover:-translate-y-0.5"
           >
             Get started free
           </Link>
@@ -225,12 +225,12 @@ export default function LandingPage() {
               {
                 n: '01',
                 title: 'Set up your profile',
-                body: 'Tell CareerWatch what you want and what you will not accept. An AI assistant helps you write it in minutes.',
+                body: 'Tell CV-Job Matching what you want and what you will not accept. An AI assistant helps you write it in minutes.',
               },
               {
                 n: '02',
                 title: 'We watch the market',
-                body: 'Twice a week, CareerWatch pulls every open position straight from the ATS of 100+ Israeli cyber, fraud and fintech companies.',
+                body: 'Twice a week, CV-Job Matching pulls every open position straight from the ATS of 100+ Israeli cyber, fraud and fintech companies.',
               },
               {
                 n: '03',
@@ -259,11 +259,11 @@ export default function LandingPage() {
             <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
             <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-4">Bring your own free AI key</h2>
             <p className="text-muted text-sm leading-relaxed mb-3">
-              Scoring runs on Google Gemini, whose free tier covers everything CareerWatch does.
+              Scoring runs on Google Gemini, whose free tier covers everything CV-Job Matching does.
               During onboarding you paste your own API key. It is encrypted, kept in your account, and used for two things: scoring jobs for you, and the gap analysis on the Gaps page.
             </p>
             <p className="text-muted text-sm leading-relaxed">
-              Your CV, your key, your quota. CareerWatch never trains anything on your data.
+              Your CV, your key, your quota. CV-Job Matching never trains anything on your data.
             </p>
             <div className="mt-6">
               <a
@@ -308,7 +308,7 @@ export default function LandingPage() {
         <Reveal className="max-w-2xl mx-auto text-center">
           <h2 className="font-display text-3xl sm:text-4xl tracking-tight mb-6">Who it is for</h2>
           <p className="text-muted text-sm leading-relaxed mb-4">
-            CareerWatch is for senior technical job seekers in Israel: data scientists, ML engineers, applied researchers, and security or fraud engineers who want signal, not volume.
+            CV-Job Matching is for senior technical job seekers in Israel: data scientists, ML engineers, applied researchers, and security or fraud engineers who want signal, not volume.
           </p>
           <p className="text-muted text-sm leading-relaxed">
             The company list and scoring rubric are tuned for the Israeli cyber, fraud and fintech ecosystem.
@@ -332,7 +332,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-border bg-background text-center text-subtle text-sm">
-        CareerWatch &middot; Built by Omer Hedvat &middot;{' '}
+        CV-Job Matching &middot; Built by Yotam Hadar &middot;{' '}
         <a href="https://github.com/yothad/cv-job-matching-app" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
           GitHub
         </a>

@@ -14,14 +14,14 @@ export default function PrivacyPage() {
           Back
         </Link>
 
-        <p className="cw-label text-accent mb-2">CareerWatch</p>
+        <p className="cw-label text-accent mb-2">CV-Job Matching</p>
         <h1 className="font-display text-4xl sm:text-5xl text-foreground mb-10">Privacy Policy</h1>
 
         <div className="space-y-6 text-muted text-sm leading-relaxed">
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">What we store</h2>
             <p>
-              CareerWatch stores your email address (for authentication), your CV text or file
+              CV-Job Matching stores your email address (for authentication), your CV text or file
               (if you upload one), and your Gemini API key (if you provide one). All data is
               stored in Supabase with encryption at rest.
             </p>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-foreground font-semibold text-base mb-2">Cookies and tracking</h2>
             <p>
-              CareerWatch uses session cookies only for authentication. We do not use
+              CV-Job Matching uses session cookies only for authentication. We do not use
               analytics trackers or advertising cookies.
             </p>
           </section>
