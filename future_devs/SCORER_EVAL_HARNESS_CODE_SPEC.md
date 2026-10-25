@@ -11,14 +11,14 @@
 
 ## Overview
 
-Code half of `SCORER_EVAL_HARNESS` (read that spec first - it defines the metrics, file formats and CI gate). This task builds everything that does not need a human or a live Gemini call, so Omer only has to label jobs and run it.
+Code half of `SCORER_EVAL_HARNESS` (read that spec first - it defines the metrics, file formats and CI gate). This task builds everything that does not need a human or a live Gemini call, so Yotam only has to label jobs and run it.
 
 ## Behaviour
 
 - `evals/metrics.py` - pure functions: band accuracy, MAE, hard-filter recall, confusion table (bands 9-10 / 7-8 / 5-6 / 0-4), pass@k across repeated runs. No I/O.
 - `evals/run_eval.py` - loads the golden set, re-scores it through the real `score_jobs_batch(...)` path (same prompt, model, batch size as production - import, never copy, the scorer), prints the metrics, `--runs k` for pass@k, `--baseline <file>` compares and exits non-zero on a regression beyond the tolerance stored in the baseline file, `--write-baseline <file>` records one. The Gemini client is injectable so tests use a fake.
-- **Privacy (repo is public):** the golden set holds Omer's personal labels. Default golden-set and baseline paths live under a gitignored directory (`evals/private/`, added to `.gitignore`); paths are overridable by flags/env. Nothing personal is committed.
-- `evals/make_labelling_sheet.py` - samples N jobs (default 60, stratified across the score bands of the last `profiles/omer/all_scores.jsonl` run plus jobs the hard filters dropped) from `new_jobs.json` into a CSV in `evals/private/` with empty `label_score`, `label_band`, `label_flags`, `notes` columns, and `--import <csv>` converts the filled sheet to `golden_set.jsonl`.
+- **Privacy (repo is public):** the golden set holds Yotam's personal labels. Default golden-set and baseline paths live under a gitignored directory (`evals/private/`, added to `.gitignore`); paths are overridable by flags/env. Nothing personal is committed.
+- `evals/make_labelling_sheet.py` - samples N jobs (default 60, stratified across the score bands of the last `profiles/yotam/all_scores.jsonl` run plus jobs the hard filters dropped) from `new_jobs.json` into a CSV in `evals/private/` with empty `label_score`, `label_band`, `label_flags`, `notes` columns, and `--import <csv>` converts the filled sheet to `golden_set.jsonl`.
 - `evals/README.md` - the 3-step human workflow: make sheet, label, import + `--write-baseline`.
 - Tests (`tests/test_evals.py`): metric functions on hand-made fixtures; `run_eval.py` end to end with a fake client and a synthetic 6-job golden set (exit 0 at baseline, non-zero after a simulated regression); sheet round-trip import.
 - Do NOT change `matcher/gemini_scorer.py`, `profile.md` or `score.py`. Do NOT call Gemini. Do NOT add the CI workflow step yet (it needs the real golden set - parent task).
@@ -36,4 +36,4 @@ Code half of `SCORER_EVAL_HARNESS` (read that spec first - it defines the metric
 
 ## Night run 2026-10-12 (finished 2026-10-13)
 Parked overnight after two review rounds found false-PASS paths in the baseline gate; finished the next morning (2381976) and passed a third review. pytest 105 passed + 1 strict xfail; no Gemini calls.
-Next (Omer): `uv run python evals/make_labelling_sheet.py`, label it, `--import`, then `uv run python evals/run_eval.py --runs 3 --write-baseline` with a real key; tune the tolerances and fill in `reason`.
+Next (Yotam): `uv run python evals/make_labelling_sheet.py`, label it, `--import`, then `uv run python evals/run_eval.py --runs 3 --write-baseline` with a real key; tune the tolerances and fill in `reason`.

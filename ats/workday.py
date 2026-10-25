@@ -63,7 +63,7 @@ def fetch_positions(tenant: str, wd_instance: str, job_site: str) -> list[dict]:
                 dr = httpx.get(detail_url, timeout=10, headers=HEADERS)
                 if dr.status_code == 200:
                     info = dr.json().get("jobPostingInfo", {})
-                    description = _strip_html(info.get("jobDescription", ""))[:4000]
+                    description = _strip_html(info.get("jobDescription", ""))
                     # If the list view hid the real locations behind "N Locations"
                     # (or gave nothing), rebuild the string from the detail payload
                     # so a bundled Israel role isn't silently dropped by the filter.

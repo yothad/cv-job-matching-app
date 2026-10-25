@@ -20,7 +20,7 @@ In the GitHub repo Settings → Secrets → Actions:
 
 | Secret | Value |
 |---|---|
-| `GEMINI_API_KEY` | Omer's Gemini API key |
+| `GEMINI_API_KEY` | Yotam's Gemini API key |
 
 No other secrets needed. The repo is private; no deploy keys required for self-push.
 

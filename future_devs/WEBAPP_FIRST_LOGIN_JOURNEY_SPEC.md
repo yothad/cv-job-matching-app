@@ -45,7 +45,7 @@ Goal: the first time someone connects, they get a short explanation of what the 
 
 ## Night run 2026-10-12
 Shipped unattended on the second attempt. The first review found that `upsert` without `email` could fail existing users' saves (`users.email` is NOT NULL); it was fixed with an update-then-insert helper. Gate: root pytest, score.py --dry-run, backend import + pytest, frontend build all green; review pass.
-Needs Omer: confirm whether prod Supabase has an auth -> `users` trigger that isn't in the migrations, and whether `users.email` is NOT NULL. `POST /user/setup` still upserts without `email` (same risk, not changed).
+Needs Yotam: confirm whether prod Supabase has an auth -> `users` trigger that isn't in the migrations, and whether `users.email` is NOT NULL. `POST /user/setup` still upserts without `email` (same risk, not changed).
 Deploy backend and frontend together - the digest checklist reads `setup` from `/user/me`.
 Morning QA (browser / live):
 1. New user (Google) lands on the `/onboarding` welcome; close after the CV step and sign in again - resumes at the API key step.

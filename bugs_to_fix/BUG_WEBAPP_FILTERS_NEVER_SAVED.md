@@ -32,6 +32,6 @@ the first save (insert) and later saves (update only).
 
 Review (career-night): update-then-insert isn't atomic, so two racing first saves could
 insert two rows and `.maybe_single()` would 500 forever. Both readers (`get_filters`,
-scoring's filter read) now take the newest row by `updated_at`. Durable fix, for Omer to
+scoring's filter read) now take the newest row by `updated_at`. Durable fix, for Yotam to
 paste in Supabase: `011_score_configs_unique_user.sql` (unique index on user_id).
 

@@ -6,8 +6,8 @@
 | **Epic** | — |
 | **Depends on** | WEBAPP_FIRST_LOGIN_JOURNEY (both edit onboarding copy - polish the new flow, not the old one) |
 | **Blocks** | — |
-| **Touches** | `webapp/frontend/app/onboarding/page.tsx`, `webapp/frontend/app/landing/page.tsx`, `webapp/frontend/app/(app)/help/page.tsx`, `webapp/frontend/app/components/*` (NOT `profile.md` - it is Omer's personal scoring rubric; rubric changes are eval-gated per CLAUDE.md) |
-| **Night-ready** | 🌙 yes - Omer reviews the new wording in the morning |
+| **Touches** | `webapp/frontend/app/onboarding/page.tsx`, `webapp/frontend/app/landing/page.tsx`, `webapp/frontend/app/(app)/help/page.tsx`, `webapp/frontend/app/components/*` (NOT `profile.md` - it is Yotam's personal scoring rubric; rubric changes are eval-gated per CLAUDE.md) |
+| **Night-ready** | 🌙 yes - Yotam reviews the new wording in the morning |
 | **Model** | Fable (`claude-fable-5`) |
 
 ## Overview
@@ -22,7 +22,7 @@ documented edge. Copy quality is the deliverable here, so the model choice is th
 point. Softer advantage than the pipeline tasks — worth it because the whole task
 is writing.
 
-Hyphens, not em-dashes, in all output (Omer's standing preference — see CLAUDE.md).
+Hyphens, not em-dashes, in all output (Yotam's standing preference — see CLAUDE.md).
 
 ## Behaviour
 
@@ -59,4 +59,4 @@ Hyphens, not em-dashes, in all output (Omer's standing preference — see CLAUDE
 ## Night run 2026-10-12
 Shipped unattended on the second attempt (dev on Fable). The first review found false claims: "key/CV used only for scoring" (the Gaps page also sends them) and an industries tooltip describing "tagging"; both fixed. Gate green; review pass. `profile.md` not edited (eval-gated).
 Morning QA (browser): read onboarding, landing and help end to end at mobile width and in both themes; filter-step tooltips and preview line; profile-skip warning.
-Needs Omer: `privacy/page.tsx` + `terms/page.tsx` still say the key is used "only to score"; help says "jobs below 5 never reach your digest" (min score is user-adjustable) and "export all your data" (`/user/export` only exports scored_jobs).
+Needs Yotam: `privacy/page.tsx` + `terms/page.tsx` still say the key is used "only to score"; help says "jobs below 5 never reach your digest" (min score is user-adjustable) and "export all your data" (`/user/export` only exports scored_jobs).

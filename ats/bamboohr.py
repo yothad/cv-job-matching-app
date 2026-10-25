@@ -62,7 +62,7 @@ def fetch_positions(company_slug: str) -> list[dict]:
         location = ", ".join(location_parts)
 
         description_html = detail.get("description") or ""
-        description = _strip_html(description_html)[:4000]
+        description = _strip_html(description_html)
 
         apply_url = f"https://{company_slug}.bamboohr.com/careers/{job_id}"
 

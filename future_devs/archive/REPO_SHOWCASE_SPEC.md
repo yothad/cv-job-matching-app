@@ -10,7 +10,7 @@
 
 ## Overview
 
-The current README is a minimal internal doc. Rewrite it as an engineering showcase that a hiring manager can skim in 90 seconds and understand what's impressive: real-world scale (200+ companies, 15+ ATS integrations), clean architecture, LLM-at-the-edge discipline. This is the repo's landing page and the first thing anyone reviewing Omer's portfolio sees.
+The current README is a minimal internal doc. Rewrite it as an engineering showcase that a hiring manager can skim in 90 seconds and understand what's impressive: real-world scale (200+ companies, 15+ ATS integrations), clean architecture, LLM-at-the-edge discipline. This is the repo's landing page and the first thing anyone reviewing Yotam's portfolio sees.
 
 ## Behaviour
 

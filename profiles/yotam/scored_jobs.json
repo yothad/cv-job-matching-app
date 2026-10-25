@@ -1,0 +1,1334 @@
+[
+  {
+    "company": "Wiz",
+    "title": "Data Scientist Expert",
+    "location": "Tel Aviv",
+    "apply_url": "https://www.wiz.io/careers/job/4621534006/:title?gh_jid=4621534006",
+    "source_vc": "a16z",
+    "score": 8,
+    "reasoning": "Expert DS role at a premier cyber company building AI-driven threat investigation systems in production.",
+    "flags": [
+      "top-company",
+      "heavy-llm-focus"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Security Researcher- Detection AI Research",
+    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=8003129003",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Hybrid ML and security detection role at a top company, though heavily tailored toward security threat hunters rather than pure DS.",
+    "flags": [
+      "top-company",
+      "domain-gap"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Security Researcher- Detection AI Research",
+    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=7996120003",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Duplicate posting for a security threat research role intersecting with ML pipelines at a major cyber company.",
+    "flags": [
+      "top-company",
+      "domain-gap",
+      "duplicate-posting"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Windows Detection Engineering Manager",
+    "location": "Tel Aviv-Yafo, Tel Aviv District, Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=7708051003",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "This is a security engineering management role focusing on Windows detection rules in C++ and Lua, matching his security domain interest and management background, but lacking the core data science craft.",
+    "flags": [
+      "management-gap",
+      "heavy-infra"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "JFrog",
+    "title": "Data Scientist",
+    "location": "Tel Aviv/ Netanya, Israel",
+    "apply_url": "https://join.jfrog.com/job/?job=8131741&gh_jid=8131741",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Strong Senior Data Scientist role at JFrog in Israel involving end-to-end production ML, time-series, and RAG systems, fitting his production-first profile well.",
+    "flags": [
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cato Networks",
+    "title": " Agentic AI Engineer - Product Support",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://www.catonetworks.com/careers/careers-post/4951235101?gh_jid=4951235101",
+    "source_vc": "Lightspeed Israel",
+    "score": 6,
+    "reasoning": "Applied AI engineer role focusing on agentic workflows and RAG for support systems in Israel, offering good hands-on production LLM experience though slightly outside core security/fraud ML.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cato Networks",
+    "title": "AI Security - AI Platform Team Lead",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://www.catonetworks.com/careers/careers-post/4874416101?gh_jid=4874416101",
+    "source_vc": "Lightspeed Israel",
+    "score": 6,
+    "reasoning": "AI platform team lead role at Cato Networks combining security infrastructure and team leadership, but heavily weighted toward MLOps and inference infra rather than DS modeling.",
+    "flags": [
+      "heavy-infra",
+      "management-gap"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cato Networks",
+    "title": "AI Security - Applied AI Researcher",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://www.catonetworks.com/careers/careers-post/4784152101?gh_jid=4784152101",
+    "source_vc": "Lightspeed Israel",
+    "score": 8,
+    "reasoning": "Senior Data Scientist/Applied AI researcher position combining his strong security background with full-lifecycle NLP and LLM production ownership at a top cyber company.",
+    "flags": [
+      "security-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cato Networks",
+    "title": "Data Scientist",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://www.catonetworks.com/careers/careers-post/4848229101?gh_jid=4848229101",
+    "source_vc": "Lightspeed Israel",
+    "score": 7,
+    "reasoning": "Strong match for a cybersecurity data science role with production ML scope in Tel Aviv, though leaning slightly toward GenAI/LLM stack.",
+    "flags": [
+      "cybersecurity-domain",
+      "llm-heavy"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Tipalti",
+    "title": "Applied AI Scientist",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://tipalti.com/jobs/?gh_jid=6222917004",
+    "source_vc": "Aleph",
+    "score": 7,
+    "reasoning": "Applied AI scientist role focused on enterprise agentic systems and fintech domain, aligning well with production AI experience.",
+    "flags": [
+      "fintech-domain",
+      "applied-ai"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Intuit Israel",
+    "title": "Staff AI scientist, Foresight",
+    "location": "Petach Tikva, Israel",
+    "apply_url": "https://jobs.intuit.com/job/petah-tikva/staff-ai-scientist-foresight/27595/101021658944",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Staff AI scientist role at a major established company in Israel, though senior scope and lack of full description require caution.",
+    "flags": [
+      "large-established-company",
+      "senior-ic"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Intuit Israel",
+    "title": "Senior Machine Learning Engineer, Foundational Models and Agentic systems",
+    "location": "Petach Tikva, Israel",
+    "apply_url": "https://jobs.intuit.com/job/petah-tikva/senior-machine-learning-engineer-foundational-models-and-agentic-systems/27595/99338970560",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Senior ML engineer role focusing on foundational models and agentic systems at a major established company within the commute radius.",
+    "flags": [
+      "large-established-company",
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "PayPal Israel",
+    "title": "Sr. AI Engineer",
+    "location": "Tel Aviv, Tel Aviv District, Israel",
+    "apply_url": "https://paypal.eightfold.ai/careers/job/274922605836",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Senior AI engineer role at PayPal/Cymbio in Tel Aviv involving end-to-end AI solution delivery from exploration to production.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Anecdotes",
+    "title": "R&D TL - Agents Platform",
+    "location": "Tel Aviv office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/anecdotes/F9.00B/rd-tl---agents-platform/3C.379",
+    "source_vc": "Red Dot Capital",
+    "score": 8,
+    "reasoning": "R&D Team Lead role focused on AI agents and platform at a tier-2 cyber/tech startup in Tel Aviv.",
+    "flags": [
+      "lead-path-implied",
+      "cyber-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Mitiga",
+    "title": "Principal Cloud Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/mitiga/26.00B/principal-cloud-security-researcher/45.768",
+    "source_vc": "Glilot",
+    "score": 5,
+    "reasoning": "Principal cloud security researcher role; high domain relevance in cyber threat detection but purely an IC security research position rather than data science.",
+    "flags": [
+      "cyber-security",
+      "ic-role"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "AI Research Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/ai-research-team-lead/75.277",
+    "source_vc": "Cyberstarts",
+    "score": 9,
+    "reasoning": "AI Research Team Lead role in Tel Aviv combining team leadership, production ML, NLP, and agentic workflows in the cyber domain.",
+    "flags": [
+      "lead-path-implied",
+      "cyber-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "AI Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/ai-researcher/2B.D67",
+    "source_vc": "Cyberstarts",
+    "score": 7,
+    "reasoning": "AI Researcher role at a top-tier cyber company involving end-to-end production ML and LLM applications.",
+    "flags": [
+      "cyber-security",
+      "applied-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "ML Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/ml-engineer/95.071",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "ML Engineer role focused heavily on MLOps, infrastructure, and LLM plumbing rather than core data science and modeling.",
+    "flags": [
+      "heavy-infra",
+      "mlops-primary"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Linx",
+    "title": "AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/linxsecurity/99.00C/ai-engineer/5E.B67",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "Strong applied AI role in a top-tier cyber startup within commute radius, though leans heavily into LLM application work rather than traditional predictive ML.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Onyx Security",
+    "title": "AI Researcher & Developer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/onyxsecurity/BA.005/ai-researcher--developer/8C.56A",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "Interesting AI security research role at a Cyberstarts portfolio company, but leans more toward research and LLM security rather than production predictive modeling.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Surf Ai",
+    "title": "Senior Data Scientist - AI Agents Team",
+    "location": "Tel Aviv",
+    "apply_url": "https://job-boards.eu.greenhouse.io/surfai/jobs/4969391101",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "Senior data scientist role focused on agentic systems and evaluation frameworks at a Cyberstarts company, matching the domain and senior level well.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/ai-engineer/5C.375",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "Hands-on AI engineer role building cloud security agents at an early-stage cyber company in Tel Aviv, aligning with his background and location.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "AI Engineering Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/ai-engineering-lead/4C.C69",
+    "source_vc": "Cyberstarts",
+    "score": 7,
+    "reasoning": "Lead-oriented AI engineering role focusing on evaluation, workflows, and production pipelines at a top cyber startup within commute distance.",
+    "flags": [
+      "lead-path-implied",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "Cloud Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/cloud-security-researcher/14.078",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "Cloud security research role combining data modeling, risk vectors, and AI systems at a top-tier Tel Aviv cyber company.",
+    "flags": [
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Upwind",
+    "title": "Threat Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/upwind/49.004/threat-security-researcher/C6.E69",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "Threat security research role at Upwind bridging detection logic, telemetry, and applied AI in a strong cyber company.",
+    "flags": [
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Vega",
+    "title": "AI Engineer",
+    "location": "On -Site, Israel",
+    "apply_url": "https://www.comeet.com/jobs/vega/C9.009/ai-engineer/20.554",
+    "source_vc": "Cyberstarts",
+    "score": 6,
+    "reasoning": "AI engineer role focusing on end-to-end LLM applications and security analytics at a fast-growing cyber startup in Tel Aviv.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Vega",
+    "title": "AI Researcher",
+    "location": "On -Site, Israel",
+    "apply_url": "https://www.comeet.com/jobs/vega/C9.009/ai-researcher/C1.374",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "AI researcher role with heavy emphasis on post-training LLMs, SFT, and reinforcement learning, which leans away from his tabular/anomaly detection core.",
+    "flags": [
+      "llm-not-security",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Vega",
+    "title": "Data Scientist",
+    "location": "On -Site, Israel",
+    "apply_url": "https://www.comeet.com/jobs/vega/C9.009/data-scientist/0C.27B",
+    "source_vc": "Cyberstarts",
+    "score": 7,
+    "reasoning": "Data scientist role at a premier cyber startup focusing on end-to-end ML solutions and unstructured security log data.",
+    "flags": [
+      "cyber-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Zenity",
+    "title": "Senior Applied AI Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/zenity/19.000/senior-applied-ai-scientist/7B.D66",
+    "source_vc": "Vertex Israel",
+    "score": 6,
+    "reasoning": "Applied AI science role bridging threat intelligence and detection models at an AI security company, matching the domain well.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "ScaleOps",
+    "title": "AI Engineer",
+    "location": "Israel",
+    "apply_url": "https://www.comeet.com/jobs/scaleops/99.003/ai-engineer/DF.362",
+    "source_vc": "NFX",
+    "score": 5,
+    "reasoning": "AI engineer role involving agentic workflows and infrastructure ML, but heavy focus on LLMs and DevOps tooling rather than core DS.",
+    "flags": [
+      "llm-not-security",
+      "infra-heavy"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Prime Video Sports Personalization",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10577503/applied-scientist-prime-video-sports-personalization",
+    "source_vc": "Bain Capital Ventures",
+    "score": 8,
+    "reasoning": "Strong Applied Scientist role at a major established company (Amazon/Prime Video) in Tel Aviv focusing on recommendations, time-series, and ML production systems.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Prime Video Sports Personalization, Prime Video Sports Personalization",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10582272/applied-scientist-prime-video-sports-personalization-prime-video-sports-personalization",
+    "source_vc": "Bain Capital Ventures",
+    "score": 8,
+    "reasoning": "Nearly identical Prime Video Sports personalization Applied Scientist role in Tel Aviv, offering strong alignment with production machine learning and recommender systems.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied scientist, Agentic AI, AWS Agentic AI",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10475004/applied-scientist-agentic-ai-aws-agentic-ai",
+    "source_vc": "Bain Capital Ventures",
+    "score": 6,
+    "reasoning": "Applied Scientist role in Agentic AI at AWS in Tel Aviv, offering good technical alignment although heavily leaning towards LLM/agent research rather than core production data science.",
+    "flags": [
+      "large-established-company",
+      "llm-heavy"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Personalization, Personalization",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10472250/applied-scientist-personalization-personalization",
+    "source_vc": "Bain Capital Ventures",
+    "score": 8,
+    "reasoning": "Applied Scientist role focusing on customer memory and personalization systems at Amazon Tel Aviv, requiring end-to-end ML delivery and production deployment.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Personalization, Personalization",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10454802/applied-scientist-personalization-personalization",
+    "source_vc": "Bain Capital Ventures",
+    "score": 8,
+    "reasoning": "Duplicate listing for the Amazon personalization Applied Scientist role in Tel Aviv, representing a strong fit in a large established company.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Personalization, Personalization Strategic Initiatives Science",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10442965/applied-scientist-personalization-personalization-strategic-initiatives-science",
+    "source_vc": "Bain Capital Ventures",
+    "score": 8,
+    "reasoning": "Strategic initiatives science role within Amazon's Personalization team in Tel Aviv, aligning well with production ML, recommendations, and large-scale tabular/model deployments.",
+    "flags": [
+      "large-established-company",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Senior Applied Scientist, Personalization, Personalization Strategic Initiatives Science",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10379250/senior-applied-scientist-personalization-personalization-strategic-initiatives-science",
+    "source_vc": "Bain Capital Ventures",
+    "score": 9,
+    "reasoning": "Top-tier tech company offering a Senior Applied Scientist role focused on personalization and large-scale ML in Tel Aviv.",
+    "flags": [
+      "big-tech",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kiva Systems (Amazon Robotics since 2012)",
+    "title": "Applied Scientist, Personalization, Personalization Strategic Initiatives Science",
+    "location": "Tel Aviv-Yafo, Tel Aviv, ISR",
+    "apply_url": "https://www.amazon.jobs/en/jobs/10379251/applied-scientist-personalization-personalization-strategic-initiatives-science",
+    "source_vc": "Bain Capital Ventures",
+    "score": 9,
+    "reasoning": "Identical scope to the senior position at Amazon Personalization in Tel Aviv, highly aligned with production ML ownership.",
+    "flags": [
+      "big-tech",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Principal AI Research Scientist (Israel / UK)",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-scientist-israel--uk/D2.470",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Principal AI research scientist role in Ramat Gan, but heavily tilted toward pure research rather than production ML ownership.",
+    "flags": [
+      "pure-research",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Director of AI Research & Data Operations",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/director-of-ai-research--data-operations/B1.47E",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Director-level research and data operations role in Ramat Gan, combining research oversight with operational management.",
+    "flags": [
+      "management-heavy",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Backslash Security",
+    "title": "Applied Data Science",
+    "location": "Tel Aviv-Yafo, Israel",
+    "apply_url": "https://www.comeet.com/jobs/backslash/98.004/applied-data-science/82.E61",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Exceptional fit at an early-stage security startup building local intent-drift detection for AI agents, matching adversarial ML and security background.",
+    "flags": [
+      "cyber-security",
+      "adversarial-ml",
+      "startup"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Nagomi Security",
+    "title": "Security Research Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-research-team-lead/1F.27F",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Security research team lead role at a local cyber startup, combining security research with technical leadership and data insights.",
+    "flags": [
+      "cyber-security",
+      "team-lead",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Nagomi Security",
+    "title": "Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-researcher/92.B62",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Senior security researcher role bridging exposure management, threat modeling, and agentic workflows at a Tel Aviv cyber startup.",
+    "flags": [
+      "cyber-security",
+      "applied-ml",
+      "location-ok"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "IVIX",
+    "title": "AI Team Lead",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ivix/09.002/ai-team-lead/5B.C5C",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "AI Team Lead role focusing on LLMs and RAG for financial crime prevention in Tel Aviv, aligning with candidate's domain experience and interest in lead paths despite being an LLM-heavy stack.",
+    "flags": [
+      "llm-not-security",
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "IVIX",
+    "title": "AI,ML Engineer",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ivix/09.002/aiml-engineer/92.A5F",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "AI/ML Engineer role focusing on LLMs and RAG for financial crimes in Tel Aviv, offering a strong domain fit but lacking a clear leadership title.",
+    "flags": [
+      "llm-not-security",
+      "management-gap"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Irregular",
+    "title": "Research Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/Irregular/7e8a2432-0ed7-4fd7-8bcd-d0d89db663b3/application",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Research engineer role at a frontier AI security lab in Tel Aviv involving evaluation pipelines and agent frameworks, providing an interesting domain fit but lacking explicit leadership scope.",
+    "flags": [
+      "management-gap"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Noma Security",
+    "title": "Senior Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/noma_security/3A.005/senior-data-scientist/FE.15E",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Senior Data Scientist role at an AI security startup in Tel Aviv involving end-to-end model development, anomaly detection, and security telemetry, making it an exceptional domain and craft fit.",
+    "flags": [
+      "cyber-security",
+      "management-gap"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "BridgeWise",
+    "title": "Engineering Team Lead",
+    "location": "Ramat Gan, IL, Israel",
+    "apply_url": "https://www.comeet.com/jobs/bridgewise/F9.009/engineering-team-lead/4A.373",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Engineering Team Lead role in Ramat Gan involving high-scale financial platforms, but leans software/architecture rather than machine learning.",
+    "flags": [
+      "management-gap",
+      "wrong-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Honeycomb Insurance",
+    "title": "Senior Data Science Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://job-boards.greenhouse.io/honeycombinsurance/jobs/4715073005",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Senior Data Science Researcher role at Honeycomb in Tel Aviv focusing on risk modeling, underwriting, and production-oriented applied research.",
+    "flags": [
+      "fintech-risk"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Oligo Security",
+    "title": "Linux Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/oligosecurity/5A.00B/linux-security-researcher/DC.952",
+    "source_vc": "TLV Partners",
+    "score": 5,
+    "reasoning": "Linux security researcher role at Oligo Security in Tel Aviv involving detection algorithms, but leans heavily towards security research rather than DS.",
+    "flags": [
+      "wrong-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Sett",
+    "title": "Engineering Team Lead",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/sett/4A.00B/engineering-team-lead/20.F61",
+    "source_vc": "Greenfield Partners",
+    "score": 8,
+    "reasoning": "Engineering Team Lead role at an AI-focused startup in Tel Aviv matching leadership goals and technical background.",
+    "flags": [
+      "lead-path-implied",
+      "adtech-adjacent"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Sett",
+    "title": "Lead Research Scientist",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/sett/4A.00B/lead-research-scientist/8C.271",
+    "source_vc": "Greenfield Partners",
+    "score": 5,
+    "reasoning": "Research scientist role focusing heavily on deep learning and AI research rather than end-to-end production DS systems.",
+    "flags": [
+      "pure-research",
+      "adtech-adjacent"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Nimbleway",
+    "title": "Senior Team Lead - Data Pipelines & Agentic Web Extraction",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/nimbleway/09.00F/senior-team-lead---data-pipelines--agentic-web-extraction/CF.271",
+    "source_vc": "Target Global",
+    "score": 7,
+    "reasoning": "Senior Team Lead position combining data pipeline infrastructure and agentic AI systems in Tel Aviv.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Huskeys",
+    "title": "Senior Security Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/huskeys/6e9043ca-b113-4e5b-aae4-36337b42412b/application",
+    "source_vc": "10D",
+    "score": 6,
+    "reasoning": "Senior security researcher role in cybersecurity, but focused purely on applied security research rather than production ML systems.",
+    "flags": [
+      "security-domain",
+      "non-ml-role"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Minutemedia",
+    "title": "Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/minute/45.00A/data-scientist/79.E6F",
+    "source_vc": "10D",
+    "score": 7,
+    "reasoning": "Data Scientist role focusing on price-floor optimization, monetization, and experimentation platforms in Tel Aviv matching candidate profile.",
+    "flags": [
+      "adtech-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Zeroport",
+    "title": "Senior AI Engineer",
+    "location": "Herzliya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/zeroport/7A.00E/senior-ai-engineer/D9.960",
+    "source_vc": "Elron Ventures",
+    "score": 6,
+    "reasoning": "Senior AI engineer building edge-based autonomous agent systems, blending strong technical fit with heavy LLM/agent infrastructure focus.",
+    "flags": [
+      "llm-focus"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Ironscales",
+    "title": "Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ironscales/1A.007/data-scientist/BC.D6D",
+    "source_vc": "Elron Ventures",
+    "score": 8,
+    "reasoning": "Production-oriented Data Scientist role at an established cyber security company in Tel Aviv focusing on threat detection and anomaly detection.",
+    "flags": [
+      "cyber-security",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Ironscales",
+    "title": "SW Development Team Lead- Inspection & Detection",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ironscales/1A.007/sw-development-team-lead--inspection--detection/99.668",
+    "source_vc": "Elron Ventures",
+    "score": 8,
+    "reasoning": "Software Development Team Lead for core inspection and detection at a cybersecurity company matching leadership criteria.",
+    "flags": [
+      "lead-path-implied",
+      "cyber-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Nexxen",
+    "title": "Platform AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/nexxen/2c291707-eb72-439f-881c-ea33a2394e2d/application",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Strong applied AI platform engineering role involving agentic systems and Python, but leans heavily towards software/platform architecture rather than pure data science.",
+    "flags": [
+      "heavy-infra",
+      "applied-ai"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kaltura",
+    "title": "AI Engineer",
+    "location": "Israel",
+    "apply_url": "https://www.comeet.com/jobs/kaltura/E2.00D/ai-engineer/E2.076",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "General AI engineer role at a video tech company with location in Israel, but the exact scope and level are underspecified.",
+    "flags": [
+      "location-unclear",
+      "title-laundering"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Kaltura",
+    "title": "Senior AI Engineer — Exploration & Prototyping",
+    "location": "Israel",
+    "apply_url": "https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer--exploration--prototyping/2A.274",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Senior exploration and prototyping AI role at Kaltura, offering good technical level but lacking explicit production ML pipeline details.",
+    "flags": [
+      "location-unclear",
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Bright Data",
+    "title": "Security Researcher - Bot Detection Adversarial Research",
+    "location": "Bright Data, Israel",
+    "apply_url": "https://www.comeet.com/jobs/brightdata/88.007/security-researcher---bot-detection-adversarial-research/F9.C63",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Adversarial bot detection security research role fully remote in Israel, matching the candidate's background in adversarial ML and threat detection.",
+    "flags": [
+      "remote",
+      "security-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Ocean Security",
+    "title": "AI Engineer- Detection & Agents",
+    "location": "Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ocean_security/F9.001/ai-engineer--detection--agents/E8.E6E",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Excellent fit for an AI Engineer building detection systems and autonomous agents at an email security company in Israel, matching security and anomaly detection background.",
+    "flags": [
+      "security-domain",
+      "production-ml",
+      "israel-location"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Qodo",
+    "title": "Research Engineer",
+    "location": "Tel-Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/qodo/B8.00B/research-engineer/FD.669",
+    "source_vc": "TLV Partners",
+    "score": 5,
+    "reasoning": "Research engineer role focusing on LLM fine-tuning and prompting at Qodo, which leans more toward pure LLM tooling than production tabular ML.",
+    "flags": [
+      "llm-focused",
+      "startup"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Bluespine- Medical Fraud & Anomaly",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/bluespine--medical-fraud--anomaly/23.474",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Medical fraud and anomaly role at Bluespine (Team8 portfolio) matching the fraud/anomaly domain, though it leans towards investigative analytics rather than senior ML ownership.",
+    "flags": [
+      "fraud-domain",
+      "analyst-leaning"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Charm Security- Fraud & Data Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/charm-security--fraud--data-researcher/F6.D6F",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Strong domain fit in fraud research and AI defense, leveraging candidate's background in adversarial ML and fintech.",
+    "flags": [
+      "adversarial-domain",
+      "ai-agents"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "closed",
+    "closed_at": "2026-10-21"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Popai Health- AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/popai-health--ai-engineer/F9.27C",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Interesting healthcare AI and LLM role, but heavier on clinical/audio unstructured data than core tabular production ML.",
+    "flags": [
+      "applied-ai",
+      "healthcare-domain"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Team8- Fintech Stealth Startup- Senior AI Researcher, Evaluation & Agent Performance",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/team8--fintech-stealth-startup--senior-ai-researcher-evaluation--agent-performance/D9.37E",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Senior AI research role owning agent evaluation in a fintech context, though slightly more focused on evaluation harnesses than end-to-end model building.",
+    "flags": [
+      "fintech",
+      "evaluation-focus"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Science Team Lead",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-science-team-lead/1F.A5E",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Direct team lead role combining hands-on technical leadership, pricing optimization, and data infrastructure within candidate's commute radius.",
+    "flags": [
+      "team-lead",
+      "price-optimization",
+      "local-commute"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Scientist",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-scientist/B5.079",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Solid senior data scientist role focusing on causal uplift and pricing algorithms at a company the candidate already has familiarity with.",
+    "flags": [
+      "pricing-domain",
+      "senior-ic"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Scientist - Deep Learning Forecasting",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---deep-learning-forecasting/DB.D6C",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Deep learning and econometric forecasting role closely matching candidate's time-series and production modeling experience.",
+    "flags": [
+      "forecasting",
+      "production-ml"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Scientist - Deep Learning Forecasting",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---deep-learning-forecasting/DB.D6C-9D.50A",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Identical role to job 8 but located in Tel Aviv, matching the candidate's acceptable commute radius perfectly.",
+    "flags": [
+      "forecasting",
+      "tel-aviv"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Director of Data Science",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/director-of-data-science/1B.27B",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Director-level infrastructure and MLOps management role requiring extensive direct engineering management experience beyond current scope.",
+    "flags": [
+      "management-gap",
+      "director-title"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Director of Data Science",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/director-of-data-science/1B.27B-9D.50A",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Strong leadership role in pricing and ML infrastructure at Fetcherr, aligning well with production ML ownership and management goals.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "MLOps Team Lead",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Hands-on MLOps team lead role focusing on production pipelines and internal ML platforms at Fetcherr.",
+    "flags": [
+      "heavy-infra-engineering"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "MLOps Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68-9D.50A",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Identical MLOps team lead role based in Tel Aviv, providing a strong match for production ML ownership and commute radius.",
+    "flags": [
+      "heavy-infra-engineering"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Price optimization decision team lead",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Algorithm team lead role combining production ML, optimization, and team management in Netanya.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "closed",
+    "closed_at": "2026-10-21"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Price optimization decision team lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B-9D.50A",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Algorithm team lead role focusing on price optimization and data architecture, perfectly aligned with profile targets.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "closed",
+    "closed_at": "2026-10-21"
+  },
+  {
+    "company": "Brandlight",
+    "title": "Senior Applied AI Engineer",
+    "location": "TLV Office, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/brandlight/c57dc98c-3926-495c-a3e7-36520a5aa0b5/application",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Senior applied AI engineering role with broad ownership of production AI systems, matching technical stack and background.",
+    "flags": [
+      "title-laundering"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Novee Security",
+    "title": "AI Engineer",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/noveesecurity/AA.008/ai-engineer/80.071",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "AI engineer role at a high-tier cyber security startup focusing on autonomous agents, fitting the adversarial domain preference.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Oak",
+    "title": "Senior AI Engineer ",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/oak/df4fb989-1cea-4d10-a946-abeeb4887943/application",
+    "source_vc": "Hetz Ventures",
+    "score": 5,
+    "reasoning": "AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science.",
+    "flags": [
+      "applied-ai",
+      "backend-heavy"
+    ],
+    "scored_at": "2026-10-20",
+    "first_seen": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Bluespine-AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/bluespine-ai-engineer/C4.471",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Strong match for applied AI and fraud/error detection in healthcare, though it calls for 5+ years of data science.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-21",
+    "first_seen": "2026-10-21",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Algorithm team lead",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/algorithm-team-lead/4A.27B",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Relevant domain at Fetcherr where the candidate previously worked, but the emphasis leans heavily toward data engineering and distributed platforms.",
+    "flags": [
+      "infra-heavy",
+      "management-gap"
+    ],
+    "scored_at": "2026-10-21",
+    "first_seen": "2026-10-21",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Algorithm team lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/algorithm-team-lead/4A.27B-9D.50A",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Identical role to the previous Fetcherr listing but based in Tel Aviv instead of Netanya, featuring heavy data engineering requirements.",
+    "flags": [
+      "infra-heavy",
+      "management-gap"
+    ],
+    "scored_at": "2026-10-21",
+    "first_seen": "2026-10-21",
+    "status": "open"
+  }
+]

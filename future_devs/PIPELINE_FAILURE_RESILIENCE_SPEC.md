@@ -65,15 +65,15 @@ Trace and, where warranted, fix:
 ## Diagnosis (night run 2026-10-12)
 
 Evidence was gathered read-only from `companies.json`, its git history (last 80
-committed versions) and `profiles/omer/all_scores.jsonl`. Failure modes were
+committed versions) and `profiles/yotam/all_scores.jsonl`. Failure modes were
 reproduced in `tests/test_pipeline_resilience.py` with monkeypatched pullers /
 discovery / Gemini client in temp dirs. No real collect / refresh / score run.
 
 | # | Area | Verdict | Fixed? |
 |---|---|---|---|
-| 1 | `consecutive_failures` semantics | Logic in `collect_jobs.py` is correct; the counter is dead in practice | No (Needs Omer) |
+| 1 | `consecutive_failures` semantics | Logic in `collect_jobs.py` is correct; the counter is dead in practice | No (Needs Yotam) |
 | 2 | Re-verification threshold | Threshold fires correctly; a failed re-verify **wipes a working config** | Yes |
-| 3 | Error vs genuine zero | **Real** - indistinguishable; same root cause as 1 | No (Needs Omer) |
+| 3 | Error vs genuine zero | **Real** - indistinguishable; same root cause as 1 | No (Needs Yotam) |
 | 4 | Score-stage robustness | **Real** - one bad item failed the whole batch; scorer errors became permanent | Yes |
 | 5 | State-write atomicity | **Real** but latent - plain truncating writes | Yes |
 
@@ -106,7 +106,7 @@ should return [] not raise"). So collect sees a transient 503 as "0 open positio
 Pinned by `test_transient_http_error_in_real_puller_counts_as_failure`
 (`xfail(strict=True)`; it flips to XPASS once fixed). Not fixed tonight: the fix
 changes the documented puller contract across ~20 `ats/` modules (outside this
-task's Touches list) and flips existing tests. See Needs Omer in the night report.
+task's Touches list) and flips existing tests. See Needs Yotam in the night report.
 
 ### 2. Re-verification - real bug, fixed
 
@@ -145,7 +145,7 @@ by both the VC loop and the manual-entries loop. Tests:
   rubric, model and batch size untouched).
 - Bigger issue: scorer-error results were appended to `all_scores.jsonl`, which
   `_load_seen_keys` treats as "already scored", so transient failures were
-  permanent. Evidence: 147 of 701 rows (21%) in `profiles/omer/all_scores.jsonl`
+  permanent. Evidence: 147 of 701 rows (21%) in `profiles/yotam/all_scores.jsonl`
   are `scorer-error` - 137 are Gemini `503 UNAVAILABLE`, 10 one malformed batch
   (`Expecting ',' delimiter`). Those jobs were never scored and never will be.
   Fixed: scorer-error results are no longer logged as seen (retried next run),
@@ -176,4 +176,4 @@ Morning QA:
 1. Next weekly refresh: check "re-discovery found no ATS, keeping cached" lines - the kept entries still pull jobs.
 2. Watch the daily Gemini quota - failed jobs now retry every run with no cap.
 3. Run `score.py --dry-run` on `main` after the merge.
-Follow-ups (Needs Omer): pullers raise on fetch failure (fixes modes 1 + 3, flip 4 tests in test_ats_schema.py + remove the xfail); restore the 503 stranded companies; delete 147 error rows from all_scores.jsonl; atomic write for scored_jobs.json; try/except around discover() in the refresh VC loop.
+Follow-ups (Needs Yotam): pullers raise on fetch failure (fixes modes 1 + 3, flip 4 tests in test_ats_schema.py + remove the xfail); restore the 503 stranded companies; delete 147 error rows from all_scores.jsonl; atomic write for scored_jobs.json; try/except around discover() in the refresh VC loop.

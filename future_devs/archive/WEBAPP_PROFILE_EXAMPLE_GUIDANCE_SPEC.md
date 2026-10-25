@@ -16,7 +16,7 @@ This complements (does not duplicate) WEBAPP_PROFILE_UPLOAD_OR_PROMPT, which cov
 
 ## Behaviour
 
-- Add a collapsible "See an example profile" block in onboarding Step 1 and in the Settings Profile tab, showing a well-structured, generic (NOT Omer-specific), anonymized example with these sections:
+- Add a collapsible "See an example profile" block in onboarding Step 1 and in the Settings Profile tab, showing a well-structured, generic (NOT Yotam-specific), anonymized example with these sections:
   - Who I am
   - What I'm looking for, in priority order
   - Location
@@ -39,7 +39,7 @@ This complements (does not duplicate) WEBAPP_PROFILE_UPLOAD_OR_PROMPT, which cov
 
 1. In onboarding Step 1, the "See an example profile" block is present and expands/collapses.
 2. The same example block appears in the Settings Profile tab.
-3. The example is generic (not Omer-specific) and contains all listed sections.
+3. The example is generic (not Yotam-specific) and contains all listed sections.
 4. Required-sections guidance with per-section "why it matters" is shown in both places.
 5. Pasting a profile that omits the scoring rubric triggers the completeness hint flagging the missing section.
 6. `uv run python3 -m pytest tests/ -v` passes and `uv run python score.py --dry-run` passes.

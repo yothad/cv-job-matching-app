@@ -112,7 +112,7 @@ def _fetch_job_description(detail_url: str) -> str:
     m = _DESC_RE.search(resp.text)
     if not m:
         return ""
-    return _clean(m.group(1))[:4000]
+    return _clean(m.group(1))
 
 
 def fetch_positions(

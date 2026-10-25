@@ -88,16 +88,16 @@ Leave this file exactly as-is.
 
 ```bash
 # Verify score.py reference is gone from the workflow
-grep -n "score.py" /Users/omerhedvat/git/careers-watch/.github/workflows/collect-and-score.yml
+grep -n "score.py" C:/repos/cv-job-matching-app/.github/workflows/collect-and-score.yml
 # Expected: no output (grep returns exit code 1 = not found = correct)
 
 # Verify collect step still present
-grep -n "collect_jobs.py" /Users/omerhedvat/git/careers-watch/.github/workflows/collect-and-score.yml
+grep -n "collect_jobs.py" C:/repos/cv-job-matching-app/.github/workflows/collect-and-score.yml
 
 # Verify new_jobs.json is in the commit step
-grep -n "new_jobs.json" /Users/omerhedvat/git/careers-watch/.github/workflows/collect-and-score.yml
+grep -n "new_jobs.json" C:/repos/cv-job-matching-app/.github/workflows/collect-and-score.yml
 
 # Python pipeline unaffected
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

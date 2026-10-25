@@ -138,15 +138,15 @@ Add to `dependencies`:
 
 ```bash
 # All new files exist
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/app/auth/page.tsx
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/app/auth/callback/route.ts
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/middleware.ts
+ls C:/repos/cv-job-matching-app/webapp/frontend/app/auth/page.tsx
+ls C:/repos/cv-job-matching-app/webapp/frontend/app/auth/callback/route.ts
+ls C:/repos/cv-job-matching-app/webapp/frontend/middleware.ts
 
 # TypeScript compiles (no tsc binary available — check for obvious syntax errors via grep)
-grep -n "export default" /Users/omerhedvat/git/careers-watch/webapp/frontend/app/auth/page.tsx
-grep -n "export async function middleware" /Users/omerhedvat/git/careers-watch/webapp/frontend/middleware.ts
+grep -n "export default" C:/repos/cv-job-matching-app/webapp/frontend/app/auth/page.tsx
+grep -n "export async function middleware" C:/repos/cv-job-matching-app/webapp/frontend/middleware.ts
 
 # Python pipeline unaffected
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

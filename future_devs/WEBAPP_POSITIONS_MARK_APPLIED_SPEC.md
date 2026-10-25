@@ -32,7 +32,7 @@ per-user. There is no user-scoped row to flip an `applied` bool on, so marking a
 catalog position applied requires a **new per-user overlay table**
 (`user_id` + `apply_url` + `status`/`applied` + timestamp) joined into
 `list_positions`. That is genuinely new persistent state — CLAUDE.md cautions
-against adding state beyond what's needed, so confirm the value with Omer before
+against adding state beyond what's needed, so confirm the value with Yotam before
 building. Cheaper alternative: link catalog rows to the Digest's existing
 applied-tracking rather than duplicating the mechanism on the catalog.
 

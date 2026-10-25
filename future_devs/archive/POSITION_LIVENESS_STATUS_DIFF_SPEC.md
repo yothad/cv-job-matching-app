@@ -13,7 +13,7 @@
 
 **What:** During `score.py`'s merge step, reconcile every job already in `scored_jobs.json` against the live set from `live_positions.json`, stamping a `status` (`open` / `closed`) and a `closed_at` date.
 
-**Why:** This is where the `inactive`/`closed` state actually gets computed and persisted on the records Omer reads.
+**Why:** This is where the `inactive`/`closed` state actually gets computed and persisted on the records Yotam reads.
 
 ## Behaviour
 

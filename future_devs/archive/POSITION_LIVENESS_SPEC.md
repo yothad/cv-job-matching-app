@@ -11,11 +11,11 @@
 
 ## Overview
 
-**What:** Track open/closed liveness on the jobs Omer actually reads (the scored digest), so postings that have been taken down get marked `closed` and surfaced distinctly instead of sitting in the digest as live links that 404.
+**What:** Track open/closed liveness on the jobs Yotam actually reads (the scored digest), so postings that have been taken down get marked `closed` and surfaced distinctly instead of sitting in the digest as live links that 404.
 
-**Why:** The pipeline already gives us two of the three position states for free — `new` (recent `scored_at`, newest-first sort) and `seen` (anything already in `all_scores.jsonl` / `scored_jobs.json`; `score.py` skips re-scoring it). The genuinely missing state is `inactive`/`closed`: once a job lands in `scored_jobs.json` it lives there **forever**, even after the role is taken down. Omer reads `digest.md`, clicks a promising link, and hits a dead posting. There is already an open bug about dead links (`BUG_LANDING_DEAD_GITHUB_LINKS.md`).
+**Why:** The pipeline already gives us two of the three position states for free — `new` (recent `scored_at`, newest-first sort) and `seen` (anything already in `all_scores.jsonl` / `scored_jobs.json`; `score.py` skips re-scoring it). The genuinely missing state is `inactive`/`closed`: once a job lands in `scored_jobs.json` it lives there **forever**, even after the role is taken down. Yotam reads `digest.md`, clicks a promising link, and hits a dead posting. There is already an open bug about dead links (`BUG_LANDING_DEAD_GITHUB_LINKS.md`).
 
-This epic scopes liveness to the curated, high-value set (scored jobs) rather than building a generic 3-state registry over the thousands of sub-threshold jobs Omer never reads — where an "inactive" state carries near-zero value.
+This epic scopes liveness to the curated, high-value set (scored jobs) rather than building a generic 3-state registry over the thousands of sub-threshold jobs Yotam never reads — where an "inactive" state carries near-zero value.
 
 ## Why this over a generic 3-state model
 
@@ -25,7 +25,7 @@ This epic scopes liveness to the curated, high-value set (scored jobs) rather th
 | `seen` | ✅ | `_load_seen_keys` skips anything in `all_scores.jsonl` + `scored_jobs.json` |
 | `inactive`/`closed` | ❌ | **this epic** |
 
-A generic registry over *all* positions would rebuild the `new`/`seen` machinery we already have, add a new persistent file for the long tail, and deliver value only on jobs Omer reads. Scoping liveness to `scored_jobs.json` reuses the existing `apply_url` keying + merge function and attacks a documented bug.
+A generic registry over *all* positions would rebuild the `new`/`seen` machinery we already have, add a new persistent file for the long tail, and deliver value only on jobs Yotam reads. Scoping liveness to `scored_jobs.json` reuses the existing `apply_url` keying + merge function and attacks a documented bug.
 
 ## Children
 

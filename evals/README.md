@@ -1,6 +1,6 @@
 # Scorer eval
 
-Measures how well `matcher/gemini_scorer.py` agrees with Omer's own scores on a
+Measures how well `matcher/gemini_scorer.py` agrees with Yotam's own scores on a
 human-labelled golden set. It re-scores the set through the production path
 (`score._score_jobs_batched` -> `score_jobs_batch`, same prompt, model, batch size and CV routing)
 and reports:
@@ -31,7 +31,7 @@ Override with `--golden` / `--baseline` flags or the `EVAL_GOLDEN_SET` / `EVAL_B
    uv run python evals/make_labelling_sheet.py --n 60
    ```
 
-   Samples jobs stratified across the Gemini bands in `profiles/omer/all_scores.jsonl`, plus
+   Samples jobs stratified across the Gemini bands in `profiles/yotam/all_scores.jsonl`, plus
    jobs from `new_jobs.json` that score.py's hard filters drop. Gemini's score is not in the
    sheet, so the labelling stays blind.
 
@@ -48,6 +48,37 @@ Override with `--golden` / `--baseline` flags or the `EVAL_GOLDEN_SET` / `EVAL_B
 
    Then edit `evals/private/baseline.json`: fill `reason`, and set `tolerance` above the
    run-to-run noise that pass@1 vs pass@3 shows.
+
+### Faster labelling and adding more labels
+
+```bash
+# slim sheet: type L / M / H in quick_band; the excerpt is the start of role_description
+uv run python evals/make_labelling_sheet.py --n 60 --quick
+
+# a second batch: quotas by Gemini band group (H = 7-10, M = 5-6, L = 0-4; a short group's
+# remainder goes to the others in their ratio), skipping what is labelled, <= 2 jobs per company
+uv run python evals/make_labelling_sheet.py --quick --n 100 --mix H=35,M=35,L=30 \
+    --exclude evals/private/golden_set.jsonl --max-per-company 2 --out evals/private/labelling_sheet2.csv
+uv run python evals/make_labelling_sheet.py --import evals/private/labelling_sheet2.csv --append
+
+# --recheck 12 mixes 12 already-labelled jobs (4 per human L / M / H, Israel only) into the
+# sheet to label again blind; import puts them in recheck.jsonl and prints your self-agreement -
+# they never overwrite the golden set. --batch tags the new rows (existing ones become batch 1).
+uv run python evals/make_labelling_sheet.py --import evals/private/labelling_final.csv --append --batch 2
+
+# after a re-collect: re-fill role_description / responsibilities / requirements / ats
+uv run python evals/make_labelling_sheet.py --refresh-sections
+```
+
+A `--quick` sheet keeps the full jobs in `<sheet>.jobs.jsonl` next to it - import needs it.
+Gemini's score and band never reach the sheet or that file, and rows are shuffled.
+
+### Job text mode
+
+Gemini reads `role_description` + `requirements` (falling back to `description`).
+`SCORER_TEXT=description` reproduces the pre-split prompt exactly. The baseline records the mode
+(`scorer_text`) and it is part of `prompt_hash`, so compare runs in the same mode, or run both
+modes to measure the switch.
 
 ## Checking a scoring change
 

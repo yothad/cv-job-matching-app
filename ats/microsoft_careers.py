@@ -137,7 +137,7 @@ def _normalize(pos: dict, headers: dict, location_query: str) -> dict:
     return {
         "title": title,
         "location": location,
-        "description": description[:4000],
+        "description": description,
         "apply_url": apply_url,
     }
 

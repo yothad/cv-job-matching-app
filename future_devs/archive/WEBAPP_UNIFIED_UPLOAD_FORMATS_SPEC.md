@@ -18,7 +18,7 @@ The webapp has two upload flows that accept **different** file-type sets:
 - **CV upload** (onboarding Step 2 + Settings): accepts `.pdf`, `.docx`, `.doc`, `.txt` — but **not** `.md`.
 - **Profile document upload** (onboarding + Settings): accepts **only** `.md` (read client-side as raw text; never hits the backend).
 
-Omer wants **both** flows to accept the full set of text-bearing document types: `.md`, `.txt`, `.pdf`, `.docx`, `.doc`. Parsing should route consistently through the backend (`/user/parse-cv`, MarkItDown) so the same extraction path serves both flows, and the allowed-types list should live in **one** place so the `accept=` attributes, the frontend allow-list, and the backend MIME map cannot drift apart.
+Yotam wants **both** flows to accept the full set of text-bearing document types: `.md`, `.txt`, `.pdf`, `.docx`, `.doc`. Parsing should route consistently through the backend (`/user/parse-cv`, MarkItDown) so the same extraction path serves both flows, and the allowed-types list should live in **one** place so the `accept=` attributes, the frontend allow-list, and the backend MIME map cannot drift apart.
 
 ## Behaviour
 

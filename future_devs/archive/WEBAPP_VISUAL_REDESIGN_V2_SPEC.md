@@ -15,11 +15,11 @@ A bold visual **re-identity** of the CareerWatch web app, plus a **light/dark
 theme toggle**. This is a v2 pass: P10 already gave the app a real Fable design
 system (design tokens, redesigned digest/landing/onboarding, lucide-react icons,
 tasteful motion). The current look is a competent dark-navy + green-accent SaaS
-theme. Omer's ask is to make it feel **much more modern and distinctive** - so
+theme. Yotam's ask is to make it feel **much more modern and distinctive** - so
 this task is deliberately *not* a refinement of the existing palette. It is a new
 visual identity applied consistently across every page, with dark and light modes.
 
-**Two direction decisions already made by Omer (do not re-litigate):**
+**Two direction decisions already made by Yotam (do not re-litigate):**
 1. **Bold aesthetic pivot** - a fresh identity, not an evolution of green-on-navy.
    Fresh palette, expressive display typography for headings, a signature hero
    treatment, more depth/texture, modern layout patterns (bento, glass/depth
@@ -32,7 +32,7 @@ type, motion, and taste are the whole point, and distinctive non-generic visual
 work at high effort is Fable's documented edge. The technical surface is small and
 well-fenced; the value is entirely in the aesthetic judgment.
 
-Hyphens, not em-dashes, in all user-facing output (Omer's standing preference -
+Hyphens, not em-dashes, in all user-facing output (Yotam's standing preference -
 see CLAUDE.md).
 
 ## Design direction (a brief, not a pixel spec)

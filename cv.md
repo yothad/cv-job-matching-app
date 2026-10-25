@@ -1,169 +1,63 @@
-Omer Hedvat
-omer.hedvat@gmail.com| LinkedIn | +972.54.5482549
-Senior Data Scientist with over 7 years of experience building and scaling production-grade ML systems. I
-specialize in taking core systems from research to reliable production by establishing the engineering
-standards and infrastructure required for real-world performance. With a background in managing largescale operations and cross-functional projects, I focus on delivering high-impact features that reduce
-operational noise and drive organizational productivity. I bring a practical, decision-oriented approach to
-transforming experimental frameworks into robust, scalable solutions.
+Yotam Hadar
+Kfar-Saba, Israel | 054-6399678 | yothad@gmail.com | LinkedIn: https://www.linkedin.com/in/yotam-hadar-43098840
 
-PROFESSIONAL EXPERIENCE
-Skyhawk Security - Cloud Security
-Senior Data Scientist | 2025-today
-•
-•
-Engineering Leadership: Established team-wide methodology and repository standards
-(dual-repo architecture), signi cantly improving code robustness and deployment velocity for the Research
-team.
-•
-•
-Knowledge & Code Architecture: Architected the DS-Research Information Center, a
-centralized knowledge hub and code-integrated reference system used by the VP of Research, Researchers,
-and Senior DS to standardize methodologies.
-•
-•
-LLM-Driven Labeling: Developed a novel labeling methodology utilizing LLMs
-(Claude & Gemini via VertexAI) to replace legacy LabelModels, creating a scalable, automated pipeline
-for high-quality supervised training data.
-•
-•
-Model Re-Architecture: Spearheaded the transition of the core CDR system from an
-unsupervised daily-trained model to a supervised XGBoost framework, utilizing LLM-derived labels to
-signi cantly reduce false positives and improve precision-recall.
-•
-•
-Cross-Functional Collaboration: Partnered with department managers on strategic
-projects to enhance company-wide productivity and streamline the delivery of data-driven security features.
-•
-•
-Production Standards: Developed shared repository utilities to ensure all production
-models are deterministic and robust, facilitating clearer monitoring and investigation in live security
-environments.
-Bluevine – Fintech
-Senior Data Scientist | 2023 – 2025
-•
-•
-End-to-End Model Deployment: Developed and deployed a real-time fraud detection
-model for a new client onboarding, leveraging data from six external providers and managing the lifecycle
-from research to production as an AWS SageMaker endpoint.
-•
-•
-Scalable ML Architecture: Designed and implemented a robust architecture for model
-training and testing, enabling ef cient experimentation and ensuring sustained performance through
-established monitoring methodologies.
-•
-•
-Monitoring Infrastructure: Initiated and developed the Data Science team’s monitoring
-system using Grafana, establishing a comprehensive methodology for tracking feature-level stability, model
-scores, and post-score decisions.
-•
-•
-Regulatory Compliance: Collaborated with Risk Detection Analysts and Data
-Engineering to seamlessly integrate fraud models into production, ensuring strict adherence to BSA/AML
-and KYB requirements.
+## Summary
 
-fi
+Senior Data Scientist and CPA with an M.Sc. in Financial Mathematics specializing in credit and default risk modeling, time-series forecasting, anomaly detection, and unit-economics optimization on large-scale tabular and log datasets. Proven track record of turning complex, noisy telemetry and transactional data into production APIs (FastAPI), automated MLOps pipelines, and executive dashboards. Skilled in bridging statistical machine learning with commercial strategy to drive product reliability and cost efficiency.
 
-fi
+## Work Experience
 
-fi
+### Data Scientist, 8fig | 2026-Now
+- Researched and deployed a hybrid probabilistic forecasting framework combining multivariate time-series models (ARIMA, ETS) with penalized regression to model client repayment capacity under operational uncertainty.
+- Developed and deployed an end-to-end production pipeline with a FastAPI service for real-time scoring evaluations, ensuring research models successfully transitioned into customer-facing software.
+- Developed business-KPI monitoring for forecasting models to track financial impact and performance in production.
 
-fi
+### Data Science Engineer, Fetcherr | 2024-2025
+- Led development of an end-to-end analytics pipeline for KPI monitoring, integrating BigQuery-based aggregation, Python-based statistical analysis, and scalable Dash web app visualizations (e.g., interactive heatmaps).
+- Deployed production time-series anomaly detection models (SARIMA, Prophet) on large-scale tabular datasets to validate data integrity and system stability across data pipelines.
+- Implemented features in production price optimization pipelines and data quality pipelines.
 
-fi
+### Data Scientist, MedAware | 2020-2024
+- Researched and developed time-series outlier detection models on high-frequency medical infusion data, handling signal noise, missing values, and domain-specific heuristics in safety-critical environments.
+- Developed complex data pipelines using data transformations, parsing and heuristics on various domains such as prescriptions, lab results, etc.
+- Conducted rigorous exploratory and statistical analysis across multi-domain medical datasets to extract clinical insights and guide product research.
+- Trained and tested text classification models, specifically classifying drug names into drug groups.
 
-MarpAI Health – Medical Insurance Startup
-Data Scientist | 2020 - 2022
-•
-•
-Predictive Modeling & R&D: Led the research and development of ML models for 15+
-chronic conditions, utilizing advanced feature engineering and hyperparameter tuning to meet speci c
-clinical and business precision-recall targets.
-•
-•
-End-to-End Research Ecosystem: Established the company’s experimental pipelines and
-model development methodologies, delivering high-quality trained models for backend production
-integration.
-•
-•
-Data Infrastructure & Engineering: Built a uni ed data ecosystem using Redshift and
-PostgreSQL, managing the full data lifecycle from diverse source consolidation to cleansing, labeling, and
-training-set preparation.
-•
-•
-Stakeholder Empowerment: Developed a Streamlit application that enabled medical
-doctors to interact with tabular databases, bridging the gap between clinical expertise and technical data
+### Business and Data Analyst, Trax Image Recognition | 2018-2020
+- Conducted business analysis on complex data sets for large international clients by merging Trax's image recognition data with the client's sales data.
+- Provided actionable insights to internal teams such as product recognition and back-office operations to improve workflows and focus areas.
+- Developed dashboards, reports and data extraction tools for internal operational departments, part of a data accessibility initiative.
+- Developed and presented finance dashboards to C-Level management and the Board of Directors, collaborating on data model design.
 
-•
+### Senior Information Systems Advisor, Certified Accountant, EY (Ernst & Young) | 2015-2018
+- Partnered with EY-USA on forensic data analysis and fraud/embezzlement detection projects, parsing complex transaction logs and financial records.
+- Designed and implemented complex financial engines for the leading banks and investment houses (Psagot, Excellence, Clal, Phoenix, Leumi), ensuring strict compliance with financial regulations, GAAP standards, and auditability requirements.
+- Led in-house SQL training programs, mentoring 30+ consultants across teams.
 
-•
-Stakeholder Empowerment: Developed a Streamlit application that enabled medical
-doctors to interact with tabular databases, bridging the gap between clinical expertise and technical data
-research.
+### Lecturer in DBA and QA Professional Courses, Hacker U College | 2015-2023
+- Designed and taught professional courses in BI.
 
-MAX – Credit Cards - Fraud Department
-Data Scientist | 2018 - 2020
-•
-•
-Fraud Detection Architecture: Architected a hybrid fraud detection system monitoring
-millions of transactions for 50,000+ merchants, integrating supervised (XGBoost) and unsupervised
-(Isolation Forest) pipelines.
-•
-•
-E2E Model Development: Spearheaded the research, spatial-temporal feature
-engineering, and deployment of models to detect fraudulent tourist transactions and emerging fraud patterns.
-•
-•
-Operational Impact: Built an automated alerting platform that translated model outputs
-into actionable insights, enabling rapid merchant intervention and reducing overall nancial exposure.
-Technical Skills
-•
-•
-•
-•
-•
+## Skills
 
-•
-Machine Learning: XGBoost, Random Forest, Isolation Forest, Deep Learning, LLMs
-(RAG, Prompt Engineering), Clustering (K-Means), KNN.
-•
-Data Engineering & Search: SQL (Redshift, Athena), ElasticSearch, PySpark, EMR,
-Data Pipeline Orchestration.
-•
-Cloud & Tools: AWS (Bedrock, SageMaker, S3), GCP (VertexAI), Git, Docker, Grafana,
-Tableau.
-•
-Languages: Python (Pandas, Scikit-Learn, NumPy, SciPy), SQL
-•
-Certi cations: NLP Specialization (Classi cation and Vector Spaces) – Coursera.
+- **Programming:**
+  - Python - NumPy, Pandas, Dask, SciPy, Scikit-learn, Plotly, Dash, FastAPI and more
+  - SQL - BigQuery, PostgreSQL, MySQL, Snowflake, AWS Athena, MS SQL, Redshift
+  - Tools - Git, Jupyter Notebooks
+- **ML & statistical modeling:** Extensive experience in statistical hypothesis testing, time series forecasting, anomaly detection, simulation techniques. Skilled in experimental design and model validation. Early-stage research on RAG and LLM applications.
+- **Data visualization & reporting:** Tableau, Plotly Dash, HTML web visualizations, QuickSight.
+- **Cloud & data orchestration:** GCP, AWS, dbt, dagster pipelines, Valohai (MLOps orchestration).
 
-EDUCATION
-M.Sc., Industrial Engineering (Data Science Track) | Tel Aviv University | 2019 – 2023
-Thesis: Developed a Graph-based Multi-distance Feature Selection framework for multi-class classi cation tasks
-under the guidance of Dr. Neta Rabin.
-Thesis paper, Thesis GIT
-B.Sc., Industrial Engineering & Management | Tel Aviv University | 2012 – 2016
-Specialization: Information Systems.
-Leadership
-Major (Res.), Deputy Battalion Commander | IDF Armored Corps | 2023 – Present
+## Education
 
-fi
+- **M.Sc Financial Mathematics**, Bar Ilan University, 2019-2022. Thesis: analyzing dependencies between financial assets using mutual information estimators.
+- **B.A in Accounting and Business Management**, Reichman University, 2010-2014. Certified public accountant (CPA).
 
-fi
+## Military Service
 
-fi
+Intelligence officer, with high security clearance:
+- Analyzed media data to produce actionable intelligence reports (2005-2006).
+- Led, trained, and mentored a team of 10-15 soldiers, with responsibility for performance tracking and goal planning (2006-2009).
 
-•
+## Languages
 
-•
-Strategic Leadership: Promoted to Major based on exceptional performance; served as
-the most senior authority in the battalion for Operations and Logistics, overseeing large-scale strategic
-planning.
-•
-Organizational Scaling: Built and led 4 specialized departments totaling 70 personnel,
-providing direct mentorship and management for 4 Captains and 3 Master Sergeants.
-
-fi
-
-•
-
-
+Hebrew - native | English - native level

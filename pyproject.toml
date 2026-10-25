@@ -1,5 +1,5 @@
 [project]
-name = "careers-watch"
+name = "cv-job"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -20,4 +20,6 @@ dev = [
     "nbconvert>=7.17.1",
     "pandas>=3.0.3",
     "pytest>=9.0.3",
+    "scikit-learn>=1.9.1",
+    "xgboost>=3.4.1",
 ]

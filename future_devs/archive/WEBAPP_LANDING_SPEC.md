@@ -29,7 +29,7 @@ AI-powered job matching for tech professionals in Israel.
 [Get started free →]   [View on GitHub →]
 ```
 - "Get started free" links to `/auth`
-- "View on GitHub" links to `https://github.com/omerhedvat/careers-watch` (use a placeholder `#` if unsure of exact URL - do not guess)
+- "View on GitHub" links to `https://github.com/yothad/cv-job-matching-app` (use a placeholder `#` if unsure of exact URL - do not guess)
 - Use large heading (`text-4xl font-bold`) + subheading + two CTA buttons
 
 **2. How it works** (3 steps, horizontal on desktop / vertical on mobile)
@@ -55,7 +55,7 @@ Centered, muted text.
 **4. Footer**
 
 ```
-CareerWatch · Built by Omer Hedvat · GitHub
+CareerWatch · Built by Yotam Hadar · GitHub
 ```
 - "GitHub" links to `#` placeholder
 
@@ -81,10 +81,10 @@ CareerWatch · Built by Omer Hedvat · GitHub
 
 ```bash
 # File exists and has a default export
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/app/landing/page.tsx
-grep "export default" /Users/omerhedvat/git/careers-watch/webapp/frontend/app/landing/page.tsx
+ls C:/repos/cv-job-matching-app/webapp/frontend/app/landing/page.tsx
+grep "export default" C:/repos/cv-job-matching-app/webapp/frontend/app/landing/page.tsx
 
 # Python pipeline unaffected
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

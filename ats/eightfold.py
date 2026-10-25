@@ -127,7 +127,7 @@ def _normalize_standard(pos: dict, tenant: str) -> dict:
     return {
         "title": title,
         "location": location,
-        "description": description[:4000],
+        "description": description,
         "apply_url": apply_url,
     }
 
@@ -229,7 +229,7 @@ def _normalize_pcsx(
     return {
         "title": title,
         "location": location,
-        "description": description[:4000],
+        "description": description,
         "apply_url": apply_url,
     }
 

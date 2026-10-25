@@ -118,7 +118,7 @@ export default function HelpPage() {
           <p className="text-subtle text-sm">
             Still have questions?{' '}
             <a
-              href="mailto:omer.hedvat@gmail.com"
+              href="mailto:yothad@gmail.com"
               className="text-accent hover:text-accent-hover transition-colors"
             >
               Get in touch

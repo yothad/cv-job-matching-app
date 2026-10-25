@@ -39,7 +39,7 @@ background job the digest can watch.
    run clears the backlog.
 4. Press Score now in a second tab mid-run - it follows the existing run instead of starting another.
 
-## Needs Omer
+## Needs Yotam
 ```sql
 alter table users add column if not exists score_run jsonb;
 ```

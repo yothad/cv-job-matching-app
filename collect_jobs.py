@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from ats import ATS_PULLERS
+from ats.utils import DESCRIPTION_CHARS, job_sections
 
 COMPANIES_FILE = Path("companies.json")
 JOBS_FILE = Path("new_jobs.json")
@@ -115,12 +116,16 @@ def collect():
                     continue
 
             for pos in positions:
+                # Pullers return the full text; split sections from it, then cap `description`
+                # here (one place) so it stays what Gemini's fallback input always was.
+                full = pos["description"] or ""
                 all_jobs.append(
                     {
                         "company": name,
                         "title": pos["title"],
                         "location": pos["location"],
-                        "description": pos["description"],
+                        "description": full[:DESCRIPTION_CHARS],
+                        **job_sections(full, pos.get("sections")),
                         "apply_url": pos["apply_url"],
                         "source_vc": entry.get("source_vc", ""),
                         "vc_tier": entry.get("vc_tier", ""),

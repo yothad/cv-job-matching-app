@@ -140,14 +140,14 @@ Render free tier allows one persistent disk per service. The backend mounts it a
 
 ```bash
 # Files exist
-ls /Users/omerhedvat/git/careers-watch/render.yaml
-ls /Users/omerhedvat/git/careers-watch/webapp/backend/DEPLOY.md
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/DEPLOY.md
+ls C:/repos/cv-job-matching-app/render.yaml
+ls C:/repos/cv-job-matching-app/webapp/backend/DEPLOY.md
+ls C:/repos/cv-job-matching-app/webapp/frontend/DEPLOY.md
 
 # render.yaml is valid YAML
-python3 -c "import yaml; yaml.safe_load(open('/Users/omerhedvat/git/careers-watch/render.yaml')); print('valid YAML')"
+python3 -c "import yaml; yaml.safe_load(open('C:/repos/cv-job-matching-app/render.yaml')); print('valid YAML')"
 
 # Python pipeline unaffected
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

@@ -58,7 +58,7 @@ Flag vocabulary is supplied by example: `location-unclear`, `lead-path-implied`,
 
 ## 3. Calibration Spot-Check
 
-5 real rows from `profiles/omer/all_scores.jsonl`, one per score tier, selected to illustrate calibration (scorer-error rows excluded).
+5 real rows from `profiles/yotam/all_scores.jsonl`, one per score tier, selected to illustrate calibration (scorer-error rows excluded).
 
 | Score | Company | Title | Reasoning (excerpt) | Why this score makes sense |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ Flag vocabulary is supplied by example: `location-unclear`, `lead-path-implied`,
 
 ## 4. Known Failure Modes
 
-From 665 scored rows in `profiles/omer/all_scores.jsonl` (as of 2026-06-17):
+From 665 scored rows in `profiles/yotam/all_scores.jsonl` (as of 2026-06-17):
 
 | Failure mode | Frequency | Mitigation |
 |---|---|---|
@@ -87,4 +87,4 @@ From 665 scored rows in `profiles/omer/all_scores.jsonl` (as of 2026-06-17):
 
 **Reproducing a score:** `uv run python score.py --dry-run` prints the exact prompt sent to Gemini for the first job in `new_jobs.json`, without consuming quota. The model is pinned to `gemini-2.5-flash`. Same prompt + same input produces the same output modulo minor temperature stochasticity (the structured JSON mode reduces variance further).
 
-**Audit log:** every scoring run appends to `profiles/omer/all_scores.jsonl`. This means the full scoring history is preserved across profile updates. When `score.py --rescore` is run after a profile change, the new scores appear as new rows in the JSONL; the old rows remain, making it possible to diff score distributions before and after any profile edit.
+**Audit log:** every scoring run appends to `profiles/yotam/all_scores.jsonl`. This means the full scoring history is preserved across profile updates. When `score.py --rescore` is run after a profile change, the new scores appear as new rows in the JSONL; the old rows remain, making it possible to diff score distributions before and after any profile edit.

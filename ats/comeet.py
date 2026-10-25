@@ -1,6 +1,6 @@
 import httpx
 
-from ats.utils import HEADERS, strip_html as _strip_html
+from ats.utils import HEADERS, sections_from_named, strip_html as _strip_html
 
 
 def fetch_positions(company_uid: str, token: str) -> list[dict]:
@@ -47,13 +47,19 @@ def fetch_positions(company_uid: str, token: str) -> list[dict]:
             # Fall back: concat all details
             parts = [_strip_html(d.get("value") or "") for d in (pos.get("details") or [])]
             description = " ".join(p for p in parts if p)
+        # The other details (Requirements, Responsibility, Who You Are, ...) are named
+        # sections; keep them for the role fields even though `description` stays Description-only.
+        sections = sections_from_named(
+            [(d.get("name", ""), _strip_html(d.get("value") or "")) for d in pos.get("details") or []]
+        )
 
         results.append(
             {
                 "title": title,
                 "location": location,
-                "description": description[:4000],  # cap to avoid huge payloads
+                "description": description,
                 "apply_url": apply_url,
+                "sections": sections,
             }
         )
 

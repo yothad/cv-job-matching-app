@@ -10,7 +10,7 @@
 
 ## Overview
 
-Each position should carry the date it was first observed by the pipeline. Today, `new_jobs.json` is fully overwritten on every daily run, so the first-time a job appeared is lost. Adding a `first_seen` field lets the digest and webapp surface "posted 3 days ago"-style freshness labels, helps Omer prioritise recent roles, and feeds the existing `WEBAPP_NEW_SINCE_LAST_VISIT` feature when that ships.
+Each position should carry the date it was first observed by the pipeline. Today, `new_jobs.json` is fully overwritten on every daily run, so the first-time a job appeared is lost. Adding a `first_seen` field lets the digest and webapp surface "posted 3 days ago"-style freshness labels, helps Yotam prioritise recent roles, and feeds the existing `WEBAPP_NEW_SINCE_LAST_VISIT` feature when that ships.
 
 ## Behaviour
 

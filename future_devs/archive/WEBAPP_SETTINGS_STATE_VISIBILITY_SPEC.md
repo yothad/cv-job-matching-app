@@ -13,7 +13,7 @@ The Settings page is built as a stack of mostly-blank input boxes. Some tabs sil
 
 **Design principle for this task: Settings is a mirror of saved state first, an editor second.** Every tab should open by showing the user what is currently stored, then offer controls to change it. Saving should visibly update that mirror, not just flash a toast that disappears.
 
-This addresses Omer's report: values should stay visible after saving; CV viewable as file/text; filters visibly editable; API Key should signal present-vs-missing; Account should show name + email.
+This addresses Yotam's report: values should stay visible after saving; CV viewable as file/text; filters visibly editable; API Key should signal present-vs-missing; Account should show name + email.
 
 ## Behaviour
 

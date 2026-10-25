@@ -168,7 +168,7 @@ def fetch_positions(location_query: str = "Israel") -> list[dict]:
                     fld = job[idx]
                     if isinstance(fld, list) and len(fld) >= 2 and isinstance(fld[1], str):
                         html_chunks.append(fld[1])
-            description = strip_html(" ".join(html_chunks))[:4000]
+            description = strip_html(" ".join(html_chunks))
 
             location = _format_location(job[9]) if len(job) > 9 else ""
 

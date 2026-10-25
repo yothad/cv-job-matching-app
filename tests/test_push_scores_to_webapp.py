@@ -8,7 +8,7 @@ import push_scores_to_webapp as push  # noqa: E402
 
 
 def test_parse_mapping():
-    assert push.parse_mapping(" omer=A@x.com , bad, other=b@y.io") == {"omer": "a@x.com", "other": "b@y.io"}
+    assert push.parse_mapping(" yotam=A@x.com , bad, other=b@y.io") == {"yotam": "a@x.com", "other": "b@y.io"}
     assert push.parse_mapping("") == {}
 
 

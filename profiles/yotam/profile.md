@@ -1,4 +1,4 @@
-# Candidate Profile - Omer Hedvat
+# Candidate Profile - Yotam Hadar
 
 This file describes what I'm looking for in my next role. It is read alongside my full CV (`cv.md`) by an LLM matcher that scores job postings. The CV is the ground truth of what I have done. This file is the ground truth of what I want next, and what to skip. When the two conflict, this file wins for desirability scoring.
 

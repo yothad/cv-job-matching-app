@@ -16,7 +16,7 @@ This epic establishes a real design system and applies it across the highest-vis
 
 ## Why
 
-The webapp is Omer's portfolio-grade public product (BYO-key job matcher). Current appearance reads as an unstyled internal tool. A cohesive visual identity raises perceived quality for both job-seeker users and as a portfolio showcase.
+The webapp is Yotam's portfolio-grade public product (BYO-key job matcher). Current appearance reads as an unstyled internal tool. A cohesive visual identity raises perceived quality for both job-seeker users and as a portfolio showcase.
 
 ## Children (execution order)
 
@@ -33,7 +33,7 @@ The token foundation **must** land first — every downstream task depends on it
 - Keep the intentional dark theme; make it deliberate rather than removing it.
 - No new heavy dependencies. `lucide-react`, `clsx`, `tailwind-merge`, `class-variance-authority` are already installed — use them. `next/font` is built in.
 - No copy/behavior changes that belong to P7 UX specs.
-- Hyphens, not em-dashes, in any user-facing text (Omer's preference).
+- Hyphens, not em-dashes, in any user-facing text (Yotam's preference).
 
 ## How to QA
 

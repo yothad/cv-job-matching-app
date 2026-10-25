@@ -45,7 +45,7 @@ def _parse_rss(text: str) -> list[dict]:
         title = _strip_cdata(_first(item, "title"))
         link = _strip_cdata(_first(item, "link"))
         desc_html = _strip_cdata(_first(item, "description"))
-        description = _strip_html(_decode_entities(desc_html))[:4000]
+        description = _strip_html(_decode_entities(desc_html))
         location = _parse_location(item)
         out.append(
             {

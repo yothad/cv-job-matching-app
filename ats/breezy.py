@@ -53,7 +53,7 @@ def fetch_positions(company_slug: str) -> list[dict]:
             {
                 "title": title,
                 "location": location,
-                "description": description[:4000],
+                "description": description,
                 "apply_url": apply_url,
             }
         )

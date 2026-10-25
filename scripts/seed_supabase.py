@@ -1,5 +1,5 @@
 """
-One-off script: seed Supabase users + scored_jobs from local profiles/omer/scored_jobs.json.
+One-off script: seed Supabase users + scored_jobs from local profiles/yotam/scored_jobs.json.
 Run once to populate the webapp after a local scoring session.
 """
 import json
@@ -12,10 +12,10 @@ SUPABASE_URL = "https://aeaydmcgczwyhvnttmsu.supabase.co"
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
 USER_ID = "dae764b3-e842-496c-8825-8bc97321c57c"
-USER_EMAIL = "omer.hedvat@gmail.com"
+USER_EMAIL = "yothad@gmail.com"
 
 REPO_ROOT = Path(__file__).parent.parent
-SCORED_JOBS_PATH = REPO_ROOT / "profiles" / "omer" / "scored_jobs.json"
+SCORED_JOBS_PATH = REPO_ROOT / "profiles" / "yotam" / "scored_jobs.json"
 
 
 def main():

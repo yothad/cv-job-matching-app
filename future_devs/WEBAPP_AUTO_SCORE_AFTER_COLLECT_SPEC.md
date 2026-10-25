@@ -33,12 +33,12 @@ matches sat in the pipeline's digest.md but not on the site. Three parts:
 - Help, privacy and landing copy say the key is also used automatically after each collection.
 
 ## How to QA
-1. Set the secrets (see Needs Omer), run collect-and-score manually: the push step logs
+1. Set the secrets (see Needs Yotam), run collect-and-score manually: the push step logs
    "pushed N scores", the auto step gets 202, and the digest fills without a click.
 2. Render logs show `auto-score: user xxxxxxxx done N/M` lines; runs used stays unchanged.
 3. Press "Re-score N" with N > 200 - batches continue by themselves until done.
 4. `curl -X POST .../score/auto` without the header → 403.
 
-## Needs Omer
+## Needs Yotam
 - Render (careerwatch-api) env var `AUTO_SCORE_SECRET` = the same value as the GitHub secret.
-- GitHub secrets `AUTO_SCORE_SECRET` and `WEBAPP_PROFILE_USERS` (`omer=<your website email>`).
+- GitHub secrets `AUTO_SCORE_SECRET` and `WEBAPP_PROFILE_USERS` (`yotam=<your website email>`).

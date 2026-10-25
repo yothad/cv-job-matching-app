@@ -15,7 +15,7 @@ Do **not** write code. Output a plan.
 
 ## What the project is
 
-Personal job-search automation for Omer Hedvat — Israeli senior data scientist
+Personal job-search automation for Yotam Hadar — Israeli senior data scientist
 (~8 yrs), specialized in fintech-fraud and cloud-security ML, targeting Team
 Lead / Lead DS / Applied ML roles in cyber and fraud companies, Israel-based,
 max ~75 min commute (Netanya south through greater Tel Aviv).
@@ -61,7 +61,7 @@ downstream of scoring) are explicitly permitted and actively wanted.
 The project still has deliberate scope discipline. These remain intentionally
 OUT of scope unless there's an overwhelming reason:
 
-- No email / Slack / Telegram delivery — Omer reads `digest.md` directly.
+- No email / Slack / Telegram delivery — Yotam reads `digest.md` directly.
 - No generic scraping framework or plugin system — per-VC and per-ATS adapters
   are the chosen design; don't refactor to a generic engine.
 - User-facing output uses hyphens, never em-dashes.

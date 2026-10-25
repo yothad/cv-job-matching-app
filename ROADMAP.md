@@ -265,6 +265,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 |---|---|---|---|---|
 | [SCORER_EVAL_HARNESS_CODE](future_devs/SCORER_EVAL_HARNESS_CODE_SPEC.md) | Eval harness code: metrics, run_eval.py (fake-client tested), labelling sheet tool - no Gemini, no labels | `completed` | S | — |
 | [SCORER_EVAL_HARNESS](future_devs/SCORER_EVAL_HARNESS_SPEC.md) | Human-labelled golden set + band accuracy / hard-filter recall + CI gate on `gemini_scorer.py` | `not-started` | S | SCORER_EVAL_HARNESS_CODE |
+| [WEBAPP_POSITIONS_ROLE_SECTIONS](future_devs/WEBAPP_POSITIONS_ROLE_SECTIONS_SPEC.md) | Supabase migration 012 + sync so webapp scoring reads role_description + requirements like the pipeline | `not-started` | S | SCORER_EVAL_HARNESS |
 
 ---
 
@@ -272,6 +273,7 @@ regression. Build the golden set and the two metrics before touching the scorer 
 
 | Spec | Domain |
 |---|---|
+| `future_devs/WEBAPP_POSITIONS_ROLE_SECTIONS_SPEC.md` | P13 - positions catalog role sections (migration 012) for webapp scoring |
 | `future_devs/WEBAPP_AUTO_SCORE_AFTER_COLLECT_SPEC.md` | P5 - auto-score after collect, auto-continue, pipeline score push |
 | `future_devs/WEBAPP_DIGEST_RESPECTS_FILTERS_SPEC.md` | P5 - Digest honours saved filters, multi-term location |
 | `future_devs/WEBAPP_SCORE_NOW_BACKGROUND_SPEC.md` | P5 - background Score now, progress, run cap |

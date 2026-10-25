@@ -88,7 +88,7 @@ def fetch_positions(host: str, site: str, location_query: str = "Israel") -> lis
                 or job.get("ExternalResponsibilitiesStr")
                 or ""
             )
-            description = _strip_html(description_html)[:4000]
+            description = _strip_html(description_html)
 
             results.append(
                 {

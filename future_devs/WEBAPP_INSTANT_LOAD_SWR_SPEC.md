@@ -69,7 +69,7 @@ Result: on any repeat visit the user sees real data with zero skeleton; on a fir
 
 ## Night run 2026-10-12
 Shipped unattended (gate: pytest, score.py --dry-run, frontend build green; `node --test webapp/frontend/tests/swrCache.test.mjs` 8/8; review pass).
-Needs Omer: set the repo **variable** `BACKEND_URL` (backend base URL, no `/health`); until then keep-warm.yml is a green no-op. Then run "Keep Backend Warm" via workflow_dispatch and check for `GET /health -> 200`.
+Needs Yotam: set the repo **variable** `BACKEND_URL` (backend base URL, no `/health`); until then keep-warm.yml is a green no-op. Then run "Keep Backend Warm" via workflow_dispatch and check for `GET /health -> 200`.
 Morning QA (browser):
 1. Repeat visit on /digest and /positions - no skeleton, "Updating..." clears; block the API and reload - cached list stays, "Couldn't refresh ... Retry" shows.
 2. Cache guards: set `v` to 0, make `savedAt` too old or in the future, or corrupt `cw:swr:jobs:<uid>` - skeleton shows and the entry is removed.

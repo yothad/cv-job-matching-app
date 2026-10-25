@@ -3,13 +3,13 @@ import sys
 import httpx
 
 try:
-    from ats.utils import HEADERS, strip_html as _strip_html
+    from ats.utils import HEADERS, sections_from_named, strip_html as _strip_html
 except ModuleNotFoundError:
     # Allow running as a script from the repo root: python ats/lever.py <slug>
     import os as _os
 
     sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-    from ats.utils import HEADERS, strip_html as _strip_html
+    from ats.utils import HEADERS, sections_from_named, strip_html as _strip_html
 
 
 def fetch_positions(company_slug: str) -> list[dict]:
@@ -44,13 +44,17 @@ def fetch_positions(company_slug: str) -> list[dict]:
         raw_plain = job.get("descriptionPlain") or ""
         raw_html = job.get("description") or ""
         description = raw_plain if raw_plain else _strip_html(raw_html)
+        # Lever keeps requirement / responsibility bullets in `lists` ({text: heading, content: html})
+        lists = [(lst.get("text", ""), _strip_html(lst.get("content") or "")) for lst in job.get("lists") or []]
+        sections = sections_from_named([("Description", description)] + lists) if lists else None
 
         results.append(
             {
                 "title": title,
                 "location": location,
-                "description": description[:4000],
+                "description": description,
                 "apply_url": apply_url,
+                "sections": sections,
             }
         )
 

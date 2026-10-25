@@ -182,6 +182,6 @@ cd webapp/frontend && npm install && npm run build
 cd webapp/backend && uv run python -c "from main import app; print('OK')"
 
 # Project-level tests still pass
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

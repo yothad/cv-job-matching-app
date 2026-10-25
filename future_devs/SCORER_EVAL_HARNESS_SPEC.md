@@ -9,7 +9,7 @@
 | **Depends on** | SCORER_EVAL_HARNESS_CODE (the runner, metrics and labelling tool; this task is now the human part: label the golden set, record the baseline, turn on the CI gate) |
 | **Blocks** | any future change to `matcher/gemini_scorer.py` prompt, rubric, batch size, or model |
 | **Touches** | `evals/` (new), `matcher/gemini_scorer.py` (read-only), `docs/scoring_calibration.md`, `README.md`, `.github/workflows/` |
-| **Night-ready** | no - labelling the golden set is Omer's (human grader); baseline needs live Gemini |
+| **Night-ready** | no - labelling the golden set is Yotam's (human grader); baseline needs live Gemini |
 | **Owner** | — |
 
 ## Overview
@@ -23,7 +23,7 @@ except by eyeballing a digest.
 This task builds the missing measurement. It is deliberately small — a golden set, two
 metrics, one CI gate — because the point is to *have a number*, not to build a platform.
 
-**Reference:** `/Users/omerhedvat/git/ECC/skills/eval-harness/SKILL.md` (MIT) for the
+**Reference:** `C:/repos/ECC/skills/eval-harness/SKILL.md` (MIT) for the
 vocabulary and structure — capability vs regression evals, the three grader types
 (code-based / model-based / human), and pass@k. Follow its shape; the content below is
 specific to this pipeline. Note what it does *not* provide: a runnable harness. That is
@@ -41,10 +41,30 @@ Exit codes: 0 pass, 1 gate failed (regression or more than 10% scorer errors), 2
 golden set, `--runs` < 1, missing key, malformed or unmeasured baseline). A failed run never writes a baseline.
 Model: the ordered cascade `MODELS` in `matcher/gemini_scorer.py` (default `gemini-3.5-flash,gemini-3.5-flash-lite`,
 env `GEMINI_MODELS`). 2.5 Flash was retired for new keys and the switch shipped on 2026-10-13 without a baseline
-at Omer's call. `run_eval.py` records the whole cascade, since a fallback model may score some jobs; a
+at Yotam's call. `run_eval.py` records the whole cascade, since a fallback model may score some jobs; a
 baseline taken under one cascade is only comparable to runs under the same one. Retry policy
 (BUG_GEMINI_5XX_DROPS_JOBS: 5xx backoff, 120s cooldown on a busy model) changes which model scores a
 job but not the prompt or model set, so it needs no new baseline.
+
+**Prompt input: role sections (2026-10-21, shipped without a baseline at Yotam's call).**
+`collect_jobs.py` now stores `role_description` / `responsibilities` / `requirements` (4000 chars
+each, split from the full uncapped text; Comeet / Lever / Amazon from their named sections), and
+Gemini reads `role_description` + `requirements` instead of `description`, falling back to
+`description` for jobs without them. This **is** a scoring change and no baseline existed when it
+landed, so it is unmeasured: run the eval in both modes and report both -
+`SCORER_TEXT=description uv run python evals/run_eval.py --runs 3 --write-baseline evals/private/baseline_description.json`
+(the pre-split prompt, byte-identical) and `uv run python evals/run_eval.py --runs 3 --write-baseline`
+(the default, role sections). `run_eval.py` folds the mode and `_job_text_fields` into `prompt_hash`
+and writes `scorer_text` into the baseline, so a baseline from one mode is never silently
+compared with a run in the other. Golden items need the section fields for the default mode:
+`make_labelling_sheet.py --import` fills them, `--refresh-sections` re-fills them from a fresh
+`new_jobs.json`.
+
+**Labelling tool additions:** `--quick` (L/M/H, role excerpt, sidecar), `--mix H=35,M=35,L=30`
+(quota sample by Gemini band group - H = 7-10, M = 5-6, L = 0-4 - a short group's remainder goes
+to the others in their ratio), `--exclude <golden/sidecar/sheet>`, `--max-per-company N`,
+`--append` on import (job_id dedupe, first label wins). `--recheck K` mixes K already-labelled Israeli jobs (spread over the human L / M / H bands) into a sheet to label again blind; on import they go to `evals/private/recheck.jsonl` with the original band and a self-agreement count, never into the golden set. `--batch N` tags imported rows (existing rows without one become `1` when appending), so per-batch consistency can be checked. Gemini's score / band never reach the
+sheet or sidecar.
 
 ## Behaviour
 
@@ -52,8 +72,8 @@ job but not the prompt or model set, so it needs no new baseline.
 - **50 real jobs** sampled from `live_positions.json` — stratified so every score band
   (9-10, 7-8, 5-6, 3-4, 0-2) is represented, and including the known-hard cases from
   `docs/scoring_calibration.md` §4 "Known Failure Modes".
-- One line per job: `{job_id, company, title, location, description, label_score, label_band, label_flags, labelled_by, labelled_at, notes}`.
-- `label_score` is **Omer's own score**, not Gemini's. This is a human-grader step and
+- One line per job: `{job_id, company, title, location, source_vc, vc_tier, apply_url, description, role_description, responsibilities, requirements, ats, label_score, label_band, label_flags, labelled_by, labelled_at, notes}`.
+- `label_score` is **Yotam's own score**, not Gemini's. This is a human-grader step and
   cannot be delegated to the model being evaluated — that would grade the scorer against itself.
 - Committed to the repo. It is the asset; the harness around it is replaceable.
 
@@ -63,7 +83,7 @@ job but not the prompt or model set, so it needs no new baseline.
 - Reports:
   - **Band accuracy** — % of jobs Gemini places in the same score band as the human label. This is the headline number.
   - **Mean absolute error** on the raw 0–10 score.
-  - **Hard-filter recall** — of the jobs the human marked `dealbreaker-location` or non-DS, how many did Gemini also score ≤4? A miss here surfaces a bad job at the top of the digest, which is the failure mode that actually costs Omer time. Weight it separately; it must not be averaged away.
+  - **Hard-filter recall** — of the jobs the human marked `dealbreaker-location` or non-DS, how many did Gemini also score ≤4? A miss here surfaces a bad job at the top of the digest, which is the failure mode that actually costs Yotam time. Weight it separately; it must not be averaged away.
   - **Per-band confusion table**, so a regression shows *where* it moved.
 - `--baseline evals/baseline.json` compares against the last recorded run and exits non-zero
   on regression beyond tolerance.

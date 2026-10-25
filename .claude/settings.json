@@ -37,7 +37,7 @@
       "Bash(python3 -c *)",
       "Bash(jq *)",
       "Bash(mv future_devs/* future_devs/archive/*)",
-      "Bash(mv /Users/omerhedvat/git/careers-watch/future_devs/*)",
+      "Bash(mv C:/repos/cv-job-matching-app/future_devs/*)",
       "Bash(mkdir -p *)",
       "Bash(cp companies.json *)",
       "Bash(cp new_jobs.json *)",

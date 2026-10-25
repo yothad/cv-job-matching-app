@@ -10,14 +10,14 @@
 
 ## Overview
 
-A Jupyter notebook that turns `profiles/omer/all_scores.jsonl` into a data science showcase. Demonstrates DS craft: data loading, cleaning, exploratory analysis, and visualisation — the kind of work a DS hiring manager opens immediately. Serves as proof that the pipeline surfaces real signal, not random noise.
+A Jupyter notebook that turns `profiles/yotam/all_scores.jsonl` into a data science showcase. Demonstrates DS craft: data loading, cleaning, exploratory analysis, and visualisation — the kind of work a DS hiring manager opens immediately. Serves as proof that the pipeline surfaces real signal, not random noise.
 
 The notebook must run end-to-end with `jupyter nbconvert --to notebook --execute notebooks/analysis.ipynb` without errors.
 
 ## Behaviour
 
 ### Data source
-- Primary: `profiles/omer/all_scores.jsonl` — one JSON object per line
+- Primary: `profiles/yotam/all_scores.jsonl` — one JSON object per line
 - Schema fields available: `company`, `title`, `location`, `score`, `reasoning`, `flags`, `source_vc`, `vc_tier`, `ats`, `apply_url`
 - Filter out rows where `"scorer-error"` is in `flags` before any score analysis (these are Gemini failures, score=0 is not real signal)
 

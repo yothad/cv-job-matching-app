@@ -102,6 +102,21 @@ def _rpm_wait():
 # Prompt builder
 # ---------------------------------------------------------------------------
 
+# Which job text Gemini reads. "role" (default): the role_description + requirements fields
+# collect_jobs.py splits out (no company pitch / benefits boilerplate), falling back to
+# `description` for jobs without them (collected before the split, or webapp catalog rows).
+# "description": the pre-split prompt, byte for byte - for eval before/after comparisons.
+SCORER_TEXT = os.environ.get("SCORER_TEXT", "role").strip().lower()
+
+
+def _job_text_fields(job: dict) -> dict:
+    if SCORER_TEXT != "description":
+        role, req = job.get("role_description") or "", job.get("requirements") or ""
+        if role or req:
+            return {"Role": role, "Requirements": req}
+    return {"Description": job.get("description", "")}
+
+
 def build_batch_prompt(jobs: list[dict], profile_md: str, cv_md: str) -> str:
     jobs_block = ""
     for i, job in enumerate(jobs, 1):
@@ -113,7 +128,7 @@ def build_batch_prompt(jobs: list[dict], profile_md: str, cv_md: str) -> str:
                 "Source VC": job.get("source_vc", ""),
                 "VC Tier": job.get("vc_tier", ""),
                 "Apply URL": job.get("apply_url", ""),
-                "Description": job.get("description", ""),
+                **_job_text_fields(job),
             }.items()
         )
         jobs_block += f'<job index="{i}">\n{job_text}\n</job>\n\n'
@@ -223,7 +238,7 @@ def build_prompt(job: dict, profile_md: str, cv_md: str) -> str:
             "Source VC": job.get("source_vc", ""),
             "VC Tier": job.get("vc_tier", ""),
             "Apply URL": job.get("apply_url", ""),
-            "Description": job.get("description", ""),
+            **_job_text_fields(job),
         }.items()
     )
 

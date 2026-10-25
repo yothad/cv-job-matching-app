@@ -25,7 +25,7 @@ def fetch_positions() -> list[dict]:
         results.append({
             "title": title,
             "location": "Israel",
-            "description": strip_html((j.get("content") or {}).get("rendered", ""))[:4000],
+            "description": strip_html((j.get("content") or {}).get("rendered", "")),
             "apply_url": j.get("link", ""),
         })
     return results

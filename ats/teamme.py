@@ -138,7 +138,7 @@ def fetch_positions(tenant: str) -> list[dict]:
         seen_urls.add(url)
         title = (jp.get("title") or "").strip()
         location = _location_str(jp)
-        description = _strip_html(jp.get("description") or "")[:4000]
+        description = _strip_html(jp.get("description") or "")
         results.append(
             {
                 "title": title,

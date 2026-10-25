@@ -19,7 +19,7 @@ Audience: a technical hiring manager who clicked into the repo and wants to unde
 ### Document structure
 
 **Section 1 — Scoring rubric summary**
-A clear table of the scoring criteria used in `profile.md`, presented as a scoring rubric. Extract the real criteria from `profiles/omer/profile.md` and format as:
+A clear table of the scoring criteria used in `profile.md`, presented as a scoring rubric. Extract the real criteria from `profiles/yotam/profile.md` and format as:
 
 | Criterion | Weight | Notes |
 |---|---|---|
@@ -39,7 +39,7 @@ Describe the actual prompting approach (read `matcher/gemini_scorer.py` for the 
 - How JSON extraction is done (the markdown-fence strip before json.loads)
 
 **Section 3 — Calibration spot-check**
-A table of 5 real scored jobs selected from `profiles/omer/all_scores.jsonl` to illustrate calibration across the score range. Pick one from each tier: 9-10, 7-8, 5-6, 3-4, 0-2 (excluding scorer-error rows). For each show: company, title, score, reasoning (first 150 chars), and one-line human annotation.
+A table of 5 real scored jobs selected from `profiles/yotam/all_scores.jsonl` to illustrate calibration across the score range. Pick one from each tier: 9-10, 7-8, 5-6, 3-4, 0-2 (excluding scorer-error rows). For each show: company, title, score, reasoning (first 150 chars), and one-line human annotation.
 
 Example format:
 | Score | Company | Title | Reasoning (excerpt) | Why this score makes sense |
@@ -72,8 +72,8 @@ Two short paragraphs:
 ## How to QA
 
 1. `docs/scoring_calibration.md` exists and renders cleanly as markdown.
-2. Section 1 rubric table matches actual criteria in `profiles/omer/profile.md` — not invented.
-3. Section 3 spot-check uses 5 real rows from `profiles/omer/all_scores.jsonl` (verify company names exist in file).
+2. Section 1 rubric table matches actual criteria in `profiles/yotam/profile.md` — not invented.
+3. Section 3 spot-check uses 5 real rows from `profiles/yotam/all_scores.jsonl` (verify company names exist in file).
 4. Section 2 prompt design matches what's actually in `matcher/gemini_scorer.py`.
 5. `uv run python3 -m pytest tests/ -v` passes.
 6. `uv run python score.py --dry-run` passes.

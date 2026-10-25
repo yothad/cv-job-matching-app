@@ -26,16 +26,17 @@ if str(ROOT) not in sys.path:
 from dotenv import load_dotenv  # noqa: E402
 
 from evals import metrics  # noqa: E402
+from matcher import gemini_scorer  # noqa: E402
 from matcher.gemini_scorer import MODELS, build_batch_prompt  # noqa: E402
 from score import _load_profile_config, _resolve_cvs, _score_jobs_batched  # noqa: E402
 
 PRIVATE_DIR = ROOT / "evals" / "private"
 DEFAULT_GOLDEN = Path(os.environ.get("EVAL_GOLDEN_SET", PRIVATE_DIR / "golden_set.jsonl"))
 DEFAULT_BASELINE = Path(os.environ.get("EVAL_BASELINE", PRIVATE_DIR / "baseline.json"))
-DEFAULT_PROFILE = ROOT / "profiles" / "omer"
+DEFAULT_PROFILE = ROOT / "profiles" / "yotam"
 
 # Allowed drop vs the baseline before --baseline fails. Written into the baseline
-# file so Omer can tune it there once pass@1 vs pass@3 shows the real noise floor.
+# file so Yotam can tune it there once pass@1 vs pass@3 shows the real noise floor.
 DEFAULT_TOLERANCE = {"band_accuracy": 0.05, "mae": 0.5, "hard_filter_recall": 0.0}
 # Max share of scorer-error results (over jobs x runs) before the run fails outright:
 # a dead model or key turns every job into scorer-error and would otherwise leave no
@@ -70,7 +71,9 @@ def _model_name() -> str:
 
 def _prompt_hash(profile_md: str, cv_default: str, cv_lead: str) -> str:
     h = hashlib.sha256()
-    for part in (inspect.getsource(build_batch_prompt), profile_md, cv_default, cv_lead):
+    # the job-text mode (SCORER_TEXT) and its field picker change the prompt too
+    for part in (inspect.getsource(build_batch_prompt), inspect.getsource(gemini_scorer._job_text_fields),
+                 gemini_scorer.SCORER_TEXT, profile_md, cv_default, cv_lead):
         h.update(part.encode("utf-8"))
     return h.hexdigest()[:12]
 
@@ -211,7 +214,7 @@ def main(argv: list[str] | None = None, client=None) -> int:
     p.add_argument("--golden", type=Path, default=DEFAULT_GOLDEN,
                    help=f"golden set JSONL (default {DEFAULT_GOLDEN}, env EVAL_GOLDEN_SET)")
     p.add_argument("--profile", type=Path, default=DEFAULT_PROFILE,
-                   help="profile dir with profile.md, cv.md, score_config.json (default profiles/omer)")
+                   help="profile dir with profile.md, cv.md, score_config.json (default profiles/yotam)")
     p.add_argument("--runs", type=int, default=1, help="score every job k times for pass@1 vs pass@k (default 1)")
     p.add_argument("--baseline", type=Path, nargs="?", const=DEFAULT_BASELINE,
                    help=f"compare to a baseline file and exit 1 on regression (default {DEFAULT_BASELINE}, env EVAL_BASELINE)")
@@ -301,6 +304,7 @@ def main(argv: list[str] | None = None, client=None) -> int:
             "date": date.today().isoformat(),
             "model": _model_name(),
             "prompt_hash": _prompt_hash(profile_md, cv_default, cv_lead),
+            "scorer_text": gemini_scorer.SCORER_TEXT,
             "n_jobs": rep["n_jobs"],
             "runs": rep["runs"],
             "metrics": {k: rep[k] for k in ("band_accuracy", "mae", "hard_filter_recall", "pass@1", "pass@k", "pass^k")},

@@ -24,7 +24,7 @@ from urllib.parse import urlparse
 
 SNAP = Path("careers_recovery.json")
 COMPANIES = Path("companies.json")
-# US-centric VCs whose companies rarely have an Israel office relevant to Omer
+# US-centric VCs whose companies rarely have an Israel office relevant to Yotam
 US_VC = {"a16z", "Abstract Ventures", "Accel", "Bain Capital Ventures",
          "Boldstart", "Greylock", "Bessemer"}
 RANK = {"A": 0, "B": 1, "C": 2}

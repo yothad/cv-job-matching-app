@@ -213,16 +213,16 @@ Read the existing file and verify there is a `score_jobs_batch` function (or equ
 
 ```bash
 # Check files exist
-ls /Users/omerhedvat/git/careers-watch/webapp/backend/routers/scoring.py
+ls C:/repos/cv-job-matching-app/webapp/backend/routers/scoring.py
 
 # Backend imports without errors (requires SUPABASE_URL etc but at least checks syntax)
-cd /Users/omerhedvat/git/careers-watch/webapp/backend && python -c "import ast; ast.parse(open('routers/scoring.py').read()); print('syntax OK')"
-cd /Users/omerhedvat/git/careers-watch/webapp/backend && python -c "import ast; ast.parse(open('main.py').read()); print('syntax OK')"
+cd C:/repos/cv-job-matching-app/webapp/backend && python -c "import ast; ast.parse(open('routers/scoring.py').read()); print('syntax OK')"
+cd C:/repos/cv-job-matching-app/webapp/backend && python -c "import ast; ast.parse(open('main.py').read()); print('syntax OK')"
 
 # Verify scoring router is registered in main.py
-grep "scoring_router" /Users/omerhedvat/git/careers-watch/webapp/backend/main.py
+grep "scoring_router" C:/repos/cv-job-matching-app/webapp/backend/main.py
 
 # Python pipeline unaffected
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

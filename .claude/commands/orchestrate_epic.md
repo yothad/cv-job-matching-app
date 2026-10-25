@@ -38,7 +38,7 @@ e.g. `/orchestrate_epic WEBAPP`
 
 ### 4. Present wave plan
 
-Print the wave breakdown for visibility, then proceed immediately. Do NOT pause for user confirmation — Omer trusts autonomous execution for this project. Only pause if the plan reveals something genuinely ambiguous (e.g. an undeclared dependency, conflicting Touches sets).
+Print the wave breakdown for visibility, then proceed immediately. Do NOT pause for user confirmation — Yotam trusts autonomous execution for this project. Only pause if the plan reveals something genuinely ambiguous (e.g. an undeclared dependency, conflicting Touches sets).
 
 ### 5. Execute wave by wave (autonomous)
 
@@ -54,7 +54,7 @@ For each wave:
 5. Call `/qa_task` for each child — auto-chains to `/wrap_task` on pass
 6. Proceed to the next wave without user confirmation
 
-Only stop the epic mid-flight if: exit gate fails and the fix isn't obvious, scope expansion is needed, or a spec is ambiguous enough to require Omer's judgement.
+Only stop the epic mid-flight if: exit gate fails and the fix isn't obvious, scope expansion is needed, or a spec is ambiguous enough to require Yotam's judgement.
 
 ### 6. Epic completion
 

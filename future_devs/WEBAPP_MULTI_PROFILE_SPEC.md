@@ -7,7 +7,7 @@
 | **Depends on** | WEBAPP_FIRST_LOGIN_JOURNEY (soft: the journey's profile/CV steps become "create your first profile") |
 | **Blocks** | MULTI_AGENT_RESUME_TAILOR (needs a CV per target role) |
 | **Touches** | webapp/supabase/migrations/, webapp/backend/routers/user.py, webapp/backend/routers/scoring.py, webapp/backend/routers/jobs.py, webapp/backend/routers/gaps.py, webapp/frontend/app/(app)/settings/page.tsx, webapp/frontend/app/(app)/digest/page.tsx, webapp/frontend/app/onboarding/page.tsx |
-| **Night-ready** | no — schema migration + backfill must be applied in the Supabase SQL editor by Omer |
+| **Night-ready** | no — schema migration + backfill must be applied in the Supabase SQL editor by Yotam |
 
 ## Overview
 
@@ -17,7 +17,7 @@ Goal: a user can create several named profiles, each with its own profile text, 
 
 ## Behaviour
 
-**Data model (new migration, run by Omer in the Supabase SQL editor):**
+**Data model (new migration, run by Yotam in the Supabase SQL editor):**
 - New table `user_profiles`: `id uuid pk`, `user_id uuid -> users(id) on delete cascade`, `name text not null`, `profile_md text`, `cv_text text`, `profile_version int default 1`, `profile_updated_at`, `cv_updated_at`, `is_default bool`, `created_at`. Unique `(user_id, name)`.
 - `score_configs`: add `profile_id uuid -> user_profiles(id)`; one config per profile (today one per user).
 - `scored_jobs`: add `profile_id`; the upsert key `on_conflict="user_id,apply_url"` (scoring.py) must become `(profile_id, apply_url)` or the same job scored under two profiles overwrites itself. Same for the dedup lookup of already-scored URLs.
@@ -39,10 +39,10 @@ Goal: a user can create several named profiles, each with its own profile text, 
 
 ## Files to Touch
 
-- `webapp/supabase/migrations/010_user_profiles.sql` (+ backfill; Omer applies it manually)
+- `webapp/supabase/migrations/010_user_profiles.sql` (+ backfill; Yotam applies it manually)
 - `webapp/backend/routers/user.py`, `scoring.py`, `jobs.py`, `gaps.py`; `webapp/backend/auth.py` (profile ownership helper)
 - `webapp/frontend/app/(app)/settings/page.tsx`, `(app)/digest/page.tsx`, `(app)/gaps/`, `app/onboarding/page.tsx`, app-shell nav for the switcher
-- `scripts/seed_supabase.py` (seeds from `profiles/omer/` - update to create a named profile)
+- `scripts/seed_supabase.py` (seeds from `profiles/yotam/` - update to create a named profile)
 - Specs to update: `WEBAPP_SPEC.md`, `CLAUDE.md` only if the scoring contract changes. Note: no scorer prompt, rubric, model or batch-size change is needed, so the eval gate does not apply; if implementation touches `matcher/gemini_scorer.py`, run the eval first per CLAUDE.md.
 
 ## How to QA

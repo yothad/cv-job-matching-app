@@ -14,13 +14,13 @@ import time
 import httpx
 
 try:
-    from ats.utils import HEADERS, strip_html
+    from ats.utils import HEADERS, sections_from_named, strip_html
 except ModuleNotFoundError:
     # Allow running as a script from the repo root: uv run ats/amazon_jobs.py <country_code>
     import os as _os
 
     sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-    from ats.utils import HEADERS, strip_html
+    from ats.utils import HEADERS, sections_from_named, strip_html
 
 BASE_URL = "https://www.amazon.jobs/en/search.json"
 PAGE_SIZE = 100
@@ -67,6 +67,12 @@ def fetch_positions(country_code: str = "ISR") -> list[dict]:
             description = strip_html(desc_raw)
             job_path = job.get("job_path", "") or ""
             apply_url = f"https://www.amazon.jobs{job_path}" if job_path else ""
+            # Qualifications are separate fields, not part of `description`
+            sections = sections_from_named([
+                ("Description", description),
+                ("Basic qualifications", strip_html(job.get("basic_qualifications") or "")),
+                ("Preferred qualifications", strip_html(job.get("preferred_qualifications") or "")),
+            ])
 
             results.append(
                 {
@@ -74,6 +80,7 @@ def fetch_positions(country_code: str = "ISR") -> list[dict]:
                     "location": location,
                     "description": description,
                     "apply_url": apply_url,
+                    "sections": sections,
                 }
             )
 

@@ -4,7 +4,7 @@ This file gives you (Claude Code) the context you need to work productively in t
 
 ## What this project is
 
-Personal job-search automation for Omer Hedvat - Israeli senior data scientist, ~8 years experience, deep specialization in fintech fraud and cloud security ML, currently targeting Team Lead / Lead DS / Applied ML roles in cyber and fraud companies. Israel-based, commutes from home up to 75 minutes max (Netanya south to south Tel Aviv area).
+Personal job-search automation for Yotam Hadar - Israeli senior data scientist, ~8 years experience, deep specialization in fintech fraud and cloud security ML, currently targeting Team Lead / Lead DS / Applied ML roles in cyber and fraud companies. Israel-based, commutes from home up to 75 minutes max (Netanya south to south Tel Aviv area).
 
 The system scrapes Israeli cyber/fintech VC portfolios plus a curated list of large security companies, pulls open jobs from each company's ATS, scores each job with Gemini against the candidate profile, and outputs a ranked markdown digest.
 
@@ -14,8 +14,8 @@ Before asking the user for any permission, run `/fewer-permission-prompts` to au
 
 ## Always read these two files first
 
-- `profile.md` - Omer's filter intent (what he wants, what to skip, scoring rubric)
-- `cv.md` - Omer's CV (capability ground truth)
+- `profile.md` - Yotam's filter intent (what he wants, what to skip, scoring rubric)
+- `cv.md` - Yotam's CV (capability ground truth)
 
 These are the source of truth for matching. When in doubt about whether something is a fit, re-read these rather than guessing from session memory.
 
@@ -39,6 +39,10 @@ collect_jobs.py  (daily)
   └─ reads companies.json
   └─ hits each ATS API directly using cached careers_url + ats_params
   └─ if location_filter is set: drops jobs whose location doesn't contain the filter string
+  └─ splits each job's full text into role_description / responsibilities / requirements
+     (ats/utils.py:job_sections - headings, or the puller's named sections for Comeet details,
+     Lever lists, Amazon qualifications), each capped at 4000 chars; `description` is capped
+     at 4000 here, in one place, and stays what it always was
   └─ writes new_jobs.json
   └─ NEVER does careers discovery - that's refresh's job
   └─ on failure: increment consecutive_failures, continue with next company
@@ -49,6 +53,10 @@ score.py  (daily, after collect_jobs.py)
   └─ reads new_jobs.json + profile.md + cv.md
   └─ cv_default / cv_lead in score_config.json may point at local-only files; if a
      path is missing (e.g. in CI) it warns and falls back to profile cv.md (lead -> default)
+  └─ Gemini reads role_description + requirements (no company pitch / EEO boilerplate); jobs
+     without them (collected before the split, webapp catalog rows) fall back to `description`.
+     env SCORER_TEXT=description reproduces the pre-split prompt byte for byte (for eval
+     before/after runs; run_eval.py records the mode in the baseline)
   └─ sends each job to Gemini via an ordered model cascade (`MODELS` in matcher/gemini_scorer.py,
      default gemini-3.5-flash then -lite, override with env GEMINI_MODELS): a 404/429/5xx on one
      model moves to the next, and a model that answered 429/5xx is tried last for 120s. 5xx is
@@ -72,6 +80,9 @@ close only if the company pulled OK and the URL is gone; reopen if it's back;
 as a safety net, a job first seen 30+ days ago whose URL isn't live closes even if
 its company wasn't pulled, e.g. a company dropped from collection).
 A Supabase outage must never block scoring.
+Because those steps are best-effort, `.github/workflows/supabase-keep-alive.yml` separately reads
+one `positions` row every Tue/Sat (and goes red on failure) so the free project never hits its
+7-day inactivity pause.
 After score.py, two more `continue-on-error` side steps feed the webapp:
 `scripts/push_scores_to_webapp.py` copies the pipeline's scores into the webapp accounts mapped in
 the `WEBAPP_PROFILE_USERS` secret, then a curl to the backend's `POST /score/auto`
@@ -141,7 +152,7 @@ This is a persistent cache, not a throwaway. Treat it as the project's state of 
 - `ats/__init__.py` owns the `ATS_PULLERS` dispatch dict - `collect_jobs.py` imports from there
 - Each adapter/puller fails per-company; orchestrators never crash on a single company error
 - Print clear progress at every stage so manual runs are inspectable
-- Hyphens, not em-dashes, in any user-facing output (Omer's preference)
+- Hyphens, not em-dashes, in any user-facing output (Yotam's preference)
 
 ## Dependencies (intentionally minimal)
 
@@ -162,7 +173,7 @@ If you need something else, ask first. The simpler this dependency tree stays, t
 
 These are intentionally out of scope for the current iteration. Do not add them unless explicitly asked:
 
-- Email, Slack, or Telegram delivery (Omer reads `digest.md` directly)
+- Email, Slack, or Telegram delivery (Yotam reads `digest.md` directly)
 - A generic scraping framework or plugin system (per-X adapters are the right choice here)
 - VCs not already implemented (add one at a time, end-to-end, with verification)
 - ATSes not already implemented (same)
@@ -173,7 +184,7 @@ If a user request would add any of these, confirm explicitly before building.
 
 - Comeet is the dominant ATS for Israeli startups. Prioritize Comeet support over Greenhouse/Lever. Many YC-style global ATSes are also present (Greenhouse, Lever, Workday, Ashby) but Comeet covers the long tail of Israeli companies.
 - Hebrew may appear in job titles and descriptions. Do NOT translate before sending to Gemini - the model handles Hebrew well and translation loses signal.
-- Location parsing matters. Omer's commute radius is max 75 minutes from home. Anywhere from Netanya south through Herzliya, Ra'anana, Petach Tikva, Tel Aviv, Ramat Gan, Bnei Brak, Holon, Bat Yam is in range. Haifa, Beer Sheva, and Jerusalem are out of range without remote flexibility.
+- Location parsing matters. Yotam's commute radius is max 75 minutes from home. Anywhere from Netanya south through Herzliya, Ra'anana, Petach Tikva, Tel Aviv, Ramat Gan, Bnei Brak, Holon, Bat Yam is in range. Haifa, Beer Sheva, and Jerusalem are out of range without remote flexibility.
 - VC tiering for the matcher's `vc_tier` field:
   - Tier 1 (cyber-pure): YL Ventures, Team8, Glilot, Cyberstarts, Hyperwise, Merlin, JVP, Magenta VC, Greenfield Partners, Hetz Ventures, 10D
   - Tier 2 (generalist with strong cyber/fintech): Viola, Viola Ventures, Viola Growth, Pitango, TLV Partners, Vertex Israel, Bessemer, Insight, 83North, Grove, StageOne Ventures, Elron Ventures, Red Dot Capital, Qumra Capital, Entrée Capital
@@ -207,12 +218,15 @@ When something breaks, in this order:
 ## Adding a new ATS
 
 1. Create `ats/<ats_name>.py` modeled on `ats/comeet.py`
-2. Export a function `fetch_positions(*args) -> list[dict]` returning normalized `{title, location, description, apply_url}` dicts
+2. Export a function `fetch_positions(*args) -> list[dict]` returning normalized `{title, location, description, apply_url}` dicts.
+   Return the **full** description - don't cap it; `collect_jobs.py` caps `description` and splits the
+   role sections from the full text. If the ATS has named sections (requirements, responsibilities as
+   separate fields), also return `"sections": sections_from_named([(heading, text), ...])`.
 3. Add a lambda to `ATS_PULLERS` in `ats/__init__.py` mapping the ATS name to the right call signature
 4. Update `ats/detect.py` to identify it from URL pattern or HTML signature
 5. Test against a known company that uses this ATS
 
-Use `ats/utils.py` for the shared `HEADERS` and `strip_html` - don't redefine them per module.
+Use `ats/utils.py` for the shared `HEADERS`, `strip_html` and `sections_from_named` - don't redefine them per module.
 
 **Single-tenant pullers:** some companies self-host careers (no third-party ATS) - e.g. `ats/lemonade.py` (Next.js `__NEXT_DATA__`), `ats/privya.py` (WordPress REST API). These take no params; register them as `"name": lambda params: _fetch_name()` and wire the company via `scripts/import_careers.py` (which locks the entry as `skip_reason=manual_verified` so refresh never re-discovers it). Detection (`ats/detect.py`) is skipped for these - they are hand-verified, not auto-discovered.
 
@@ -224,7 +238,7 @@ This is plumbing - scrape, score, surface. The mission is not to expand into a f
 - Building abstractions before there are 3+ concrete cases. Per-adapter approach is correct - don't refactor to a generic scraper after only two VCs are done.
 - Adding state beyond what's strictly needed. companies.json + new_jobs.json + digest.md are the only persistent files. Resist the urge to add caches, indexes, or audit logs.
 
-If a request feels like mission expansion, surface that to Omer before implementing.
+If a request feels like mission expansion, surface that to Yotam before implementing.
 
 ## Reference implementations (read, do not vendor)
 
@@ -232,8 +246,8 @@ Local read-only clone of the closest prior art. Consult before designing, cite i
 
 | Building | Read first |
 |---|---|
-| The scorer eval harness (P13), or any grader / golden-set / pass@k work | `/Users/omerhedvat/git/ECC/skills/eval-harness/SKILL.md` — eval-driven-development vocabulary, capability vs regression evals, the three grader types, pass@k. Structure only; it ships no runnable harness. |
-| Model routing, batch cost control, or budget caps on Gemini calls | `/Users/omerhedvat/git/ECC/skills/cost-aware-llm-pipeline/SKILL.md` — complexity-based model selection and an immutable `CostTracker`. Its thresholds are hand-tuned, so treat them as a starting shape, not as tuned values. |
+| The scorer eval harness (P13), or any grader / golden-set / pass@k work | `C:/repos/ECC/skills/eval-harness/SKILL.md` — eval-driven-development vocabulary, capability vs regression evals, the three grader types, pass@k. Structure only; it ships no runnable harness. |
+| Model routing, batch cost control, or budget caps on Gemini calls | `C:/repos/ECC/skills/cost-aware-llm-pipeline/SKILL.md` — complexity-based model selection and an immutable `CostTracker`. Its thresholds are hand-tuned, so treat them as a starting shape, not as tuned values. |
 
 MIT-licensed. Borrowing structure is fine; copying code requires attribution.
 
@@ -270,7 +284,7 @@ not-started → in-progress (/start_task Phase A)
 
 **Rule: `/start_task` always stops at `completed`. Never auto-chains to QA or wrap. The user must explicitly run `/wrap_task <slug>` to land changes.**
 
-**Night runs** (`/night_run`) take 🌙 night-ready tasks to `completed` unattended on a `night/<date>` branch - never on `main`, which auto-deploys to Render. Omer merges the night branch and wraps in the morning. A task is night-ready only if `/file_task`'s 🌙 criteria hold.
+**Night runs** (`/night_run`) take 🌙 night-ready tasks to `completed` unattended on a `night/<date>` branch - never on `main`, which auto-deploys to Render. Yotam merges the night branch and wraps in the morning. A task is night-ready only if `/file_task`'s 🌙 criteria hold.
 
 ### Exit gate (required before marking completed)
 

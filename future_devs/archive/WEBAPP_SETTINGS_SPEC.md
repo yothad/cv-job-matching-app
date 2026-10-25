@@ -224,10 +224,10 @@ def delete_account(authorization: str = Header(...)):
 ## Exit gate
 
 ```bash
-ls /Users/omerhedvat/git/careers-watch/webapp/frontend/app/settings/page.tsx
-grep "use client" /Users/omerhedvat/git/careers-watch/webapp/frontend/app/settings/page.tsx
-grep "activeTab" /Users/omerhedvat/git/careers-watch/webapp/frontend/app/settings/page.tsx
-python3 -c "import ast; ast.parse(open('/Users/omerhedvat/git/careers-watch/webapp/backend/routers/user.py').read()); print('syntax OK')"
-cd /Users/omerhedvat/git/careers-watch && uv run python3 -m pytest tests/ -v
+ls C:/repos/cv-job-matching-app/webapp/frontend/app/settings/page.tsx
+grep "use client" C:/repos/cv-job-matching-app/webapp/frontend/app/settings/page.tsx
+grep "activeTab" C:/repos/cv-job-matching-app/webapp/frontend/app/settings/page.tsx
+python3 -c "import ast; ast.parse(open('C:/repos/cv-job-matching-app/webapp/backend/routers/user.py').read()); print('syntax OK')"
+cd C:/repos/cv-job-matching-app && uv run python3 -m pytest tests/ -v
 uv run python score.py --dry-run
 ```

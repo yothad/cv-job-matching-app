@@ -104,7 +104,7 @@ def test_genuine_zero_jobs_is_not_a_failure(in_tmp, monkeypatch):
 
 @pytest.mark.xfail(
     strict=True,
-    reason="Known gap (Needs Omer): ATS pullers swallow HTTP errors and return [], "
+    reason="Known gap (Needs Yotam): ATS pullers swallow HTTP errors and return [], "
     "so collect_jobs cannot tell a failed pull from a genuine 0-job pull. "
     "Flips to XPASS once pullers raise on fetch failure.",
 )

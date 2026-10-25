@@ -1,7 +1,7 @@
 """
 score.py must exit non-zero when GEMINI_API_KEY is missing.
 
-Regression: it used to print "[omer] Error: GEMINI_API_KEY not set." and exit 0,
+Regression: it used to print "[yotam] Error: GEMINI_API_KEY not set." and exit 0,
 so the CI workflow stayed green for ~2 months while nothing was scored.
 """
 

@@ -2,7 +2,7 @@
 
 ## analysis.ipynb
 
-Exploratory analysis of scored jobs from `profiles/omer/all_scores.jsonl`. Six sections:
+Exploratory analysis of scored jobs from `profiles/yotam/all_scores.jsonl`. Six sections:
 
 1. Pipeline coverage (companies, ATS systems, jobs per VC tier)
 2. Score distribution histogram with tier annotations
