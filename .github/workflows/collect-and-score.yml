@@ -6,6 +6,12 @@ on:
     - cron: '0 7 * * 4'   # Thursday 07:00 UTC
   workflow_dispatch:        # allow manual trigger
 
+# Shared with refresh-companies.yml / collect-and-score.yml: both commit companies.json, so
+# overlapping runs conflict on push. Queue instead of cancelling an in-flight run.
+concurrency:
+  group: companies-json-writer
+  cancel-in-progress: false
+
 jobs:
   collect-and-score:
     runs-on: ubuntu-24.04  # pinned: Playwright --with-deps does not support the Ubuntu 26 image ubuntu-latest moved to on 2026-10-19
