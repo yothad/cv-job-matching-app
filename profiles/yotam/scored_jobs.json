@@ -1491,5 +1491,20 @@
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
     "status": "open"
+  },
+  {
+    "company": "Sensi.ai",
+    "title": "Senior Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/sensi/E7.00F/senior-data-scientist/26.47D",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "While it is a Senior DS role located in Tel Aviv, the focus is almost exclusively on RAG, prompt engineering, and LLM evaluations.",
+    "flags": [
+      "pure-llm-rag"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
   }
 ]

@@ -42,6 +42,10 @@
 **Score:** 5/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-26
 **Reasoning:** Strong cybersecurity domain fit in Tel Aviv, but heavily focused on pure LLM/RL post-training research rather than production ML. `research-focus` `llm-not-security`
 
+### **Sensi.ai** - [Senior Data Scientist](https://www.comeet.com/jobs/sensi/E7.00F/senior-data-scientist/26.47D)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** While it is a Senior DS role located in Tel Aviv, the focus is almost exclusively on RAG, prompt engineering, and LLM evaluations. `pure-llm-rag`
+
 ## 2026-10-21
 
 ### **Team8 Portfolio (Comeet)** - [Bluespine-AI Engineer](https://www.comeet.com/jobs/team8/61.003/bluespine-ai-engineer/C4.471)
