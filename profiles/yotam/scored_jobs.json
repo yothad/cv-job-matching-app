@@ -615,7 +615,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -631,7 +632,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Backslash Security",
@@ -948,7 +950,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Kaltura",
@@ -964,7 +967,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Bright Data",
@@ -980,7 +984,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Ocean Security",
@@ -1189,7 +1194,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Fetcherr",
@@ -1204,7 +1210,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-26"
   },
   {
     "company": "Fetcherr",
@@ -1329,6 +1336,160 @@
     ],
     "scored_at": "2026-10-21",
     "first_seen": "2026-10-21",
+    "status": "open"
+  },
+  {
+    "company": "Microsoft Israel",
+    "title": "Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)",
+    "location": "Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth",
+    "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393556959639",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Role focuses on security research and threat hunting logic rather than building production ML pipelines.",
+    "flags": [
+      "wrong-domain"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "TLV Partners Portfolio (Getro)",
+    "title": "Applied AI Researcher",
+    "location": "Tel Aviv District, Israel",
+    "apply_url": "https://il.linkedin.com/jobs/view/applied-ai-researcher-at-airis-labs-4481194703",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Applied AI title in Tel Aviv matches candidate interests, but the empty description prevents deeper evaluation.",
+    "flags": [
+      "sparse-description"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "TLV Partners Portfolio (Getro)",
+    "title": "Senior AI Engineer",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/immunai/37.009/senior-ai-engineer/90.F67",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Senior AI engineering position in Ramat Gan aligns well with candidate seniority and commute preferences.",
+    "flags": [
+      "sparse-description"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Principal AI Research Cybersecurity Scientist (Israel / UK)",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-cybersecurity-scientist-israel--uk/D2.470",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Principal AI role in cybersecurity in Ramat Gan strongly aligns with candidate's domain expertise and senior level.",
+    "flags": [
+      "sparse-description"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Head of AI Safety & Security Research",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/head-of-ai-safety--security-research/95.47A",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Head of research title in AI security in Ramat Gan matches top leadership target, though formal management background may be queried.",
+    "flags": [
+      "management-gap",
+      "sparse-description"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Senior AI Security Researcher",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/senior-ai-security-researcher/B5.47B",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Good domain fit in cybersecurity and acceptable Ramat Gan location, but the job description is missing from the posting.",
+    "flags": [
+      "missing-jd"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "OX Security",
+    "title": "Team Leader - Agentic Pentest",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ox_security/F8.006/team-leader---agentic-pentest/1C.379",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Appealing team lead role in AI pentesting in Ramat Gan, but requires backend Node.js engineering and direct software management experience.",
+    "flags": [
+      "management-gap",
+      "wrong-craft"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Kaltura",
+    "title": "Senior AI Engineer",
+    "location": "Israel",
+    "apply_url": "https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer/E2.076",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Production AI role, but centered heavily on LLM RAG orchestration infrastructure rather than core production ML.",
+    "flags": [
+      "location-unclear",
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Scientist - Time Series Forecasting",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---time-series-forecasting/F6.47E",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Direct match for time-series forecasting and production ML craft in Netanya, though titled as IC level at a former employer.",
+    "flags": [
+      "former-employer"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "Novee Security",
+    "title": "AI Researcher",
+    "location": "Tel Aviv Office, Israel",
+    "apply_url": "https://www.comeet.com/jobs/noveesecurity/AA.008/ai-researcher/85.475",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Strong cybersecurity domain fit in Tel Aviv, but heavily focused on pure LLM/RL post-training research rather than production ML.",
+    "flags": [
+      "research-focus",
+      "llm-not-security"
+    ],
+    "scored_at": "2026-10-26",
+    "first_seen": "2026-10-26",
     "status": "open"
   }
 ]

@@ -1,5 +1,47 @@
 # Job Digest
 
+## 2026-10-26
+
+### **Grove Ventures Portfolio (Getro)** - [Principal AI Research Cybersecurity Scientist (Israel / UK)](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-cybersecurity-scientist-israel--uk/D2.470)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Principal AI role in cybersecurity in Ramat Gan strongly aligns with candidate's domain expertise and senior level. `sparse-description`
+
+### **Grove Ventures Portfolio (Getro)** - [Head of AI Safety & Security Research](https://www.comeet.com/jobs/alice/D5.005/head-of-ai-safety--security-research/95.47A)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Head of research title in AI security in Ramat Gan matches top leadership target, though formal management background may be queried. `management-gap` `sparse-description`
+
+### **Fetcherr** - [Data Scientist - Time Series Forecasting](https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---time-series-forecasting/F6.47E)
+**Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Direct match for time-series forecasting and production ML craft in Netanya, though titled as IC level at a former employer. `former-employer`
+
+### **TLV Partners Portfolio (Getro)** - [Senior AI Engineer](https://www.comeet.com/jobs/immunai/37.009/senior-ai-engineer/90.F67)
+**Score:** 7/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Senior AI engineering position in Ramat Gan aligns well with candidate seniority and commute preferences. `sparse-description`
+
+### **TLV Partners Portfolio (Getro)** - [Applied AI Researcher](https://il.linkedin.com/jobs/view/applied-ai-researcher-at-airis-labs-4481194703)
+**Score:** 6/10 | **Location:** Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Applied AI title in Tel Aviv matches candidate interests, but the empty description prevents deeper evaluation. `sparse-description`
+
+### **Microsoft Israel** - [Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)](https://apply.careers.microsoft.com/careers/job/1970393556959639)
+**Score:** 5/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Role focuses on security research and threat hunting logic rather than building production ML pipelines. `wrong-domain`
+
+### **Grove Ventures Portfolio (Getro)** - [Senior AI Security Researcher](https://www.comeet.com/jobs/alice/D5.005/senior-ai-security-researcher/B5.47B)
+**Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Good domain fit in cybersecurity and acceptable Ramat Gan location, but the job description is missing from the posting. `missing-jd`
+
+### **OX Security** - [Team Leader - Agentic Pentest](https://www.comeet.com/jobs/ox_security/F8.006/team-leader---agentic-pentest/1C.379)
+**Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Appealing team lead role in AI pentesting in Ramat Gan, but requires backend Node.js engineering and direct software management experience. `management-gap` `wrong-craft`
+
+### **Kaltura** - [Senior AI Engineer](https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer/E2.076)
+**Score:** 5/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Production AI role, but centered heavily on LLM RAG orchestration infrastructure rather than core production ML. `location-unclear` `llm-not-security`
+
+### **Novee Security** - [AI Researcher](https://www.comeet.com/jobs/noveesecurity/AA.008/ai-researcher/85.475)
+**Score:** 5/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-26
+**Reasoning:** Strong cybersecurity domain fit in Tel Aviv, but heavily focused on pure LLM/RL post-training research rather than production ML. `research-focus` `llm-not-security`
+
 ## 2026-10-21
 
 ### **Team8 Portfolio (Comeet)** - [Bluespine-AI Engineer](https://www.comeet.com/jobs/team8/61.003/bluespine-ai-engineer/C4.471)
@@ -156,14 +198,6 @@
 **Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Identical role to job 8 but located in Tel Aviv, matching the candidate's acceptable commute radius perfectly. `forecasting` `tel-aviv`
 
-### **Fetcherr** - [MLOps Team Lead](https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68)
-**Score:** 7/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Hands-on MLOps team lead role focusing on production pipelines and internal ML platforms at Fetcherr. `heavy-infra-engineering`
-
-### **Fetcherr** - [MLOps Team Lead](https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68-9D.50A)
-**Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Identical MLOps team lead role based in Tel Aviv, providing a strong match for production ML ownership and commute radius. `heavy-infra-engineering`
-
 ### **Novee Security** - [AI Engineer](https://www.comeet.com/jobs/noveesecurity/AA.008/ai-engineer/80.071)
 **Score:** 7/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role at a high-tier cyber security startup focusing on autonomous agents, fitting the adversarial domain preference. `llm-not-security`
@@ -216,10 +250,6 @@
 **Score:** 6/10 | **Location:** Tel Aviv-Yafo, Tel Aviv, ISR | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Applied Scientist role in Agentic AI at AWS in Tel Aviv, offering good technical alignment although heavily leaning towards LLM/agent research rather than core production data science. `large-established-company` `llm-heavy`
 
-### **Grove Ventures Portfolio (Getro)** - [Principal AI Research Scientist (Israel / UK)](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-scientist-israel--uk/D2.470)
-**Score:** 6/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Principal AI research scientist role in Ramat Gan, but heavily tilted toward pure research rather than production ML ownership. `pure-research` `location-ok`
-
 ### **IVIX** - [AI Team Lead](https://www.comeet.com/jobs/ivix/09.002/ai-team-lead/5B.C5C)
 **Score:** 6/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI Team Lead role focusing on LLMs and RAG for financial crime prevention in Tel Aviv, aligning with candidate's domain experience and interest in lead paths despite being an LLM-heavy stack. `llm-not-security` `lead-path-implied`
@@ -235,10 +265,6 @@
 ### **Nexxen** - [Platform AI Engineer](https://jobs.ashbyhq.com/nexxen/2c291707-eb72-439f-881c-ea33a2394e2d/application)
 **Score:** 6/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Strong applied AI platform engineering role involving agentic systems and Python, but leans heavily towards software/platform architecture rather than pure data science. `heavy-infra` `applied-ai`
-
-### **Bright Data** - [Security Researcher - Bot Detection Adversarial Research](https://www.comeet.com/jobs/brightdata/88.007/security-researcher---bot-detection-adversarial-research/F9.C63)
-**Score:** 6/10 | **Location:** Bright Data, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Adversarial bot detection security research role fully remote in Israel, matching the candidate's background in adversarial ML and threat detection. `remote` `security-domain`
 
 ### **Team8 Portfolio (Comeet)** - [Bluespine- Medical Fraud & Anomaly](https://www.comeet.com/jobs/team8/61.003/bluespine--medical-fraud--anomaly/23.474)
 **Score:** 6/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
@@ -280,10 +306,6 @@
 **Score:** 5/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role involving agentic workflows and infrastructure ML, but heavy focus on LLMs and DevOps tooling rather than core DS. `llm-not-security` `infra-heavy`
 
-### **Grove Ventures Portfolio (Getro)** - [Director of AI Research & Data Operations](https://www.comeet.com/jobs/alice/D5.005/director-of-ai-research--data-operations/B1.47E)
-**Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Director-level research and data operations role in Ramat Gan, combining research oversight with operational management. `management-heavy` `location-ok`
-
 ### **IVIX** - [AI,ML Engineer](https://www.comeet.com/jobs/ivix/09.002/aiml-engineer/92.A5F)
 **Score:** 5/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI/ML Engineer role focusing on LLMs and RAG for financial crimes in Tel Aviv, offering a strong domain fit but lacking a clear leadership title. `llm-not-security` `management-gap`
@@ -304,14 +326,6 @@
 **Score:** 5/10 | **Location:** Tel Aviv Office, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Research scientist role focusing heavily on deep learning and AI research rather than end-to-end production DS systems. `pure-research` `adtech-adjacent`
 
-### **Kaltura** - [AI Engineer](https://www.comeet.com/jobs/kaltura/E2.00D/ai-engineer/E2.076)
-**Score:** 5/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** General AI engineer role at a video tech company with location in Israel, but the exact scope and level are underspecified. `location-unclear` `title-laundering`
-
-### **Kaltura** - [Senior AI Engineer — Exploration & Prototyping](https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer--exploration--prototyping/2A.274)
-**Score:** 5/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Senior exploration and prototyping AI role at Kaltura, offering good technical level but lacking explicit production ML pipeline details. `location-unclear` `llm-not-security`
-
 ### **Qodo** - [Research Engineer](https://www.comeet.com/jobs/qodo/B8.00B/research-engineer/FD.669)
 **Score:** 5/10 | **Location:** Tel-Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Research engineer role focusing on LLM fine-tuning and prompting at Qodo, which leans more toward pure LLM tooling than production tabular ML. `llm-focused` `startup`
@@ -328,7 +342,35 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (3)
+## Recently closed (10)
+
+### **Fetcherr** - [~~MLOps Team Lead~~](https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68) (closed 2026-10-26)
+**Score:** 7/10 | **Location:** Netanya, Israel
+**Reasoning:** Hands-on MLOps team lead role focusing on production pipelines and internal ML platforms at Fetcherr. `heavy-infra-engineering`
+
+### **Fetcherr** - [~~MLOps Team Lead~~](https://www.comeet.com/jobs/fetcherr/68.006/mlops-team-lead/B8.E68-9D.50A) (closed 2026-10-26)
+**Score:** 7/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** Identical MLOps team lead role based in Tel Aviv, providing a strong match for production ML ownership and commute radius. `heavy-infra-engineering`
+
+### **Grove Ventures Portfolio (Getro)** - [~~Principal AI Research Scientist (Israel / UK)~~](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-scientist-israel--uk/D2.470) (closed 2026-10-26)
+**Score:** 6/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Principal AI research scientist role in Ramat Gan, but heavily tilted toward pure research rather than production ML ownership. `pure-research` `location-ok`
+
+### **Bright Data** - [~~Security Researcher - Bot Detection Adversarial Research~~](https://www.comeet.com/jobs/brightdata/88.007/security-researcher---bot-detection-adversarial-research/F9.C63) (closed 2026-10-26)
+**Score:** 6/10 | **Location:** Bright Data, Israel
+**Reasoning:** Adversarial bot detection security research role fully remote in Israel, matching the candidate's background in adversarial ML and threat detection. `remote` `security-domain`
+
+### **Grove Ventures Portfolio (Getro)** - [~~Director of AI Research & Data Operations~~](https://www.comeet.com/jobs/alice/D5.005/director-of-ai-research--data-operations/B1.47E) (closed 2026-10-26)
+**Score:** 5/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Director-level research and data operations role in Ramat Gan, combining research oversight with operational management. `management-heavy` `location-ok`
+
+### **Kaltura** - [~~AI Engineer~~](https://www.comeet.com/jobs/kaltura/E2.00D/ai-engineer/E2.076) (closed 2026-10-26)
+**Score:** 5/10 | **Location:** Israel
+**Reasoning:** General AI engineer role at a video tech company with location in Israel, but the exact scope and level are underspecified. `location-unclear` `title-laundering`
+
+### **Kaltura** - [~~Senior AI Engineer — Exploration & Prototyping~~](https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer--exploration--prototyping/2A.274) (closed 2026-10-26)
+**Score:** 5/10 | **Location:** Israel
+**Reasoning:** Senior exploration and prototyping AI role at Kaltura, offering good technical level but lacking explicit production ML pipeline details. `location-unclear` `llm-not-security`
 
 ### **Fetcherr** - [~~Price optimization decision team lead~~](https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B) (closed 2026-10-21)
 **Score:** 9/10 | **Location:** Netanya, Israel
