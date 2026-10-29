@@ -139,7 +139,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "Tipalti",
@@ -187,7 +188,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "PayPal Israel",
@@ -409,7 +411,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "Vega",
@@ -1351,7 +1354,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1366,7 +1370,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1381,7 +1386,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-10-29"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1505,6 +1511,22 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Data Scientist",
+    "location": "Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=8038775003",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Staff-level data science role at a top cybersecurity company focused on threat detection production ML models with lead-level scope.",
+    "flags": [
+      "top-tier-company",
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-10-29",
+    "first_seen": "2026-10-29",
     "status": "open"
   }
 ]
