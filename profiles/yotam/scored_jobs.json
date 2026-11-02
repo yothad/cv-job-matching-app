@@ -843,7 +843,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-02"
   },
   {
     "company": "Huskeys",
@@ -1418,7 +1419,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-02"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1433,7 +1435,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-02"
   },
   {
     "company": "OX Security",
@@ -1527,6 +1530,83 @@
     ],
     "scored_at": "2026-10-29",
     "first_seen": "2026-10-29",
+    "status": "open"
+  },
+  {
+    "company": "Forter",
+    "title": "Decision Scientist",
+    "location": "Israel - Tel Aviv",
+    "apply_url": "https://job-boards.greenhouse.io/forter/jobs/8909336002",
+    "source_vc": "Bessemer",
+    "score": 8,
+    "reasoning": "Strong domain match in fraud decisioning with production ML ownership in Tel Aviv, though titled as an IC role.",
+    "flags": [
+      "ic-role",
+      "domain-match"
+    ],
+    "scored_at": "2026-11-02",
+    "first_seen": "2026-11-02",
+    "status": "open"
+  },
+  {
+    "company": "Zyg",
+    "title": "Lead Data Scientist",
+    "location": "Tel Aviv-Yafo, Israel",
+    "apply_url": "https://boards.greenhouse.io/pagayais/jobs/8156624003",
+    "source_vc": "Viola",
+    "score": 8,
+    "reasoning": "Matches target Lead Data Scientist title in Tel Aviv, though job description details are missing.",
+    "flags": [
+      "missing-description"
+    ],
+    "scored_at": "2026-11-02",
+    "first_seen": "2026-11-02",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Principal Data Scientist",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/principal-data-scientist/49.473",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Principal Data Scientist title in Ramat Gan provides strong title boost within commute radius, despite sparse description.",
+    "flags": [
+      "missing-description"
+    ],
+    "scored_at": "2026-11-02",
+    "first_seen": "2026-11-02",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Senior AI Engineer",
+    "location": "Ramat Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/senior-ai-engineer/29.479",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Senior AI Engineer in Ramat Gan aligns with applied AI target, though role details are unspecified.",
+    "flags": [
+      "missing-description"
+    ],
+    "scored_at": "2026-11-02",
+    "first_seen": "2026-11-02",
+    "status": "open"
+  },
+  {
+    "company": "Fetcherr",
+    "title": "Data Science Team Lead",
+    "location": "Netanya, Israel",
+    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/data-science-team-lead/1F.A5E-76.406",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Target DS Team Lead role in Netanya at a former employer, though formal team management history is a slight gap.",
+    "flags": [
+      "management-gap",
+      "previous-employer"
+    ],
+    "scored_at": "2026-11-02",
+    "first_seen": "2026-11-02",
     "status": "open"
   }
 ]

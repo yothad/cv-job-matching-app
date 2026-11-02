@@ -1,5 +1,27 @@
 # Job Digest
 
+## 2026-11-02
+
+### **Forter** - [Decision Scientist](https://job-boards.greenhouse.io/forter/jobs/8909336002)
+**Score:** 8/10 | **Location:** Israel - Tel Aviv | **Applied:** 0 | **First seen:** 2026-11-02
+**Reasoning:** Strong domain match in fraud decisioning with production ML ownership in Tel Aviv, though titled as an IC role. `ic-role` `domain-match`
+
+### **Zyg** - [Lead Data Scientist](https://boards.greenhouse.io/pagayais/jobs/8156624003)
+**Score:** 8/10 | **Location:** Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-02
+**Reasoning:** Matches target Lead Data Scientist title in Tel Aviv, though job description details are missing. `missing-description`
+
+### **Grove Ventures Portfolio (Getro)** - [Principal Data Scientist](https://www.comeet.com/jobs/alice/D5.005/principal-data-scientist/49.473)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
+**Reasoning:** Principal Data Scientist title in Ramat Gan provides strong title boost within commute radius, despite sparse description. `missing-description`
+
+### **Fetcherr** - [Data Science Team Lead](https://www.comeet.com/jobs/fetcherr/68.006/data-science-team-lead/1F.A5E-76.406)
+**Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-11-02
+**Reasoning:** Target DS Team Lead role in Netanya at a former employer, though formal team management history is a slight gap. `management-gap` `previous-employer`
+
+### **Grove Ventures Portfolio (Getro)** - [Senior AI Engineer](https://www.comeet.com/jobs/alice/D5.005/senior-ai-engineer/29.479)
+**Score:** 6/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
+**Reasoning:** Senior AI Engineer in Ramat Gan aligns with applied AI target, though role details are unspecified. `missing-description`
+
 ## 2026-10-29
 
 ### **SentinelOne** - [Staff Data Scientist](https://www.sentinelone.com/jobs/?gh_jid=8038775003)
@@ -12,17 +34,9 @@
 **Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
 **Reasoning:** Principal AI role in cybersecurity in Ramat Gan strongly aligns with candidate's domain expertise and senior level. `sparse-description`
 
-### **Grove Ventures Portfolio (Getro)** - [Head of AI Safety & Security Research](https://www.comeet.com/jobs/alice/D5.005/head-of-ai-safety--security-research/95.47A)
-**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
-**Reasoning:** Head of research title in AI security in Ramat Gan matches top leadership target, though formal management background may be queried. `management-gap` `sparse-description`
-
 ### **Fetcherr** - [Data Scientist - Time Series Forecasting](https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---time-series-forecasting/F6.47E)
 **Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-26
 **Reasoning:** Direct match for time-series forecasting and production ML craft in Netanya, though titled as IC level at a former employer. `former-employer`
-
-### **Grove Ventures Portfolio (Getro)** - [Senior AI Security Researcher](https://www.comeet.com/jobs/alice/D5.005/senior-ai-security-researcher/B5.47B)
-**Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
-**Reasoning:** Good domain fit in cybersecurity and acceptable Ramat Gan location, but the job description is missing from the posting. `missing-jd`
 
 ### **OX Security** - [Team Leader - Agentic Pentest](https://www.comeet.com/jobs/ox_security/F8.006/team-leader---agentic-pentest/1C.379)
 **Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
@@ -171,10 +185,6 @@
 ### **Nagomi Security** - [Security Researcher](https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-researcher/92.B62)
 **Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Senior security researcher role bridging exposure management, threat modeling, and agentic workflows at a Tel Aviv cyber startup. `cyber-security` `applied-ml` `location-ok`
-
-### **Nimbleway** - [Senior Team Lead - Data Pipelines & Agentic Web Extraction](https://www.comeet.com/jobs/nimbleway/09.00F/senior-team-lead---data-pipelines--agentic-web-extraction/CF.271)
-**Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Senior Team Lead position combining data pipeline infrastructure and agentic AI systems in Tel Aviv. `lead-path-implied`
 
 ### **Minutemedia** - [Data Scientist](https://www.comeet.com/jobs/minute/45.00A/data-scientist/79.E6F)
 **Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
@@ -328,7 +338,19 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (16)
+## Recently closed (19)
+
+### **Grove Ventures Portfolio (Getro)** - [~~Head of AI Safety & Security Research~~](https://www.comeet.com/jobs/alice/D5.005/head-of-ai-safety--security-research/95.47A) (closed 2026-11-02)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Head of research title in AI security in Ramat Gan matches top leadership target, though formal management background may be queried. `management-gap` `sparse-description`
+
+### **Nimbleway** - [~~Senior Team Lead - Data Pipelines & Agentic Web Extraction~~](https://www.comeet.com/jobs/nimbleway/09.00F/senior-team-lead---data-pipelines--agentic-web-extraction/CF.271) (closed 2026-11-02)
+**Score:** 7/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** Senior Team Lead position combining data pipeline infrastructure and agentic AI systems in Tel Aviv. `lead-path-implied`
+
+### **Grove Ventures Portfolio (Getro)** - [~~Senior AI Security Researcher~~](https://www.comeet.com/jobs/alice/D5.005/senior-ai-security-researcher/B5.47B) (closed 2026-11-02)
+**Score:** 5/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Good domain fit in cybersecurity and acceptable Ramat Gan location, but the job description is missing from the posting. `missing-jd`
 
 ### **Cato Networks** - [~~Data Scientist~~](https://www.catonetworks.com/careers/careers-post/4848229101?gh_jid=4848229101) (closed 2026-10-29)
 **Score:** 7/10 | **Location:** Tel Aviv District, Israel
