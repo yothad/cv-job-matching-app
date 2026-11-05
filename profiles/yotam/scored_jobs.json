@@ -156,7 +156,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "Intuit Israel",
@@ -285,7 +286,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "Linx",
@@ -317,7 +319,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "Surf Ai",
@@ -687,7 +690,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "IVIX",
@@ -1403,7 +1407,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1591,7 +1596,8 @@
     ],
     "scored_at": "2026-11-02",
     "first_seen": "2026-11-02",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   },
   {
     "company": "Fetcherr",
@@ -1607,6 +1613,7 @@
     ],
     "scored_at": "2026-11-02",
     "first_seen": "2026-11-02",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-05"
   }
 ]

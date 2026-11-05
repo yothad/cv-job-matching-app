@@ -14,14 +14,6 @@
 **Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
 **Reasoning:** Principal Data Scientist title in Ramat Gan provides strong title boost within commute radius, despite sparse description. `missing-description`
 
-### **Fetcherr** - [Data Science Team Lead](https://www.comeet.com/jobs/fetcherr/68.006/data-science-team-lead/1F.A5E-76.406)
-**Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-11-02
-**Reasoning:** Target DS Team Lead role in Netanya at a former employer, though formal team management history is a slight gap. `management-gap` `previous-employer`
-
-### **Grove Ventures Portfolio (Getro)** - [Senior AI Engineer](https://www.comeet.com/jobs/alice/D5.005/senior-ai-engineer/29.479)
-**Score:** 6/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
-**Reasoning:** Senior AI Engineer in Ramat Gan aligns with applied AI target, though role details are unspecified. `missing-description`
-
 ## 2026-10-29
 
 ### **SentinelOne** - [Staff Data Scientist](https://www.sentinelone.com/jobs/?gh_jid=8038775003)
@@ -29,10 +21,6 @@
 **Reasoning:** Staff-level data science role at a top cybersecurity company focused on threat detection production ML models with lead-level scope. `top-tier-company` `lead-path-implied`
 
 ## 2026-10-26
-
-### **Grove Ventures Portfolio (Getro)** - [Principal AI Research Cybersecurity Scientist (Israel / UK)](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-cybersecurity-scientist-israel--uk/D2.470)
-**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
-**Reasoning:** Principal AI role in cybersecurity in Ramat Gan strongly aligns with candidate's domain expertise and senior level. `sparse-description`
 
 ### **Fetcherr** - [Data Scientist - Time Series Forecasting](https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---time-series-forecasting/F6.47E)
 **Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-26
@@ -158,10 +146,6 @@
 **Score:** 8/10 | **Location:** TLV Office, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Senior applied AI engineering role with broad ownership of production AI systems, matching technical stack and background. `title-laundering`
 
-### **Tipalti** - [Applied AI Scientist](https://tipalti.com/jobs/?gh_jid=6222917004)
-**Score:** 7/10 | **Location:** Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Applied AI scientist role focused on enterprise agentic systems and fintech domain, aligning well with production AI experience. `fintech-domain` `applied-ai`
-
 ### **PayPal Israel** - [Sr. AI Engineer](https://paypal.eightfold.ai/careers/job/274922605836)
 **Score:** 7/10 | **Location:** Tel Aviv, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Senior AI engineer role at PayPal/Cymbio in Tel Aviv involving end-to-end AI solution delivery from exploration to production. `large-established-company` `production-ml`
@@ -181,10 +165,6 @@
 ### **Nagomi Security** - [Security Research Team Lead](https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-research-team-lead/1F.27F)
 **Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Security research team lead role at a local cyber startup, combining security research with technical leadership and data insights. `cyber-security` `team-lead` `location-ok`
-
-### **Nagomi Security** - [Security Researcher](https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-researcher/92.B62)
-**Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Senior security researcher role bridging exposure management, threat modeling, and agentic workflows at a Tel Aviv cyber startup. `cyber-security` `applied-ml` `location-ok`
 
 ### **Minutemedia** - [Data Scientist](https://www.comeet.com/jobs/minute/45.00A/data-scientist/79.E6F)
 **Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
@@ -286,14 +266,6 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Principal cloud security researcher role; high domain relevance in cyber threat detection but purely an IC security research position rather than data science. `cyber-security` `ic-role`
 
-### **Cyera** - [ML Engineer](https://www.comeet.com/jobs/cyera/17.008/ml-engineer/95.071)
-**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** ML Engineer role focused heavily on MLOps, infrastructure, and LLM plumbing rather than core data science and modeling. `heavy-infra` `mlops-primary`
-
-### **Onyx Security** - [AI Researcher & Developer](https://www.comeet.com/jobs/onyxsecurity/BA.005/ai-researcher--developer/8C.56A)
-**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Interesting AI security research role at a Cyberstarts portfolio company, but leans more toward research and LLM security rather than production predictive modeling. `llm-not-security` `cyber-domain`
-
 ### **Vega** - [AI Researcher](https://www.comeet.com/jobs/vega/C9.009/ai-researcher/C1.374)
 **Score:** 5/10 | **Location:** On -Site, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI researcher role with heavy emphasis on post-training LLMs, SFT, and reinforcement learning, which leans away from his tabular/anomaly detection core. `llm-not-security` `cyber-domain`
@@ -338,7 +310,35 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (19)
+## Recently closed (26)
+
+### **Grove Ventures Portfolio (Getro)** - [~~Principal AI Research Cybersecurity Scientist (Israel / UK)~~](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-cybersecurity-scientist-israel--uk/D2.470) (closed 2026-11-05)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Principal AI role in cybersecurity in Ramat Gan strongly aligns with candidate's domain expertise and senior level. `sparse-description`
+
+### **Fetcherr** - [~~Data Science Team Lead~~](https://www.comeet.com/jobs/fetcherr/68.006/data-science-team-lead/1F.A5E-76.406) (closed 2026-11-05)
+**Score:** 8/10 | **Location:** Netanya, Israel
+**Reasoning:** Target DS Team Lead role in Netanya at a former employer, though formal team management history is a slight gap. `management-gap` `previous-employer`
+
+### **Tipalti** - [~~Applied AI Scientist~~](https://tipalti.com/jobs/?gh_jid=6222917004) (closed 2026-11-05)
+**Score:** 7/10 | **Location:** Tel Aviv District, Israel
+**Reasoning:** Applied AI scientist role focused on enterprise agentic systems and fintech domain, aligning well with production AI experience. `fintech-domain` `applied-ai`
+
+### **Nagomi Security** - [~~Security Researcher~~](https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-researcher/92.B62) (closed 2026-11-05)
+**Score:** 7/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** Senior security researcher role bridging exposure management, threat modeling, and agentic workflows at a Tel Aviv cyber startup. `cyber-security` `applied-ml` `location-ok`
+
+### **Grove Ventures Portfolio (Getro)** - [~~Senior AI Engineer~~](https://www.comeet.com/jobs/alice/D5.005/senior-ai-engineer/29.479) (closed 2026-11-05)
+**Score:** 6/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Senior AI Engineer in Ramat Gan aligns with applied AI target, though role details are unspecified. `missing-description`
+
+### **Cyera** - [~~ML Engineer~~](https://www.comeet.com/jobs/cyera/17.008/ml-engineer/95.071) (closed 2026-11-05)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** ML Engineer role focused heavily on MLOps, infrastructure, and LLM plumbing rather than core data science and modeling. `heavy-infra` `mlops-primary`
+
+### **Onyx Security** - [~~AI Researcher & Developer~~](https://www.comeet.com/jobs/onyxsecurity/BA.005/ai-researcher--developer/8C.56A) (closed 2026-11-05)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** Interesting AI security research role at a Cyberstarts portfolio company, but leans more toward research and LLM security rather than production predictive modeling. `llm-not-security` `cyber-domain`
 
 ### **Grove Ventures Portfolio (Getro)** - [~~Head of AI Safety & Security Research~~](https://www.comeet.com/jobs/alice/D5.005/head-of-ai-safety--security-research/95.47A) (closed 2026-11-02)
 **Score:** 8/10 | **Location:** Ramat Gan, Israel
