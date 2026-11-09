@@ -1075,7 +1075,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-09"
   },
   {
     "company": "Team8 Portfolio (Comeet)",
@@ -1566,7 +1567,8 @@
     ],
     "scored_at": "2026-11-02",
     "first_seen": "2026-11-02",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-09"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1615,5 +1617,98 @@
     "first_seen": "2026-11-02",
     "status": "closed",
     "closed_at": "2026-11-05"
+  },
+  {
+    "company": "Aqua Security",
+    "title": "Senior Machine Learning & AI Engineer",
+    "location": "Ramat-Gan, Israel",
+    "apply_url": "https://www.comeet.com/jobs/aquasec/91.001/senior-machine-learning--ai-engineer/7D.47C",
+    "source_vc": "Insight Partners",
+    "score": 9,
+    "reasoning": "Excellent match in cloud security threat detection with end-to-end production ML ownership and technical leadership scope in Ramat Gan.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "PayPal Israel",
+    "title": "Sr Data Scientist",
+    "location": "Tel Aviv, Tel Aviv District, Israel",
+    "apply_url": "https://paypal.eightfold.ai/careers/job/274923162675",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Great fit at a major fintech company in Tel Aviv with clear mentoring responsibilities and production ML focus.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "Onyx Security",
+    "title": "Applied AI Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/onyxsecurity/BA.005/applied-ai-researcher/8C.56A",
+    "source_vc": "Cyberstarts",
+    "score": 5,
+    "reasoning": "Strong cyber security domain context, but the role heavily emphasizes pure LLM safety research over core production ML.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "TLV Partners Portfolio (Getro)",
+    "title": "AI Researcher",
+    "location": "Tel Aviv-Yafo, Israel",
+    "apply_url": "https://jobs.ashbyhq.com/spacial/3114506f-59a5-419a-bb38-4fac40cf153d",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Well-located AI role in Tel Aviv, but lack of job description details obscures production ML scope and team alignment.",
+    "flags": [
+      "location-unclear"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "nSure.ai",
+    "title": "Fraud Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/nsure/A7.007/fraud-researcher/F9.D60",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Strong domain fit in fraud detection, but the role is a fraud analyst/investigator position rather than a production Data Scientist.",
+    "flags": [
+      "analyst-role-not-ds",
+      "domain-match"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "Harmonya",
+    "title": "Data Operations Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/harmonya/89.004/data-operations-team-lead/6E.47A",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Data Operations team lead role focused on QA methodology and client data delivery rather than core machine learning models.",
+    "flags": [
+      "management-gap",
+      "not-ml-role",
+      "data-ops-focus"
+    ],
+    "scored_at": "2026-11-09",
+    "first_seen": "2026-11-09",
+    "status": "open"
   }
 ]

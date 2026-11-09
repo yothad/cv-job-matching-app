@@ -1,14 +1,36 @@
 # Job Digest
 
+## 2026-11-09
+
+### **Aqua Security** - [Senior Machine Learning & AI Engineer](https://www.comeet.com/jobs/aquasec/91.001/senior-machine-learning--ai-engineer/7D.47C)
+**Score:** 9/10 | **Location:** Ramat-Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Excellent match in cloud security threat detection with end-to-end production ML ownership and technical leadership scope in Ramat Gan. `lead-path-implied`
+
+### **PayPal Israel** - [Sr Data Scientist](https://paypal.eightfold.ai/careers/job/274923162675)
+**Score:** 8/10 | **Location:** Tel Aviv, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Great fit at a major fintech company in Tel Aviv with clear mentoring responsibilities and production ML focus. `lead-path-implied`
+
+### **nSure.ai** - [Fraud Researcher](https://www.comeet.com/jobs/nsure/A7.007/fraud-researcher/F9.D60)
+**Score:** 6/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Strong domain fit in fraud detection, but the role is a fraud analyst/investigator position rather than a production Data Scientist. `analyst-role-not-ds` `domain-match`
+
+### **Onyx Security** - [Applied AI Researcher](https://www.comeet.com/jobs/onyxsecurity/BA.005/applied-ai-researcher/8C.56A)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Strong cyber security domain context, but the role heavily emphasizes pure LLM safety research over core production ML. `llm-not-security`
+
+### **TLV Partners Portfolio (Getro)** - [AI Researcher](https://jobs.ashbyhq.com/spacial/3114506f-59a5-419a-bb38-4fac40cf153d)
+**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Well-located AI role in Tel Aviv, but lack of job description details obscures production ML scope and team alignment. `location-unclear`
+
+### **Harmonya** - [Data Operations Team Lead](https://www.comeet.com/jobs/harmonya/89.004/data-operations-team-lead/6E.47A)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
+**Reasoning:** Data Operations team lead role focused on QA methodology and client data delivery rather than core machine learning models. `management-gap` `not-ml-role` `data-ops-focus`
+
 ## 2026-11-02
 
 ### **Forter** - [Decision Scientist](https://job-boards.greenhouse.io/forter/jobs/8909336002)
 **Score:** 8/10 | **Location:** Israel - Tel Aviv | **Applied:** 0 | **First seen:** 2026-11-02
 **Reasoning:** Strong domain match in fraud decisioning with production ML ownership in Tel Aviv, though titled as an IC role. `ic-role` `domain-match`
-
-### **Zyg** - [Lead Data Scientist](https://boards.greenhouse.io/pagayais/jobs/8156624003)
-**Score:** 8/10 | **Location:** Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-02
-**Reasoning:** Matches target Lead Data Scientist title in Tel Aviv, though job description details are missing. `missing-description`
 
 ### **Grove Ventures Portfolio (Getro)** - [Principal Data Scientist](https://www.comeet.com/jobs/alice/D5.005/principal-data-scientist/49.473)
 **Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
@@ -298,10 +320,6 @@
 **Score:** 5/10 | **Location:** Tel-Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Research engineer role focusing on LLM fine-tuning and prompting at Qodo, which leans more toward pure LLM tooling than production tabular ML. `llm-focused` `startup`
 
-### **Team8 Portfolio (Comeet)** - [Popai Health- AI Engineer](https://www.comeet.com/jobs/team8/61.003/popai-health--ai-engineer/F9.27C)
-**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Interesting healthcare AI and LLM role, but heavier on clinical/audio unstructured data than core tabular production ML. `applied-ai` `healthcare-domain`
-
 ### **Fetcherr** - [Director of Data Science](https://www.comeet.com/jobs/fetcherr/68.006/director-of-data-science/1B.27B)
 **Score:** 5/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Director-level infrastructure and MLOps management role requiring extensive direct engineering management experience beyond current scope. `management-gap` `director-title`
@@ -310,7 +328,15 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (26)
+## Recently closed (28)
+
+### **Zyg** - [~~Lead Data Scientist~~](https://boards.greenhouse.io/pagayais/jobs/8156624003) (closed 2026-11-09)
+**Score:** 8/10 | **Location:** Tel Aviv-Yafo, Israel
+**Reasoning:** Matches target Lead Data Scientist title in Tel Aviv, though job description details are missing. `missing-description`
+
+### **Team8 Portfolio (Comeet)** - [~~Popai Health- AI Engineer~~](https://www.comeet.com/jobs/team8/61.003/popai-health--ai-engineer/F9.27C) (closed 2026-11-09)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** Interesting healthcare AI and LLM role, but heavier on clinical/audio unstructured data than core tabular production ML. `applied-ai` `healthcare-domain`
 
 ### **Grove Ventures Portfolio (Getro)** - [~~Principal AI Research Cybersecurity Scientist (Israel / UK)~~](https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-cybersecurity-scientist-israel--uk/D2.470) (closed 2026-11-05)
 **Score:** 8/10 | **Location:** Ramat Gan, Israel
