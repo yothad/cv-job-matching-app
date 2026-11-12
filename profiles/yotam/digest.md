@@ -1,14 +1,28 @@
 # Job Digest
 
+## 2026-11-12
+
+### **Cyera** - [Senior Data Scientist](https://www.comeet.com/jobs/cyera/17.008/senior-data-scientist/6A.668)
+**Score:** 9/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-12
+**Reasoning:** Excellent fit at a premier cyber company in Tel Aviv, featuring end-to-end production ML ownership and implied domain leadership. `lead-path-implied`
+
+### **Grove Ventures Portfolio (Getro)** - [Data Science Lead](https://www.opmed.ai/careers/data-science-lead)
+**Score:** 7/10 | **Location:** Ra'anana, Israel | **Applied:** 0 | **First seen:** 2026-11-12
+**Reasoning:** Data Science Lead title located in Ra'anana directly hits top priority preferences, though job details are omitted. `description-missing` `lead-role`
+
+### **AI21 Labs** - [Deep Learning Team Lead](https://www.comeet.com/jobs/ai21/E6.001/deep-learning-team-lead/AE.475)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-12
+**Reasoning:** Offers a team lead title in Tel Aviv, but focuses on deep LLM core infrastructure and distributed training rather than production ML. `llm-infra-focus` `infra-focus`
+
+### **TLV Partners Portfolio (Getro)** - [Applied AI Engineer](https://boards.greenhouse.io/unframe/jobs/5032551101)
+**Score:** 5/10 | **Location:** Tel Aviv District, Israel, Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-12
+**Reasoning:** Title and location match target preferences, but the missing description prevents verifying the production ML scope. `description-missing`
+
 ## 2026-11-09
 
 ### **Aqua Security** - [Senior Machine Learning & AI Engineer](https://www.comeet.com/jobs/aquasec/91.001/senior-machine-learning--ai-engineer/7D.47C)
 **Score:** 9/10 | **Location:** Ramat-Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-09
 **Reasoning:** Excellent match in cloud security threat detection with end-to-end production ML ownership and technical leadership scope in Ramat Gan. `lead-path-implied`
-
-### **PayPal Israel** - [Sr Data Scientist](https://paypal.eightfold.ai/careers/job/274923162675)
-**Score:** 8/10 | **Location:** Tel Aviv, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-11-09
-**Reasoning:** Great fit at a major fintech company in Tel Aviv with clear mentoring responsibilities and production ML focus. `lead-path-implied`
 
 ### **nSure.ai** - [Fraud Researcher](https://www.comeet.com/jobs/nsure/A7.007/fraud-researcher/F9.D60)
 **Score:** 6/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
@@ -17,10 +31,6 @@
 ### **Onyx Security** - [Applied AI Researcher](https://www.comeet.com/jobs/onyxsecurity/BA.005/applied-ai-researcher/8C.56A)
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
 **Reasoning:** Strong cyber security domain context, but the role heavily emphasizes pure LLM safety research over core production ML. `llm-not-security`
-
-### **TLV Partners Portfolio (Getro)** - [AI Researcher](https://jobs.ashbyhq.com/spacial/3114506f-59a5-419a-bb38-4fac40cf153d)
-**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-09
-**Reasoning:** Well-located AI role in Tel Aviv, but lack of job description details obscures production ML scope and team alignment. `location-unclear`
 
 ### **Harmonya** - [Data Operations Team Lead](https://www.comeet.com/jobs/harmonya/89.004/data-operations-team-lead/6E.47A)
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-09
@@ -31,10 +41,6 @@
 ### **Forter** - [Decision Scientist](https://job-boards.greenhouse.io/forter/jobs/8909336002)
 **Score:** 8/10 | **Location:** Israel - Tel Aviv | **Applied:** 0 | **First seen:** 2026-11-02
 **Reasoning:** Strong domain match in fraud decisioning with production ML ownership in Tel Aviv, though titled as an IC role. `ic-role` `domain-match`
-
-### **Grove Ventures Portfolio (Getro)** - [Principal Data Scientist](https://www.comeet.com/jobs/alice/D5.005/principal-data-scientist/49.473)
-**Score:** 8/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-11-02
-**Reasoning:** Principal Data Scientist title in Ramat Gan provides strong title boost within commute radius, despite sparse description. `missing-description`
 
 ## 2026-10-29
 
@@ -272,10 +278,6 @@
 **Score:** 6/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Senior AI research role owning agent evaluation in a fintech context, though slightly more focused on evaluation harnesses than end-to-end model building. `fintech` `evaluation-focus`
 
-### **SentinelOne** - [Staff Security Researcher- Detection AI Research](https://www.sentinelone.com/jobs/?gh_jid=8003129003)
-**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** Hybrid ML and security detection role at a top company, though heavily tailored toward security threat hunters rather than pure DS. `top-company` `domain-gap`
-
 ### **SentinelOne** - [Staff Security Researcher- Detection AI Research](https://www.sentinelone.com/jobs/?gh_jid=7996120003)
 **Score:** 5/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Duplicate posting for a security threat research role intersecting with ML pipelines at a major cyber company. `top-company` `domain-gap` `duplicate-posting`
@@ -328,7 +330,23 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (28)
+## Recently closed (32)
+
+### **Grove Ventures Portfolio (Getro)** - [~~Principal Data Scientist~~](https://www.comeet.com/jobs/alice/D5.005/principal-data-scientist/49.473) (closed 2026-11-12)
+**Score:** 8/10 | **Location:** Ramat Gan, Israel
+**Reasoning:** Principal Data Scientist title in Ramat Gan provides strong title boost within commute radius, despite sparse description. `missing-description`
+
+### **PayPal Israel** - [~~Sr Data Scientist~~](https://paypal.eightfold.ai/careers/job/274923162675) (closed 2026-11-12)
+**Score:** 8/10 | **Location:** Tel Aviv, Tel Aviv District, Israel
+**Reasoning:** Great fit at a major fintech company in Tel Aviv with clear mentoring responsibilities and production ML focus. `lead-path-implied`
+
+### **SentinelOne** - [~~Staff Security Researcher- Detection AI Research~~](https://www.sentinelone.com/jobs/?gh_jid=8003129003) (closed 2026-11-12)
+**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Tel Aviv District, Israel
+**Reasoning:** Hybrid ML and security detection role at a top company, though heavily tailored toward security threat hunters rather than pure DS. `top-company` `domain-gap`
+
+### **TLV Partners Portfolio (Getro)** - [~~AI Researcher~~](https://jobs.ashbyhq.com/spacial/3114506f-59a5-419a-bb38-4fac40cf153d) (closed 2026-11-12)
+**Score:** 5/10 | **Location:** Tel Aviv-Yafo, Israel
+**Reasoning:** Well-located AI role in Tel Aviv, but lack of job description details obscures production ML scope and team alignment. `location-unclear`
 
 ### **Zyg** - [~~Lead Data Scientist~~](https://boards.greenhouse.io/pagayais/jobs/8156624003) (closed 2026-11-09)
 **Score:** 8/10 | **Location:** Tel Aviv-Yafo, Israel
@@ -434,10 +452,4 @@
 **Score:** 9/10 | **Location:** Netanya, Israel
 **Reasoning:** Algorithm team lead role combining production ML, optimization, and team management in Netanya. `lead-path-implied`
 
-### **Fetcherr** - [~~Price optimization decision team lead~~](https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B-9D.50A) (closed 2026-10-21)
-**Score:** 9/10 | **Location:** Tel Aviv, Israel
-**Reasoning:** Algorithm team lead role focusing on price optimization and data architecture, perfectly aligned with profile targets. `lead-path-implied`
-
-### **Team8 Portfolio (Comeet)** - [~~Charm Security- Fraud & Data Researcher~~](https://www.comeet.com/jobs/team8/61.003/charm-security--fraud--data-researcher/F6.D6F) (closed 2026-10-21)
-**Score:** 7/10 | **Location:** Tel Aviv, Israel
-**Reasoning:** Strong domain fit in fraud research and AI defense, leveraging candidate's background in adversarial ML and fintech. `adversarial-domain` `ai-agents`
+*(+2 older closed hidden)*

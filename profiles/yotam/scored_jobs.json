@@ -29,7 +29,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-12"
   },
   {
     "company": "SentinelOne",
@@ -1583,7 +1584,8 @@
     ],
     "scored_at": "2026-11-02",
     "first_seen": "2026-11-02",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-12"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1646,7 +1648,8 @@
     ],
     "scored_at": "2026-11-09",
     "first_seen": "2026-11-09",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-12"
   },
   {
     "company": "Onyx Security",
@@ -1676,7 +1679,8 @@
     ],
     "scored_at": "2026-11-09",
     "first_seen": "2026-11-09",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-12"
   },
   {
     "company": "nSure.ai",
@@ -1709,6 +1713,68 @@
     ],
     "scored_at": "2026-11-09",
     "first_seen": "2026-11-09",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "Senior Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/senior-data-scientist/6A.668",
+    "source_vc": "Cyberstarts",
+    "score": 9,
+    "reasoning": "Excellent fit at a premier cyber company in Tel Aviv, featuring end-to-end production ML ownership and implied domain leadership.",
+    "flags": [
+      "lead-path-implied"
+    ],
+    "scored_at": "2026-11-12",
+    "first_seen": "2026-11-12",
+    "status": "open"
+  },
+  {
+    "company": "AI21 Labs",
+    "title": "Deep Learning Team Lead",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/ai21/E6.001/deep-learning-team-lead/AE.475",
+    "source_vc": "Pitango",
+    "score": 5,
+    "reasoning": "Offers a team lead title in Tel Aviv, but focuses on deep LLM core infrastructure and distributed training rather than production ML.",
+    "flags": [
+      "llm-infra-focus",
+      "infra-focus"
+    ],
+    "scored_at": "2026-11-12",
+    "first_seen": "2026-11-12",
+    "status": "open"
+  },
+  {
+    "company": "TLV Partners Portfolio (Getro)",
+    "title": "Applied AI Engineer",
+    "location": "Tel Aviv District, Israel, Tel Aviv-Yafo, Israel",
+    "apply_url": "https://boards.greenhouse.io/unframe/jobs/5032551101",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Title and location match target preferences, but the missing description prevents verifying the production ML scope.",
+    "flags": [
+      "description-missing"
+    ],
+    "scored_at": "2026-11-12",
+    "first_seen": "2026-11-12",
+    "status": "open"
+  },
+  {
+    "company": "Grove Ventures Portfolio (Getro)",
+    "title": "Data Science Lead",
+    "location": "Ra'anana, Israel",
+    "apply_url": "https://www.opmed.ai/careers/data-science-lead",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Data Science Lead title located in Ra'anana directly hits top priority preferences, though job details are omitted.",
+    "flags": [
+      "description-missing",
+      "lead-role"
+    ],
+    "scored_at": "2026-11-12",
+    "first_seen": "2026-11-12",
     "status": "open"
   }
 ]
