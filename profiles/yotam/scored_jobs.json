@@ -353,7 +353,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-16"
   },
   {
     "company": "Upwind",
@@ -558,7 +559,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-16"
   },
   {
     "company": "Kiva Systems (Amazon Robotics since 2012)",
@@ -1011,7 +1013,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-16"
   },
   {
     "company": "Qodo",
@@ -1361,8 +1364,7 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "closed",
-    "closed_at": "2026-10-29"
+    "status": "open"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1759,7 +1761,8 @@
     ],
     "scored_at": "2026-11-12",
     "first_seen": "2026-11-12",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-16"
   },
   {
     "company": "Grove Ventures Portfolio (Getro)",
@@ -1775,6 +1778,37 @@
     ],
     "scored_at": "2026-11-12",
     "first_seen": "2026-11-12",
+    "status": "closed",
+    "closed_at": "2026-11-16"
+  },
+  {
+    "company": "Microsoft Israel",
+    "title": "Senior Data Science",
+    "location": "Israel, Tel Aviv, Herzliya",
+    "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557041799",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Senior Data Scientist at Microsoft in Tel Aviv/Herzliya fits target #5 large company criteria, though job details are missing.",
+    "flags": [
+      "description-missing"
+    ],
+    "scored_at": "2026-11-16",
+    "first_seen": "2026-11-16",
+    "status": "open"
+  },
+  {
+    "company": "TLV Partners Portfolio (Getro)",
+    "title": "AI Engineer",
+    "location": "Tel Aviv District, Israel, Tel Aviv-Yafo, Israel",
+    "apply_url": "https://boards.greenhouse.io/unframe/jobs/5036369101",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Location works in Tel Aviv, but the description is missing and AI Engineer titles at early-stage startups often skew towards pure LLM agents.",
+    "flags": [
+      "description-missing"
+    ],
+    "scored_at": "2026-11-16",
+    "first_seen": "2026-11-16",
     "status": "open"
   }
 ]
