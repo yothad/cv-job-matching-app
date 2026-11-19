@@ -370,7 +370,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-19"
   },
   {
     "company": "Upwind",
@@ -676,7 +677,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-19"
   },
   {
     "company": "Nagomi Security",
@@ -897,7 +899,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-19"
   },
   {
     "company": "Ironscales",
@@ -1207,8 +1210,7 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
+    "status": "open"
   },
   {
     "company": "Fetcherr",
@@ -1223,8 +1225,7 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
+    "status": "open"
   },
   {
     "company": "Fetcherr",
@@ -1794,7 +1795,8 @@
     ],
     "scored_at": "2026-11-16",
     "first_seen": "2026-11-16",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-19"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1809,6 +1811,68 @@
     ],
     "scored_at": "2026-11-16",
     "first_seen": "2026-11-16",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Senior Data Scientist",
+    "location": "Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=8204536003",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Senior Data Scientist role in the Static AI team at SentinelOne in Israel, perfectly matching candidate's security background and production ML skills.",
+    "flags": [
+      "cyber-domain"
+    ],
+    "scored_at": "2026-11-19",
+    "first_seen": "2026-11-19",
+    "status": "open"
+  },
+  {
+    "company": "SentinelOne",
+    "title": "Staff Data Scientist",
+    "location": "Israel",
+    "apply_url": "https://www.sentinelone.com/jobs/?gh_jid=8206876003",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Staff Data Scientist at SentinelOne in Israel; great domain and company fit, though titled Staff which is slightly senior.",
+    "flags": [
+      "cyber-domain",
+      "senior-title"
+    ],
+    "scored_at": "2026-11-19",
+    "first_seen": "2026-11-19",
+    "status": "open"
+  },
+  {
+    "company": "Intuit Israel",
+    "title": "Staff AI Scientist for Intuit Cyber Security",
+    "location": "Petach Tikva, Israel",
+    "apply_url": "https://jobs.intuit.com/job/petah-tikva/staff-ai-scientist-for-intuit-cyber-security/27595/103517101168",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Staff AI Scientist for Cyber Security at Intuit Israel in Petach Tikva; good domain fit but location is right at the edge of the commute radius.",
+    "flags": [
+      "cyber-domain",
+      "location-unclear"
+    ],
+    "scored_at": "2026-11-19",
+    "first_seen": "2026-11-19",
+    "status": "open"
+  },
+  {
+    "company": "Google Israel",
+    "title": "Senior Data Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.google.com/about/careers/applications/jobs/results/131334351420826310",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Senior Data Scientist at Google Israel in Tel Aviv; strong established tech company brand and solid analytics/ML requirements within commute range.",
+    "flags": [
+      "big-tech"
+    ],
+    "scored_at": "2026-11-19",
+    "first_seen": "2026-11-19",
     "status": "open"
   }
 ]
