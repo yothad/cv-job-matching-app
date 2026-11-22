@@ -333,8 +333,8 @@
   {
     "name": "Axonius",
     "website": "https://www.axonius.com",
-    "source_vc": "YL Ventures",
-    "vc_tier": 1,
+    "source_vc": "Elron Ventures",
+    "vc_tier": 2,
     "status": "active",
     "careers_url": null,
     "ats": "unknown",
@@ -627,7 +627,7 @@
     "category": "cyber",
     "location_filter": "israel",
     "discovered_at": "2026-05-04T18:54:33.370404+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:11:54.201760+00:00",
     "consecutive_failures": 0
   },
@@ -707,7 +707,7 @@
     "name": "Riskified",
     "website": "https://www.riskified.com",
     "source": "big_companies_list",
-    "source_vc": "Qumra Capital",
+    "source_vc": "Pitango",
     "vc_tier": 2,
     "careers_url": "https://boards.greenhouse.io/riskified",
     "ats": "greenhouse",
@@ -753,7 +753,7 @@
     "category": "fintech",
     "location_filter": "israel",
     "discovered_at": "2026-05-04T18:54:33.370404+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:11:56.758943+00:00",
     "consecutive_failures": 0
   },
@@ -771,7 +771,7 @@
     "category": "fintech",
     "location_filter": "israel",
     "discovered_at": "2026-05-04T18:54:33.370404+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:11:56.839173+00:00",
     "consecutive_failures": 0
   },
@@ -955,7 +955,7 @@
   {
     "name": "Jazz",
     "website": "https://www.jazz.security",
-    "source_vc": "Team8",
+    "source_vc": "Glilot",
     "vc_tier": 1,
     "careers_url": null,
     "ats": "unknown",
@@ -1167,8 +1167,8 @@
   {
     "name": "At Bay",
     "website": "https://www.at-bay.com",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "source_vc": "Glilot",
+    "vc_tier": 1,
     "careers_url": "https://www.at-bay.com/about/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -1354,9 +1354,9 @@
   },
   {
     "name": "Ermetic",
-    "website": "https://ermetic.com",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "website": "https://www.ermetic.com",
+    "source_vc": "Glilot",
+    "vc_tier": 1,
     "careers_url": "https://www.tenable.com/careers",
     "ats": "greenhouse",
     "ats_params": {
@@ -2123,7 +2123,7 @@
       "token": "94440DC0944094401BCC12882510"
     },
     "discovered_at": "2026-05-04T22:13:39.140529+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:12:35.107106+00:00",
     "consecutive_failures": 0,
     "ats_source": "gemini-2.5-pro",
@@ -2291,8 +2291,8 @@
   {
     "name": "Armo",
     "website": "https://www.armosec.io",
-    "source_vc": "Hyperwise",
-    "vc_tier": 1,
+    "source_vc": "Pitango",
+    "vc_tier": 2,
     "careers_url": "https://www.armosec.io/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -3021,8 +3021,8 @@
   },
   {
     "name": "Lightricks",
-    "website": "https://www.lightricks.com",
-    "source_vc": "Qumra Capital",
+    "website": "https://www.viola-group.com/project/lightricks",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
@@ -3172,7 +3172,7 @@
   {
     "name": "Immunai",
     "website": "https://immunai.com",
-    "source_vc": "TLV Partners",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://www.comeet.com/jobs/immunai/37.009",
     "ats": "comeet",
@@ -3181,7 +3181,7 @@
       "token": "37.009"
     },
     "discovered_at": "2026-05-04T22:15:11.920308+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:12:49.788293+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -3200,7 +3200,7 @@
       "token": "B6.00F"
     },
     "discovered_at": "2026-05-04T22:15:12.743648+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:12:50.435892+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -3254,8 +3254,8 @@
   },
   {
     "name": "Bringg",
-    "website": "https://www.bringg.com",
-    "source_vc": "Insight Partners",
+    "website": "https://www.viola-group.com/project/bringg",
+    "source_vc": "Viola Growth",
     "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
@@ -3504,7 +3504,7 @@
       "token": "8A.00C"
     },
     "discovered_at": "2026-05-04T22:15:31.314789+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:12:55.273606+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -3513,9 +3513,9 @@
   },
   {
     "name": "Lama",
-    "website": "https://www.lama.ai",
-    "source_vc": "Hetz Ventures",
-    "vc_tier": 1,
+    "website": "https://www.viola-group.com/project/lama",
+    "source_vc": "Viola Ventures",
+    "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
     "ats_params": {
@@ -3618,9 +3618,9 @@
   },
   {
     "name": "Bizzabo",
-    "website": "https://www.bizzabo.com",
-    "source_vc": "NFX",
-    "vc_tier": 3,
+    "website": "https://www.viola-group.com/project/bizzabo",
+    "source_vc": "Viola Growth",
+    "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
     "ats_params": {
@@ -3693,9 +3693,9 @@
   },
   {
     "name": "Pliops",
-    "website": "https://pliops.com",
-    "source_vc": "State of Mind",
-    "vc_tier": 1,
+    "website": "https://www.viola-group.com/project/pliops",
+    "source_vc": "Viola Ventures",
+    "vc_tier": 2,
     "careers_url": "https://pliops.com/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -3976,9 +3976,9 @@
   },
   {
     "name": "Worthy",
-    "website": "https://www.worthy.com",
-    "source_vc": "NFX",
-    "vc_tier": 3,
+    "website": "https://www.viola-group.com/project/worthy",
+    "source_vc": "Viola Ventures",
+    "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
     "ats_params": {
@@ -4001,7 +4001,7 @@
       "token": "72.006"
     },
     "discovered_at": "2026-05-04T22:17:14.176324+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:13:02.824326+00:00",
     "consecutive_failures": 0,
     "ats_source": "gemini-2.5-pro",
@@ -4039,7 +4039,7 @@
       "board_token": "appsflyer"
     },
     "discovered_at": "2026-05-04T22:17:16.871044+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:13:02.932633+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -4172,8 +4172,8 @@
   },
   {
     "name": "Taboola",
-    "website": "https://www.taboola.com",
-    "source_vc": "Qumra Capital",
+    "website": "http://www.taboola.com",
+    "source_vc": "Pitango",
     "vc_tier": 2,
     "careers_url": "https://www.taboola.com/careers",
     "ats": "unknown",
@@ -4547,9 +4547,9 @@
   },
   {
     "name": "Oshi",
-    "website": "https://oshi.com",
-    "source_vc": "State of Mind",
-    "vc_tier": 1,
+    "website": "https://www.oshi.com",
+    "source_vc": "Pitango",
+    "vc_tier": 2,
     "careers_url": null,
     "ats": "unknown",
     "ats_params": {},
@@ -4734,7 +4734,7 @@
   {
     "name": "Aquant",
     "website": "https://www.aquant.io",
-    "source_vc": "Qumra Capital",
+    "source_vc": "Pitango",
     "vc_tier": 2,
     "careers_url": null,
     "ats": "unknown",
@@ -5259,7 +5259,7 @@
       "token": "954414C02550414C4AA01BFC12A81BFC2550"
     },
     "discovered_at": "2026-05-04T22:19:38.506974+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:13:06.940468+00:00",
     "consecutive_failures": 0,
     "skip_discovery": true,
@@ -5410,8 +5410,8 @@
   {
     "name": "Augury",
     "website": "https://www.augury.com",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "source_vc": "10D",
+    "vc_tier": 1,
     "careers_url": "https://www.augury.com/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -5961,9 +5961,9 @@
   },
   {
     "name": "Guardicore",
-    "website": "https://www.guardicore.com",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "website": "http://www.guardicore.com",
+    "source_vc": "Greenfield Partners",
+    "vc_tier": 1,
     "careers_url": null,
     "ats": "unknown",
     "ats_params": {},
@@ -6491,8 +6491,8 @@
   },
   {
     "name": "Snappy",
-    "website": "https://www.snappy.com",
-    "source_vc": "Qumra Capital",
+    "website": "https://www.meetsnappy.com",
+    "source_vc": "83North",
     "vc_tier": 2,
     "careers_url": "https://www.snappy.com/careers",
     "ats": "ashby",
@@ -7018,8 +7018,8 @@
   },
   {
     "name": "OneLayer",
-    "website": "https://one-layer.com",
-    "source_vc": "Grove",
+    "website": "https://www.viola-group.com/project/onelayer",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://onelayer.com/careers/",
     "ats": "unknown",
@@ -9604,7 +9604,7 @@
       "token": "99343059931CB999339721CB9264C1CB9993"
     },
     "discovered_at": "2026-05-04T22:27:12.611224+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:14:01.386022+00:00",
     "consecutive_failures": 0,
     "ats_source": "gemini-2.5-pro",
@@ -9709,8 +9709,8 @@
   {
     "name": "Skai",
     "website": "https://skai.io",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "source_vc": "NFX",
+    "vc_tier": 3,
     "careers_url": "https://skai.io/company/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -11902,7 +11902,7 @@
     "category": "cyber",
     "location_filter": "israel",
     "discovered_at": "2026-05-04T22:31:35.530163+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:14:10.363165+00:00",
     "consecutive_failures": 0
   },
@@ -12529,8 +12529,8 @@
   },
   {
     "name": "ZyG",
-    "website": "https://www.zyg.com",
-    "source_vc": "Lightspeed Israel",
+    "website": "https://www.viola-group.com/project/zyg",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://careers.viola-group.com/companies",
     "ats": "getro",
@@ -14831,9 +14831,9 @@
   },
   {
     "name": "Brightside",
-    "website": "https://gobrightside.com",
-    "source_vc": "a16z",
-    "vc_tier": 2,
+    "website": "https://brightside.com",
+    "source_vc": "Triventures",
+    "vc_tier": 3,
     "careers_url": "https://www.gobrightside.com/careers/",
     "ats": "unknown",
     "ats_params": {},
@@ -22149,8 +22149,8 @@
   },
   {
     "name": "Rapid",
-    "website": "https://rapidapi.com",
-    "source_vc": "a16z",
+    "website": "https://www.viola-group.com/project/rapidapi",
+    "source_vc": "Viola Growth",
     "vc_tier": 2,
     "careers_url": null,
     "ats": "unknown",
@@ -31892,7 +31892,7 @@
     "name": "Agora",
     "website": "https://www.agorareal.com",
     "source": "big_companies_list",
-    "source_vc": "Qumra Capital",
+    "source_vc": "Insight Partners",
     "vc_tier": 2,
     "careers_url": "https://agorareal.com/careers/",
     "ats": "comeet",
@@ -31903,7 +31903,7 @@
     "category": "fintech",
     "location_filter": "israel",
     "discovered_at": "2026-05-07T11:24:33.472448+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:17.425450+00:00",
     "consecutive_failures": 0
   },
@@ -32070,7 +32070,7 @@
     "category": "general",
     "location_filter": "israel",
     "discovered_at": "2026-05-07T11:24:33.472448+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:20.441651+00:00",
     "consecutive_failures": 0
   },
@@ -32476,7 +32476,7 @@
     "category": "general",
     "location_filter": "israel",
     "discovered_at": "2026-05-17T11:32:14.759406+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:26.506286+00:00",
     "consecutive_failures": 0
   },
@@ -32600,7 +32600,7 @@
     "category": "general",
     "location_filter": "israel",
     "discovered_at": "2026-05-17T11:32:14.759406+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": null,
     "consecutive_failures": 0
   },
@@ -32623,7 +32623,7 @@
   {
     "name": "Buildots",
     "website": "https://buildots.com",
-    "source_vc": "Qumra Capital",
+    "source_vc": "Viola Growth",
     "vc_tier": 2,
     "careers_url": "https://www.comeet.com/jobs/buildots/36.004",
     "ats": "comeet",
@@ -32632,7 +32632,7 @@
       "token": "6342538634037D42B6C129C18D0129CC68"
     },
     "discovered_at": "2026-05-17T11:54:39.783582+00:00",
-    "last_verified_at": "2026-11-08T13:04:13.047127+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:28.578260+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -32739,7 +32739,7 @@
       "company_slug": "real"
     },
     "discovered_at": "2026-05-17T11:56:29.641392+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:30.781501+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -34215,7 +34215,7 @@
     "ats": "other",
     "ats_params": {},
     "discovered_at": "2026-05-24T08:20:29.979365+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": null,
     "consecutive_failures": 0,
     "skip_discovery": true,
@@ -34775,8 +34775,8 @@
   },
   {
     "name": "enSilo",
-    "website": "https://ensilo.com",
-    "source_vc": "Lightspeed Israel",
+    "website": "https://www.viola-group.com/project/ensilo",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": null,
     "ats": "unknown",
@@ -34867,8 +34867,8 @@
   },
   {
     "name": "LiveU",
-    "website": "https://liveu.tv",
-    "source_vc": "Lightspeed Israel",
+    "website": "https://www.viola-group.com/project/liveu",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://www.liveu.tv/company/careers",
     "ats": "comeet",
@@ -34884,8 +34884,8 @@
   },
   {
     "name": "MDClone",
-    "website": "https://mdclone.com",
-    "source_vc": "Lightspeed Israel",
+    "website": "https://www.viola-group.com/project/mdclone",
+    "source_vc": "Viola Growth",
     "vc_tier": 2,
     "careers_url": "https://mdclone.com/about-mdclone/careers/",
     "ats": "comeet",
@@ -36765,8 +36765,8 @@
   },
   {
     "name": "Simply",
-    "website": "https://www.hellosimply.com",
-    "source_vc": "Qumra Capital",
+    "website": "https://hellosimply.com",
+    "source_vc": "Insight Partners",
     "vc_tier": 2,
     "careers_url": "https://www.hellosimply.com/careers",
     "ats": "unknown",
@@ -37459,7 +37459,7 @@
       "token": "7C42E981F101F10365C174C2E98F88F880"
     },
     "discovered_at": "2026-06-14T09:08:50.748930+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:50.873094+00:00",
     "consecutive_failures": 0,
     "category": "cyber",
@@ -37648,8 +37648,8 @@
   {
     "name": "Prompt",
     "website": "https://www.prompt.security",
-    "source_vc": "Hetz Ventures",
-    "vc_tier": 1,
+    "source_vc": "Elron Ventures",
+    "vc_tier": 2,
     "careers_url": "https://podcasters.spotify.com/pod/show/prompt-security/episodes/Sandy-Dunn--seasoned-CISO-and-AI-Security-Expert--on-AI-ethics--her-work-with-OWASP--and-how-she-has-become-10x-more-productive-at-her-job-e2m0mu8/a-abebbhg",
     "ats": "unknown",
     "ats_params": {},
@@ -38104,8 +38104,8 @@
   {
     "name": "Appsflyer",
     "website": "https://www.appsflyer.com",
-    "source_vc": "Qumra Capital",
-    "vc_tier": 2,
+    "source_vc": "10D",
+    "vc_tier": 1,
     "careers_url": "https://careers.appsflyer.com/",
     "ats": "greenhouse",
     "ats_params": {
@@ -38485,7 +38485,7 @@
     "ats": "other",
     "ats_params": {},
     "discovered_at": "2026-06-14T09:11:22.403436+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": null,
     "consecutive_failures": 0,
     "category": "cyber",
@@ -38566,7 +38566,7 @@
     "ats": "other",
     "ats_params": {},
     "discovered_at": "2026-06-14T09:11:24.278118+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": null,
     "consecutive_failures": 0,
     "category": "cyber",
@@ -39308,8 +39308,8 @@
   },
   {
     "name": "Codefresh",
-    "website": "https://codefresh.io",
-    "source_vc": "Red Dot Capital",
+    "website": "https://www.viola-group.com/project/codefresh",
+    "source_vc": "Viola Ventures",
     "vc_tier": 2,
     "careers_url": "https://octopus.com/company/careers",
     "ats": "unknown",
@@ -39343,7 +39343,7 @@
       "org_name": "matia"
     },
     "discovered_at": "2026-06-14T09:12:16.662624+00:00",
-    "last_verified_at": "2026-11-15T13:43:05.039080+00:00",
+    "last_verified_at": "2026-11-22T14:20:27.861360+00:00",
     "last_jobs_pulled_at": "2026-11-19T16:16:56.594278+00:00",
     "consecutive_failures": 0,
     "category": "general",
@@ -47389,6 +47389,103 @@
     "ats_params": {},
     "discovered_at": "2026-11-15T13:41:47.695117+00:00",
     "last_verified_at": "2026-11-15T13:41:47.695127+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "Brava Security",
+    "website": "https://www.brava.security",
+    "source_vc": "Pitango",
+    "vc_tier": 2,
+    "careers_url": "https://www.brava.security/careers",
+    "ats": "unknown",
+    "ats_params": {},
+    "discovered_at": "2026-11-22T14:14:22.641199+00:00",
+    "last_verified_at": "2026-11-22T14:14:22.641211+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "Blykalla",
+    "website": "https://www.blykalla.com",
+    "source_vc": "Pitango",
+    "vc_tier": 2,
+    "careers_url": "https://www.blykalla.com/careers",
+    "ats": "unknown",
+    "ats_params": {},
+    "discovered_at": "2026-11-22T14:14:23.441039+00:00",
+    "last_verified_at": "2026-11-22T14:14:23.441054+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "PhantomGI",
+    "website": "http://www.phantomgi.com",
+    "source_vc": "Pitango",
+    "vc_tier": 2,
+    "careers_url": null,
+    "ats": "unknown",
+    "ats_params": {},
+    "discovered_at": "2026-11-22T14:14:23.992388+00:00",
+    "last_verified_at": "2026-11-22T14:14:23.992399+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "First Person Labs",
+    "website": "https://fpl.company",
+    "source_vc": "a16z",
+    "vc_tier": 2,
+    "careers_url": "https://2.computer/careers",
+    "ats": "ashby",
+    "ats_params": {
+      "org_name": "fpl"
+    },
+    "discovered_at": "2026-11-22T14:18:00.527827+00:00",
+    "last_verified_at": "2026-11-22T14:18:00.527838+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "Kaizen",
+    "website": "https://www.kaizenlabs.com",
+    "source_vc": "a16z",
+    "vc_tier": 2,
+    "careers_url": "https://www.kaizenlabs.co/careers/",
+    "ats": "ashby",
+    "ats_params": {
+      "org_name": "kaizenlabs"
+    },
+    "discovered_at": "2026-11-22T14:18:00.829498+00:00",
+    "last_verified_at": "2026-11-22T14:18:00.829509+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "Linq",
+    "website": "https://linqapp.com",
+    "source_vc": "a16z",
+    "vc_tier": 2,
+    "careers_url": "https://linqapp.com/careers",
+    "ats": "unknown",
+    "ats_params": {},
+    "discovered_at": "2026-11-22T14:18:01.109618+00:00",
+    "last_verified_at": "2026-11-22T14:18:01.109630+00:00",
+    "last_jobs_pulled_at": null,
+    "consecutive_failures": 0
+  },
+  {
+    "name": "Valkryn",
+    "website": "https://valkryn.co",
+    "source_vc": "a16z",
+    "vc_tier": 2,
+    "careers_url": "https://jobs.ashbyhq.com/valkryn",
+    "ats": "ashby",
+    "ats_params": {
+      "org_name": "valkryn"
+    },
+    "discovered_at": "2026-11-22T14:18:01.258733+00:00",
+    "last_verified_at": "2026-11-22T14:18:01.258745+00:00",
     "last_jobs_pulled_at": null,
     "consecutive_failures": 0
   }
