@@ -109,7 +109,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-23"
   },
   {
     "company": "Cato Networks",
@@ -271,7 +272,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-23"
   },
   {
     "company": "Cyera",
@@ -1053,23 +1055,6 @@
   },
   {
     "company": "Team8 Portfolio (Comeet)",
-    "title": "Charm Security- Fraud & Data Researcher",
-    "location": "Tel Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/team8/61.003/charm-security--fraud--data-researcher/F6.D6F",
-    "source_vc": null,
-    "score": 7,
-    "reasoning": "Strong domain fit in fraud research and AI defense, leveraging candidate's background in adversarial ML and fintech.",
-    "flags": [
-      "adversarial-domain",
-      "ai-agents"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-21"
-  },
-  {
-    "company": "Team8 Portfolio (Comeet)",
     "title": "Popai Health- AI Engineer",
     "location": "Tel Aviv, Israel",
     "apply_url": "https://www.comeet.com/jobs/team8/61.003/popai-health--ai-engineer/F9.27C",
@@ -1228,38 +1213,6 @@
     "status": "open"
   },
   {
-    "company": "Fetcherr",
-    "title": "Price optimization decision team lead",
-    "location": "Netanya, Israel",
-    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B",
-    "source_vc": null,
-    "score": 9,
-    "reasoning": "Algorithm team lead role combining production ML, optimization, and team management in Netanya.",
-    "flags": [
-      "lead-path-implied"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-21"
-  },
-  {
-    "company": "Fetcherr",
-    "title": "Price optimization decision team lead",
-    "location": "Tel Aviv, Israel",
-    "apply_url": "https://www.comeet.com/jobs/fetcherr/68.006/price-optimization-decision-team-lead/4A.27B-9D.50A",
-    "source_vc": null,
-    "score": 9,
-    "reasoning": "Algorithm team lead role focusing on price optimization and data architecture, perfectly aligned with profile targets.",
-    "flags": [
-      "lead-path-implied"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-21"
-  },
-  {
     "company": "Brandlight",
     "title": "Senior Applied AI Engineer",
     "location": "TLV Office, Israel",
@@ -1365,7 +1318,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-23"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1811,7 +1765,8 @@
     ],
     "scored_at": "2026-11-16",
     "first_seen": "2026-11-16",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-23"
   },
   {
     "company": "SentinelOne",
@@ -1826,7 +1781,8 @@
     ],
     "scored_at": "2026-11-19",
     "first_seen": "2026-11-19",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-23"
   },
   {
     "company": "SentinelOne",
@@ -1873,6 +1829,37 @@
     ],
     "scored_at": "2026-11-19",
     "first_seen": "2026-11-19",
+    "status": "open"
+  },
+  {
+    "company": "Cyera",
+    "title": "Senior AI Researcher",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/cyera/17.008/senior-ai-researcher/2B.D67",
+    "source_vc": "Cyberstarts",
+    "score": 8,
+    "reasoning": "Strong match for an Applied AI/ML researcher role at a top-tier cybersecurity company in Tel Aviv with end-to-end production ownership.",
+    "flags": [
+      "cyber-domain"
+    ],
+    "scored_at": "2026-11-23",
+    "first_seen": "2026-11-23",
+    "status": "open"
+  },
+  {
+    "company": "Nagomi Security",
+    "title": "Security Research Manager",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-research-manager/1F.27F",
+    "source_vc": null,
+    "score": 5,
+    "reasoning": "Right domain and leadership level, but it is focused on security research management rather than production data science or ML development.",
+    "flags": [
+      "management-gap",
+      "cyber-domain"
+    ],
+    "scored_at": "2026-11-23",
+    "first_seen": "2026-11-23",
     "status": "open"
   }
 ]

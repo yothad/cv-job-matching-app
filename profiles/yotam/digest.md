@@ -1,10 +1,16 @@
 # Job Digest
 
-## 2026-11-19
+## 2026-11-23
 
-### **SentinelOne** - [Senior Data Scientist](https://www.sentinelone.com/jobs/?gh_jid=8204536003)
-**Score:** 9/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-11-19
-**Reasoning:** Senior Data Scientist role in the Static AI team at SentinelOne in Israel, perfectly matching candidate's security background and production ML skills. `cyber-domain`
+### **Cyera** - [Senior AI Researcher](https://www.comeet.com/jobs/cyera/17.008/senior-ai-researcher/2B.D67)
+**Score:** 8/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-23
+**Reasoning:** Strong match for an Applied AI/ML researcher role at a top-tier cybersecurity company in Tel Aviv with end-to-end production ownership. `cyber-domain`
+
+### **Nagomi Security** - [Security Research Manager](https://www.comeet.com/jobs/NagomiSecurity/89.00B/security-research-manager/1F.27F)
+**Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-11-23
+**Reasoning:** Right domain and leadership level, but it is focused on security research management rather than production data science or ML development. `management-gap` `cyber-domain`
+
+## 2026-11-19
 
 ### **SentinelOne** - [Staff Data Scientist](https://www.sentinelone.com/jobs/?gh_jid=8206876003)
 **Score:** 8/10 | **Location:** Israel | **Applied:** 0 | **First seen:** 2026-11-19
@@ -17,12 +23,6 @@
 ### **Intuit Israel** - [Staff AI Scientist for Intuit Cyber Security](https://jobs.intuit.com/job/petah-tikva/staff-ai-scientist-for-intuit-cyber-security/27595/103517101168)
 **Score:** 6/10 | **Location:** Petach Tikva, Israel | **Applied:** 0 | **First seen:** 2026-11-19
 **Reasoning:** Staff AI Scientist for Cyber Security at Intuit Israel in Petach Tikva; good domain fit but location is right at the edge of the commute radius. `cyber-domain` `location-unclear`
-
-## 2026-11-16
-
-### **TLV Partners Portfolio (Getro)** - [AI Engineer](https://boards.greenhouse.io/unframe/jobs/5036369101)
-**Score:** 5/10 | **Location:** Tel Aviv District, Israel, Tel Aviv-Yafo, Israel | **Applied:** 0 | **First seen:** 2026-11-16
-**Reasoning:** Location works in Tel Aviv, but the description is missing and AI Engineer titles at early-stage startups often skew towards pure LLM agents. `description-missing`
 
 ## 2026-11-12
 
@@ -69,10 +69,6 @@
 ### **Fetcherr** - [Data Scientist - Time Series Forecasting](https://www.comeet.com/jobs/fetcherr/68.006/data-scientist---time-series-forecasting/F6.47E)
 **Score:** 8/10 | **Location:** Netanya, Israel | **Applied:** 0 | **First seen:** 2026-10-26
 **Reasoning:** Direct match for time-series forecasting and production ML craft in Netanya, though titled as IC level at a former employer. `former-employer`
-
-### **Microsoft Israel** - [Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)](https://apply.careers.microsoft.com/careers/job/1970393556959639)
-**Score:** 5/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth | **Applied:** 0 | **First seen:** 2026-10-26
-**Reasoning:** Role focuses on security research and threat hunting logic rather than building production ML pipelines. `wrong-domain`
 
 ### **OX Security** - [Team Leader - Agentic Pentest](https://www.comeet.com/jobs/ox_security/F8.006/team-leader---agentic-pentest/1C.379)
 **Score:** 5/10 | **Location:** Ramat Gan, Israel | **Applied:** 0 | **First seen:** 2026-10-26
@@ -190,10 +186,6 @@
 **Score:** 7/10 | **Location:** Tel Aviv, Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Senior AI engineer role at PayPal/Cymbio in Tel Aviv involving end-to-end AI solution delivery from exploration to production. `large-established-company` `production-ml`
 
-### **Cyera** - [AI Researcher](https://www.comeet.com/jobs/cyera/17.008/ai-researcher/2B.D67)
-**Score:** 7/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** AI Researcher role at a top-tier cyber company involving end-to-end production ML and LLM applications. `cyber-security` `applied-ml`
-
 ### **Vega** - [Data Scientist](https://www.comeet.com/jobs/vega/C9.009/data-scientist/0C.27B)
 **Score:** 7/10 | **Location:** On -Site, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Data scientist role at a premier cyber startup focusing on end-to-end ML solutions and unstructured security log data. `cyber-domain`
@@ -229,10 +221,6 @@
 ### **Cato Networks** - [ Agentic AI Engineer - Product Support](https://www.catonetworks.com/careers/careers-post/4951235101?gh_jid=4951235101)
 **Score:** 6/10 | **Location:** Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** Applied AI engineer role focusing on agentic workflows and RAG for support systems in Israel, offering good hands-on production LLM experience though slightly outside core security/fraud ML. `llm-not-security`
-
-### **Cato Networks** - [AI Security - AI Platform Team Lead](https://www.catonetworks.com/careers/careers-post/4874416101?gh_jid=4874416101)
-**Score:** 6/10 | **Location:** Tel Aviv District, Israel | **Applied:** 0 | **First seen:** 2026-10-20
-**Reasoning:** AI platform team lead role at Cato Networks combining security infrastructure and team leadership, but heavily weighted toward MLOps and inference infra rather than DS modeling. `heavy-infra` `management-gap`
 
 ### **Intuit Israel** - [Staff AI scientist, Foresight](https://jobs.intuit.com/job/petah-tikva/staff-ai-scientist-foresight/27595/101021658944)
 **Score:** 6/10 | **Location:** Petach Tikva, Israel | **Applied:** 0 | **First seen:** 2026-10-20
@@ -334,7 +322,27 @@
 **Score:** 5/10 | **Location:** Tel Aviv, Israel | **Applied:** 0 | **First seen:** 2026-10-20
 **Reasoning:** AI engineer role focusing on agentic infrastructure and LLM systems, located in Tel Aviv, though leaning towards backend/agent engineering rather than core data science. `applied-ai` `backend-heavy`
 
-## Recently closed (38)
+## Recently closed (40)
+
+### **SentinelOne** - [~~Senior Data Scientist~~](https://www.sentinelone.com/jobs/?gh_jid=8204536003) (closed 2026-11-23)
+**Score:** 9/10 | **Location:** Israel
+**Reasoning:** Senior Data Scientist role in the Static AI team at SentinelOne in Israel, perfectly matching candidate's security background and production ML skills. `cyber-domain`
+
+### **Cyera** - [~~AI Researcher~~](https://www.comeet.com/jobs/cyera/17.008/ai-researcher/2B.D67) (closed 2026-11-23)
+**Score:** 7/10 | **Location:** Tel Aviv, Israel
+**Reasoning:** AI Researcher role at a top-tier cyber company involving end-to-end production ML and LLM applications. `cyber-security` `applied-ml`
+
+### **Cato Networks** - [~~AI Security - AI Platform Team Lead~~](https://www.catonetworks.com/careers/careers-post/4874416101?gh_jid=4874416101) (closed 2026-11-23)
+**Score:** 6/10 | **Location:** Tel Aviv District, Israel
+**Reasoning:** AI platform team lead role at Cato Networks combining security infrastructure and team leadership, but heavily weighted toward MLOps and inference infra rather than DS modeling. `heavy-infra` `management-gap`
+
+### **Microsoft Israel** - [~~Security Researcher II /Senior Security Researcher - Microsoft Defender (Multiple Roles)~~](https://apply.careers.microsoft.com/careers/job/1970393556959639) (closed 2026-11-23)
+**Score:** 5/10 | **Location:** Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya, Israel, Tel Aviv, Tel Aviv, Israel, Southern, Beer-Sheva, Israel, Haifa, Haifa, Israel, Northern, Nazareth
+**Reasoning:** Role focuses on security research and threat hunting logic rather than building production ML pipelines. `wrong-domain`
+
+### **TLV Partners Portfolio (Getro)** - [~~AI Engineer~~](https://boards.greenhouse.io/unframe/jobs/5036369101) (closed 2026-11-23)
+**Score:** 5/10 | **Location:** Tel Aviv District, Israel, Tel Aviv-Yafo, Israel
+**Reasoning:** Location works in Tel Aviv, but the description is missing and AI Engineer titles at early-stage startups often skew towards pure LLM agents. `description-missing`
 
 ### **Upwind** - [~~AI Engineering Lead~~](https://www.comeet.com/jobs/upwind/49.004/ai-engineering-lead/4C.C69) (closed 2026-11-19)
 **Score:** 7/10 | **Location:** Tel Aviv, Israel
@@ -436,24 +444,4 @@
 **Score:** 5/10 | **Location:** Ramat Gan, Israel
 **Reasoning:** Good domain fit in cybersecurity and acceptable Ramat Gan location, but the job description is missing from the posting. `missing-jd`
 
-### **Cato Networks** - [~~Data Scientist~~](https://www.catonetworks.com/careers/careers-post/4848229101?gh_jid=4848229101) (closed 2026-10-29)
-**Score:** 7/10 | **Location:** Tel Aviv District, Israel
-**Reasoning:** Strong match for a cybersecurity data science role with production ML scope in Tel Aviv, though leaning slightly toward GenAI/LLM stack. `cybersecurity-domain` `llm-heavy`
-
-### **TLV Partners Portfolio (Getro)** - [~~Senior AI Engineer~~](https://www.comeet.com/jobs/immunai/37.009/senior-ai-engineer/90.F67) (closed 2026-10-29)
-**Score:** 7/10 | **Location:** Ramat Gan, Israel
-**Reasoning:** Senior AI engineering position in Ramat Gan aligns well with candidate seniority and commute preferences. `sparse-description`
-
-### **Intuit Israel** - [~~Senior Machine Learning Engineer, Foundational Models and Agentic systems~~](https://jobs.intuit.com/job/petah-tikva/senior-machine-learning-engineer-foundational-models-and-agentic-systems/27595/99338970560) (closed 2026-10-29)
-**Score:** 6/10 | **Location:** Petach Tikva, Israel
-**Reasoning:** Senior ML engineer role focusing on foundational models and agentic systems at a major established company within the commute radius. `large-established-company` `llm-not-security`
-
-### **Vega** - [~~AI Engineer~~](https://www.comeet.com/jobs/vega/C9.009/ai-engineer/20.554) (closed 2026-10-29)
-**Score:** 6/10 | **Location:** On -Site, Israel
-**Reasoning:** AI engineer role focusing on end-to-end LLM applications and security analytics at a fast-growing cyber startup in Tel Aviv. `llm-not-security` `cyber-domain`
-
-### **TLV Partners Portfolio (Getro)** - [~~Applied AI Researcher~~](https://il.linkedin.com/jobs/view/applied-ai-researcher-at-airis-labs-4481194703) (closed 2026-10-29)
-**Score:** 6/10 | **Location:** Tel Aviv District, Israel
-**Reasoning:** Applied AI title in Tel Aviv matches candidate interests, but the empty description prevents deeper evaluation. `sparse-description`
-
-*(+8 older closed hidden)*
+*(+10 older closed hidden)*
