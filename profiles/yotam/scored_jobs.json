@@ -256,7 +256,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-26"
   },
   {
     "company": "Cyera",
@@ -611,41 +612,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
-  },
-  {
-    "company": "Grove Ventures Portfolio (Getro)",
-    "title": "Principal AI Research Scientist (Israel / UK)",
-    "location": "Ramat Gan, Israel",
-    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/principal-ai-research-scientist-israel--uk/D2.470",
-    "source_vc": null,
-    "score": 6,
-    "reasoning": "Principal AI research scientist role in Ramat Gan, but heavily tilted toward pure research rather than production ML ownership.",
-    "flags": [
-      "pure-research",
-      "location-ok"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
     "status": "closed",
-    "closed_at": "2026-10-26"
-  },
-  {
-    "company": "Grove Ventures Portfolio (Getro)",
-    "title": "Director of AI Research & Data Operations",
-    "location": "Ramat Gan, Israel",
-    "apply_url": "https://www.comeet.com/jobs/alice/D5.005/director-of-ai-research--data-operations/B1.47E",
-    "source_vc": null,
-    "score": 5,
-    "reasoning": "Director-level research and data operations role in Ramat Gan, combining research oversight with operational management.",
-    "flags": [
-      "management-heavy",
-      "location-ok"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
+    "closed_at": "2026-11-26"
   },
   {
     "company": "Backslash Security",
@@ -823,7 +791,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-26"
   },
   {
     "company": "Sett",
@@ -951,57 +920,6 @@
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
     "status": "open"
-  },
-  {
-    "company": "Kaltura",
-    "title": "AI Engineer",
-    "location": "Israel",
-    "apply_url": "https://www.comeet.com/jobs/kaltura/E2.00D/ai-engineer/E2.076",
-    "source_vc": null,
-    "score": 5,
-    "reasoning": "General AI engineer role at a video tech company with location in Israel, but the exact scope and level are underspecified.",
-    "flags": [
-      "location-unclear",
-      "title-laundering"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
-  },
-  {
-    "company": "Kaltura",
-    "title": "Senior AI Engineer — Exploration & Prototyping",
-    "location": "Israel",
-    "apply_url": "https://www.comeet.com/jobs/kaltura/E2.00D/senior-ai-engineer--exploration--prototyping/2A.274",
-    "source_vc": null,
-    "score": 5,
-    "reasoning": "Senior exploration and prototyping AI role at Kaltura, offering good technical level but lacking explicit production ML pipeline details.",
-    "flags": [
-      "location-unclear",
-      "llm-not-security"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
-  },
-  {
-    "company": "Bright Data",
-    "title": "Security Researcher - Bot Detection Adversarial Research",
-    "location": "Bright Data, Israel",
-    "apply_url": "https://www.comeet.com/jobs/brightdata/88.007/security-researcher---bot-detection-adversarial-research/F9.C63",
-    "source_vc": null,
-    "score": 6,
-    "reasoning": "Adversarial bot detection security research role fully remote in Israel, matching the candidate's background in adversarial ML and threat detection.",
-    "flags": [
-      "remote",
-      "security-domain"
-    ],
-    "scored_at": "2026-10-20",
-    "first_seen": "2026-10-20",
-    "status": "closed",
-    "closed_at": "2026-10-26"
   },
   {
     "company": "Ocean Security",
@@ -1256,7 +1174,8 @@
     ],
     "scored_at": "2026-10-20",
     "first_seen": "2026-10-20",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-26"
   },
   {
     "company": "Team8 Portfolio (Comeet)",
@@ -1447,7 +1366,8 @@
     ],
     "scored_at": "2026-10-26",
     "first_seen": "2026-10-26",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-26"
   },
   {
     "company": "Novee Security",
@@ -1701,7 +1621,8 @@
     ],
     "scored_at": "2026-11-12",
     "first_seen": "2026-11-12",
-    "status": "open"
+    "status": "closed",
+    "closed_at": "2026-11-26"
   },
   {
     "company": "TLV Partners Portfolio (Getro)",
@@ -1860,6 +1781,109 @@
     ],
     "scored_at": "2026-11-23",
     "first_seen": "2026-11-23",
+    "status": "open"
+  },
+  {
+    "company": "Microsoft Israel",
+    "title": "Principal Applied Scientist - CTO Office",
+    "location": "Israel, Multiple Locations, Multiple Locations, Israel, Tel Aviv, Herzliya",
+    "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557053117",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Strong senior applied science role at Microsoft Security with deep production ML focus and relevant domain.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Microsoft Israel",
+    "title": "Senior Applied Scientist - Microsoft Security",
+    "location": "Israel, Multiple Locations, Multiple Locations",
+    "apply_url": "https://apply.careers.microsoft.com/careers/job/1970393557073112",
+    "source_vc": null,
+    "score": 9,
+    "reasoning": "Excellent fit for a senior applied scientist leading ML initiatives in cybersecurity at Microsoft with end-to-end production ownership.",
+    "flags": [],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Claroty",
+    "title": "BI Team Leader",
+    "location": "Israel",
+    "apply_url": "https://www.comeet.com/jobs/Claroty/F2.004/bi-team-leader/37.573",
+    "source_vc": "Red Dot Capital",
+    "score": 5,
+    "reasoning": "Team lead role for corporate BI and data engineering infrastructure rather than advanced production machine learning.",
+    "flags": [
+      "wrong-domain"
+    ],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Terra Security",
+    "title": "Agentic Intelligence Scientist",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/terrasecurity/1B.006/agentic-intelligence-scientist/8E.57B",
+    "source_vc": null,
+    "score": 8,
+    "reasoning": "Strong applied agentic intelligence scientist role in a security startup with great statistical and production ML ownership.",
+    "flags": [
+      "llm-not-security"
+    ],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Bright Data",
+    "title": "Data Scientist (Core R&D)",
+    "location": "Bright Data, Israel",
+    "apply_url": "https://www.comeet.com/jobs/brightdata/88.007/data-scientist-core-rd/36.57A",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Strong hands-on end-to-end data scientist role with classical ML, GBDTs, and production deployment on massive web traffic data.",
+    "flags": [],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Bright Data",
+    "title": "Data Scientist (Core R&D)",
+    "location": "Bright Data, Israel",
+    "apply_url": "https://www.comeet.com/jobs/brightdata/88.007/data-scientist-core-rd/9E.57E",
+    "source_vc": null,
+    "score": 7,
+    "reasoning": "Strong Senior DS role with end-to-end production ML ownership and high-scale data, located in Israel.",
+    "flags": [
+      "lead-path-implied",
+      "ic-title"
+    ],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
+    "status": "open"
+  },
+  {
+    "company": "Team8 Portfolio (Comeet)",
+    "title": "Lumia Security- AI Engineer",
+    "location": "Tel Aviv, Israel",
+    "apply_url": "https://www.comeet.com/jobs/team8/61.003/lumia-security--ai-engineer/99.576",
+    "source_vc": null,
+    "score": 6,
+    "reasoning": "Relevant applied AI role in a cyber security domain with production scope, though titled IC rather than lead.",
+    "flags": [
+      "ic-title",
+      "security-domain"
+    ],
+    "scored_at": "2026-11-26",
+    "first_seen": "2026-11-26",
     "status": "open"
   }
 ]
